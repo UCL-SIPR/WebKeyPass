@@ -1,0 +1,13 @@
+UCL WebKeyPass
+
+A simple web application for storing passwords and other pieces of
+information about servers.
+
+The servers and their virtual machines can be categorized by operating
+systems. A hierarchy is displayed in a side panel.
+
+The Symfony 2 PHP web framework is used. This repository contains only a
+bundle.
+
+WARNING: the development has just started, you won't get a full-featured
+application!
