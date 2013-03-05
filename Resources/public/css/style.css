@@ -1,0 +1,24 @@
+body
+{
+    font-family: sans-serif;
+}
+
+h1
+{
+    text-align: center;
+}
+
+#side_panel
+{
+    position: absolute;
+    top: 3em;
+    left: 1em;
+    width: 29em;
+}
+
+#contents
+{
+    position: absolute;
+    top: 3em;
+    left: 31em;
+}
