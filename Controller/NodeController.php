@@ -4,9 +4,9 @@ namespace UCL\WebKeyPassBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class DefaultController extends Controller
+class NodeController extends Controller
 {
-    public function indexAction()
+    public function viewAction()
     {
         return $this->render('UCLWebKeyPassBundle:Default:index.html.twig');
     }
