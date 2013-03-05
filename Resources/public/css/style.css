@@ -92,3 +92,26 @@ h1
     padding-left: 0.5em;
     padding-right: 0.5em;
 }
+
+/* Contents: action links */
+
+#contents ul.actions
+{
+    margin: 0;
+    padding: 0;
+}
+
+#contents ul.actions li
+{
+    float: left;
+    list-style: none;
+    margin-right: 2em;
+}
+
+/* Contents: information */
+
+#contents table td
+{
+    padding-bottom: 1em;
+    padding-right: 1em;
+}
