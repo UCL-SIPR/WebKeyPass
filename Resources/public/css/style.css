@@ -20,5 +20,75 @@ h1
 {
     position: absolute;
     top: 3em;
-    left: 31em;
+    left: 32em;
+}
+
+/* Side panel: tree view */
+
+#side_panel ul
+{
+    margin-left: 0;
+    padding-left: 2em;
+}
+
+#side_panel li.category > ul
+{
+    padding-left: 0em;
+}
+
+#side_panel li.category
+{
+    margin-top: 1em;
+}
+
+#side_panel li.linux
+{
+    list-style: url(../images/tux.png);
+}
+
+#side_panel li.windows
+{
+    list-style: url(../images/microsoft.png);
+}
+
+#side_panel li.solaris
+{
+    list-style: url(../images/solaris.png);
+}
+
+#side_panel li.server
+{
+    list-style: square;
+    margin-top: 0.5em;
+}
+
+#side_panel li.vm
+{
+    list-style: disc;
+}
+
+/* Side panel: links in the tree view */
+
+#side_panel ul a
+{
+    color: black;
+    text-decoration: none;
+}
+
+#side_panel li.vm > a
+{
+    color: #444;
+}
+
+#side_panel ul a:hover
+{
+    text-decoration: underline;
+}
+
+#side_panel ul a.selected
+{
+    background-color: orange;
+    font-weight: bold;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
 }
