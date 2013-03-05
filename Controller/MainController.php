@@ -6,8 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class MainController extends Controller
 {
-    public function viewAction()
+    public function viewAction ()
     {
-        return $this->render('UCLWebKeyPassBundle::node.html.twig');
+        $actions = array (array ('name' => 'Add Category'));
+
+        return $this->render ('UCLWebKeyPassBundle::main.html.twig',
+                              array ('actions' => $actions));
     }
 }

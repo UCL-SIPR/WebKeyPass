@@ -1,1 +1,22 @@
 {% extends 'UCLWebKeyPassBundle::base.html.twig' %}
+
+{% block title %}
+  {{ node }}
+{% endblock %}
+
+{% block h2_nodes %}
+  {% for node in nodes %}
+    » {{ node }}
+  {% endfor %}
+{% endblock %}
+
+{% block information %}
+  <table>
+    {% for info in infos %}
+      <tr>
+        <td>{{ info.title }}</td>
+        <td>{{ info.content }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
