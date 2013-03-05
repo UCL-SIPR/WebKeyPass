@@ -3,21 +3,21 @@ ucl_wkp_main_view:
     defaults: { _controller: UCLWebKeyPassBundle:Main:view }
 
 ucl_wkp_node_view:
-    pattern: /{node-id}-{node}
+    pattern: /{node}
     defaults: { _controller: UCLWebKeyPassBundle:Node:view }
 
 ucl_wkp_node_edit:
-    pattern: /{node-id}-{node}/edit
+    pattern: /{node}/edit
     defaults: { _controller: UCLWebKeyPassBundle:Node:view }
 
 ucl_wkp_node_add:
-    pattern: /{node-id}-{node}/add
+    pattern: /{node}/add
     defaults: { _controller: UCLWebKeyPassBundle:Node:view }
 
 ucl_wkp_node_move:
-    pattern: /{node-id}-{node}/move
+    pattern: /{node}/move
     defaults: { _controller: UCLWebKeyPassBundle:Node:view }
 
 ucl_wkp_node_remove:
-    pattern: /{node-id}-{node}/remove
+    pattern: /{node}/remove
     defaults: { _controller: UCLWebKeyPassBundle:Node:view }

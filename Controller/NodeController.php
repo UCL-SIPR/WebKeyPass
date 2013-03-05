@@ -8,6 +8,6 @@ class NodeController extends Controller
 {
     public function viewAction()
     {
-        return $this->render('UCLWebKeyPassBundle:Default:index.html.twig');
+        return $this->render('UCLWebKeyPassBundle::base.html.twig');
     }
 }
