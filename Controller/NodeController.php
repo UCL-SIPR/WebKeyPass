@@ -41,24 +41,20 @@ class NodeController extends Controller
 
     private function getActions ($node_type)
     {
-        $category = 0;
-        $server = 1;
-        $vm = 2;
-
         switch ($node_type)
         {
-            case $category:
+            case 'category':
                 return array (array ('name' => 'Add Server'),
                               array ('name' => 'Add Sub-category'),
                               array ('name' => 'Remove'));
 
-            case $server:
+            case 'server':
                 return array (array ('name' => 'Edit'),
                               array ('name' => 'Add VM'),
                               array ('name' => 'Move'),
                               array ('name' => 'Remove'));
 
-            case $vm:
+            case 'vm':
                 return array (array ('name' => 'Edit'),
                               array ('name' => 'Move'),
                               array ('name' => 'Remove'));
@@ -92,7 +88,7 @@ class NodeController extends Controller
 
         $title = $node->getName ();
         $infos = $this->getNodeInfos ($node);
-        $actions = $this->getActions ($node->getType ());
+        $actions = $this->getActions ($node->getTypeStr ());
         $path = $this->getPath ($node);
         $nodes = $node_repo->getNodes ();
 
