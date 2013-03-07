@@ -24,7 +24,7 @@
     {% if node.icon %}
       <img src="{{ asset('bundles/uclwebkeypass/images/') }}{{ node.icon }}" alt="" />
     {% endif %}
-    <a href="#">{{ node.name }}</a>
+    <a href="{{ path('ucl_wkp_node_view', {'node_id': node.id}) }}">{{ node.name }}</a>
     {% if node.subnodes %}
       <ul>
         {{ include('UCLWebKeyPassBundle::tree_view.html.twig', {'nodes': node.subnodes}) }}

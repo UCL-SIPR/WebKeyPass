@@ -35,7 +35,8 @@ class NodeRepository extends EntityRepository
             $subnodes = $node->getChildren ();
             $subtree = $this->getNodesInfos ($subnodes);
 
-            $tree[] = array ('name' => $node->getName (),
+            $tree[] = array ('id' => $node->getId (),
+                             'name' => $node->getName (),
                              'class' => $node->getTypeStr (),
                              'icon' => $node->getIcon (),
                              'subnodes' => $subtree);
