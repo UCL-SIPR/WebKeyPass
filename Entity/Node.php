@@ -69,6 +69,11 @@ class Node
      */
     private $comment;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $icon;
+
     public function __construct()
     {
         $this->children = new ArrayCollection();
@@ -156,6 +161,18 @@ class Node
     public function getParent()
     {
         return $this->parent;
+    }
+
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    public function getIcon()
+    {
+        return $this->icon;
     }
 
     /* Other public functions */

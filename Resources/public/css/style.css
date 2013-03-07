@@ -52,29 +52,20 @@ h1
     padding-left: 2em;
 }
 
-#side_panel li.category > ul
+#side_panel > ul
 {
-    padding-left: 0em;
+    padding-left: 0;
 }
 
 #side_panel li.category
 {
+    list-style: none;
     margin-top: 1em;
 }
 
-#side_panel li.linux
+#side_panel li.category > ul
 {
-    list-style: url(../images/tux.png);
-}
-
-#side_panel li.windows
-{
-    list-style: url(../images/microsoft.png);
-}
-
-#side_panel li.solaris
-{
-    list-style: url(../images/solaris.png);
+    padding-left: 3em;
 }
 
 #side_panel li.server

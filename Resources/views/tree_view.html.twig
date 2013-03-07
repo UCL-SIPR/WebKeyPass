@@ -21,6 +21,9 @@
 
 {% for node in nodes %}
   <li class="{{ node.class }}">
+    {% if node.icon %}
+      <img src="{{ asset('bundles/uclwebkeypass/images/') }}{{ node.icon }}" alt="" />
+    {% endif %}
     <a href="#">{{ node.name }}</a>
     {% if node.subnodes %}
       <ul>
