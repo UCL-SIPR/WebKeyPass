@@ -26,4 +26,33 @@ use Doctrine\ORM\EntityRepository;
 
 class NodeRepository extends EntityRepository
 {
+    private function getNodesInfos ($nodes)
+    {
+        $tree = array ();
+
+        foreach ($nodes as $node)
+        {
+            $subnodes = $node->getChildren ();
+            $subtree = $this->getNodesInfos ($subnodes);
+
+            $tree[] = array ('name' => $node->getName (),
+                             'class' => $node->getTypeStr (),
+                             'subnodes' => $subtree);
+        }
+
+        if (count ($tree) == 0)
+        {
+            return null;
+        }
+        else
+        {
+            return $tree;
+        }
+    }
+
+    public function getNodes ()
+    {
+        $root_nodes = $this->findByParent (null);
+        return $this->getNodesInfos ($root_nodes);
+    }
 }

@@ -82,7 +82,8 @@ class NodeController extends Controller
 
     public function viewAction ($node_id)
     {
-        $node = $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node')->find ($node_id);
+        $node_repo = $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node');
+        $node = $node_repo->find ($node_id);
 
         if (!$node)
         {
@@ -93,30 +94,7 @@ class NodeController extends Controller
         $infos = $this->getNodeInfos ($node);
         $actions = $this->getActions ($node->getType ());
         $path = $this->getPath ($node);
-
-        $server1_VMs = array (array ('name' => 'Virtual Machine A',
-                                     'class' => 'vm',
-                                     'subnodes' => null),
-                              array ('name' => 'Virtual Machine B',
-                                     'class' => 'vm',
-                                     'subnodes' => null));
-
-        $linux_nodes = array (array ('name' => 'Server 1',
-                                     'class' => 'server',
-                                     'subnodes' => $server1_VMs),
-                              array ('name' => 'Server 2',
-                                     'class' => 'server',
-                                     'subnodes' => null));
-
-        $nodes = array (array ('name' => 'Linux',
-                               'class' => 'category linux',
-                               'subnodes' => $linux_nodes),
-                        array ('name' => 'Windows',
-                               'class' => 'category windows',
-                               'subnodes' => null),
-                        array ('name' => 'Solaris',
-                               'class' => 'category solaris',
-                               'subnodes' => null));
+        $nodes = $node_repo->getNodes ();
 
         return $this->render ('UCLWebKeyPassBundle::node.html.twig',
                               array ('title' => $title,

@@ -157,4 +157,24 @@ class Node
     {
         return $this->parent;
     }
+
+    /* Other public functions */
+
+    public function getTypeStr()
+    {
+        switch ($this->getType ())
+        {
+            case 0:
+                return 'category';
+
+            case 1:
+                return 'server';
+
+            case 2:
+                return 'vm';
+
+            default:
+                return 'other';
+        }
+    }
 }
