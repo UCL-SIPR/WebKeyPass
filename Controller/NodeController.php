@@ -26,23 +26,73 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class NodeController extends Controller
 {
-    public function viewAction ($node)
+    private function getNodeInfos ($node)
     {
-        $path = array ('Linux', 'Server 2');
+        $infos = array ();
 
-        $actions = array (array ('name' => 'Edit'),
-                          array ('name' => 'Add VM'),
-                          array ('name' => 'Move'),
-                          array ('name' => 'Remove'));
+        $infos[] = array ('title' => 'Hostname',
+                          'content' => $node->getHostname ());
 
-        $infos = array (array ('title' => 'Hostname',
-                               'content' => 'server2.sipr.ucl.ac.be'),
-                        array ('title' => 'User/password',
-                               'content' => 'root: Btrn78duXl32'),
-                        array ('title' => 'User/password',
-                               'content' => 'mysql: 23lXud87nrtB'),
-                        array ('title' => 'Comment',
-                               'content' => 'Virtualisation : avec Xen'));
+        $infos[] = array ('title' => 'Comment',
+                          'content' => $node->getComment ());
+
+        return $infos;
+    }
+
+    private function getActions ($node_type)
+    {
+        $category = 0;
+        $server = 1;
+        $vm = 2;
+
+        switch ($node_type)
+        {
+            case $category:
+                return array (array ('name' => 'Add Server'),
+                              array ('name' => 'Add Sub-category'),
+                              array ('name' => 'Remove'));
+
+            case $server:
+                return array (array ('name' => 'Edit'),
+                              array ('name' => 'Add VM'),
+                              array ('name' => 'Move'),
+                              array ('name' => 'Remove'));
+
+            case $vm:
+                return array (array ('name' => 'Edit'),
+                              array ('name' => 'Move'),
+                              array ('name' => 'Remove'));
+
+            default:
+                return array ();
+        }
+    }
+
+    private function getPath ($node)
+    {
+        $path = array ($node->getName ());
+
+        for ($parent = $node->getParent (); $parent != null; $parent = $parent->getParent ())
+        {
+            $path[] = $parent->getName ();
+        }
+
+        return array_reverse ($path);
+    }
+
+    public function viewAction ($node_id)
+    {
+        $node = $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node')->find ($node_id);
+
+        if (!$node)
+        {
+            throw $this->createNotFoundException ('No node found for id '.$id);
+        }
+
+        $title = $node->getName ();
+        $infos = $this->getNodeInfos ($node);
+        $actions = $this->getActions ($node->getType ());
+        $path = $this->getPath ($node);
 
         $server1_VMs = array (array ('name' => 'Virtual Machine A',
                                      'class' => 'vm',
@@ -69,7 +119,7 @@ class NodeController extends Controller
                                'subnodes' => null));
 
         return $this->render ('UCLWebKeyPassBundle::node.html.twig',
-                              array ('title' => $node,
+                              array ('title' => $title,
                                      'path' => $path,
                                      'actions' => $actions,
                                      'infos' => $infos,
