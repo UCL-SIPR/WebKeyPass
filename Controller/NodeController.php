@@ -26,7 +26,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class NodeController extends Controller
 {
-    private function getNodeInfos ($node)
+    protected function getNodeInfos ($node)
     {
         $infos = array ();
 
@@ -47,29 +47,9 @@ class NodeController extends Controller
         return $infos;
     }
 
-    private function getActions ($node_type)
+    protected function getActions ()
     {
-        switch ($node_type)
-        {
-            case 'category':
-                return array (array ('name' => 'Add Server'),
-                              array ('name' => 'Add Sub-category'),
-                              array ('name' => 'Remove'));
-
-            case 'server':
-                return array (array ('name' => 'Edit'),
-                              array ('name' => 'Add VM'),
-                              array ('name' => 'Move'),
-                              array ('name' => 'Remove'));
-
-            case 'vm':
-                return array (array ('name' => 'Edit'),
-                              array ('name' => 'Move'),
-                              array ('name' => 'Remove'));
-
-            default:
-                return array ();
-        }
+        return array ();
     }
 
     private function getPath ($node)
@@ -96,7 +76,7 @@ class NodeController extends Controller
 
         $title = $node->getName ();
         $infos = $this->getNodeInfos ($node);
-        $actions = $this->getActions ($node->getTypeStr ());
+        $actions = $this->getActions ();
         $path = $this->getPath ($node);
         $nodes = $node_repo->getNodes ();
 
