@@ -33,6 +33,14 @@ class NodeController extends Controller
         $infos[] = array ('title' => 'Hostname',
                           'content' => $node->getHostname ());
 
+        foreach ($node->getAuthentications () as $auth)
+        {
+            $text = $auth->getLogin () . ': ' . $auth->getPassword ();
+
+            $infos[] = array ('title' => 'Login/Password',
+                              'content' => $text);
+        }
+
         $infos[] = array ('title' => 'Comment',
                           'content' => $node->getComment ());
 

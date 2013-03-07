@@ -74,6 +74,11 @@ class Node
      */
     private $icon;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Authentication", mappedBy="node")
+     */
+    private $authentications;
+
     public function __construct()
     {
         $this->children = new ArrayCollection();
@@ -173,6 +178,23 @@ class Node
     public function getIcon()
     {
         return $this->icon;
+    }
+
+    public function addAuthentication(\UCL\WebKeyPassBundle\Entity\Authentication $authentications)
+    {
+        $this->authentications[] = $authentications;
+
+        return $this;
+    }
+
+    public function removeAuthentication(\UCL\WebKeyPassBundle\Entity\Authentication $authentications)
+    {
+        $this->authentications->removeElement($authentications);
+    }
+
+    public function getAuthentications()
+    {
+        return $this->authentications;
     }
 
     /* Other public functions */
