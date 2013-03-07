@@ -19,7 +19,7 @@
 
 ucl_wkp_main_view:
     pattern: /
-    defaults: { _controller: UCLWebKeyPassBundle:Main:view }
+    defaults: { _controller: UCLWebKeyPassBundle:Node:view, node: Root }
 
 ucl_wkp_node_view:
     pattern: /{node}

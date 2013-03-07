@@ -19,4 +19,13 @@
  # Author: Sébastien Wilmet
  #}
 
-{% extends 'UCLWebKeyPassBundle::base.html.twig' %}
+{% for node in nodes %}
+  <li class="{{ node.class }}">
+    <a href="#">{{ node.name }}</a>
+    {% if node.subnodes %}
+      <ul>
+        {{ include('UCLWebKeyPassBundle::tree_view.html.twig', {'nodes': node.subnodes}) }}
+      </ul>
+    {% endif %}
+  </li>
+{% endfor %}

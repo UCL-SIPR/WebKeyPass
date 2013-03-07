@@ -28,7 +28,7 @@ class NodeController extends Controller
 {
     public function viewAction ($node)
     {
-        $nodes = array ('Linux', 'Server 2');
+        $path = array ('Linux', 'Server 2');
 
         $actions = array (array ('name' => 'Edit'),
                           array ('name' => 'Add VM'),
@@ -44,10 +44,35 @@ class NodeController extends Controller
                         array ('title' => 'Comment',
                                'content' => 'Virtualisation : avec Xen'));
 
+        $server1_VMs = array (array ('name' => 'Virtual Machine A',
+                                     'class' => 'vm',
+                                     'subnodes' => null),
+                              array ('name' => 'Virtual Machine B',
+                                     'class' => 'vm',
+                                     'subnodes' => null));
+
+        $linux_nodes = array (array ('name' => 'Server 1',
+                                     'class' => 'server',
+                                     'subnodes' => $server1_VMs),
+                              array ('name' => 'Server 2',
+                                     'class' => 'server',
+                                     'subnodes' => null));
+
+        $nodes = array (array ('name' => 'Linux',
+                               'class' => 'category linux',
+                               'subnodes' => $linux_nodes),
+                        array ('name' => 'Windows',
+                               'class' => 'category windows',
+                               'subnodes' => null),
+                        array ('name' => 'Solaris',
+                               'class' => 'category solaris',
+                               'subnodes' => null));
+
         return $this->render ('UCLWebKeyPassBundle::node.html.twig',
-                              array ('node' => $node,
-                                     'nodes' => $nodes,
+                              array ('title' => $node,
+                                     'path' => $path,
                                      'actions' => $actions,
-                                     'infos' => $infos));
+                                     'infos' => $infos,
+                                     'nodes' => $nodes));
     }
 }

@@ -31,135 +31,13 @@
 
 <div id="side_panel">
   <ul>
-    <li class="category linux">
-      <strong>Linux</strong>
-      <ul>
-        <li class="server">
-          <a href="#">Long name long name long name long name long name Server 1</a>
-        </li>
-        <li class="server">
-          <a href="#" class="selected">Server 2</a>
-          <ul>
-            <li class="vm"><a href="#">Virtual Machine A</a></li>
-            <li class="vm"><a href="#">Virtual Machine B</a></li>
-            <li class="vm"><a href="#">Virtual Machine C</a></li>
-          </ul>
-        </li>
-        <li class="server">
-          <a href="#">Server 3</a>
-          <ul>
-            <li class="vm"><a href="#">Virtual Machine A</a></li>
-            <li class="vm"><a href="#">Virtual Machine B</a></li>
-          </ul>
-        </li>
-        <li class="server">
-          <a href="#">Server 4</a>
-        </li>
-        <li class="server">
-          <a href="#">Server 5</a>
-          <ul>
-            <li class="vm"><a href="#">Virtual Machine A</a></li>
-            <li class="vm"><a href="#">Virtual Machine B</a></li>
-            <li class="vm"><a href="#">Virtual Machine C</a></li>
-          </ul>
-        </li>
-        <li class="server">
-          <a href="#">Server 6</a>
-          <ul>
-            <li class="vm"><a href="#">Virtual Machine A</a></li>
-            <li class="vm"><a href="#">Virtual Machine B</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li class="category windows">
-      <strong>Windows</strong>
-      <ul>
-        <li class="server">
-          <a href="#">Long name long name long name long name long name Server 1</a>
-        </li>
-        <li class="server">
-          <a href="#">Server 2</a>
-          <ul>
-            <li class="vm"><a href="#">Virtual Machine A</a></li>
-            <li class="vm"><a href="#">Virtual Machine B</a></li>
-            <li class="vm"><a href="#">Virtual Machine C</a></li>
-          </ul>
-        </li>
-        <li class="server">
-          <a href="#">Server 3</a>
-          <ul>
-            <li class="vm"><a href="#">Virtual Machine A</a></li>
-            <li class="vm"><a href="#">Virtual Machine B</a></li>
-          </ul>
-        </li>
-        <li class="server">
-          <a href="#">Server 4</a>
-        </li>
-        <li class="server">
-          <a href="#">Server 5</a>
-          <ul>
-            <li class="vm"><a href="#">Virtual Machine A</a></li>
-            <li class="vm"><a href="#">Virtual Machine B</a></li>
-            <li class="vm"><a href="#">Virtual Machine C</a></li>
-          </ul>
-        </li>
-        <li class="server">
-          <a href="#">Server 6</a>
-          <ul>
-            <li class="vm"><a href="#">Virtual Machine A</a></li>
-            <li class="vm"><a href="#">Virtual Machine B</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li class="category solaris">
-      <strong>Solaris</strong>
-      <ul>
-        <li class="server">
-          <a href="#">Long name long name long name long name long name Server 1</a>
-        </li>
-        <li class="server">
-          <a href="#">Server 2</a>
-          <ul>
-            <li class="vm"><a href="#">Virtual Machine A</a></li>
-            <li class="vm"><a href="#">Virtual Machine B</a></li>
-            <li class="vm"><a href="#">Virtual Machine C</a></li>
-          </ul>
-        </li>
-        <li class="server">
-          <a href="#">Server 3</a>
-          <ul>
-            <li class="vm"><a href="#">Virtual Machine A</a></li>
-            <li class="vm"><a href="#">Virtual Machine B</a></li>
-          </ul>
-        </li>
-        <li class="server">
-          <a href="#">Server 4</a>
-        </li>
-        <li class="server">
-          <a href="#">Server 5</a>
-          <ul>
-            <li class="vm"><a href="#">Virtual Machine A</a></li>
-            <li class="vm"><a href="#">Virtual Machine B</a></li>
-            <li class="vm"><a href="#">Virtual Machine C</a></li>
-          </ul>
-        </li>
-        <li class="server">
-          <a href="#">Server 6</a>
-          <ul>
-            <li class="vm"><a href="#">Virtual Machine A</a></li>
-            <li class="vm"><a href="#">Virtual Machine B</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
+    {{ include('UCLWebKeyPassBundle::tree_view.html.twig', {'nodes': nodes}) }}
   </ul>
 </div>
 
 <div id="contents">
   <h2>
-    Main
+    Root
     {% block h2_nodes %}
     {% endblock %}
   </h2>

@@ -22,11 +22,11 @@
 {% extends 'UCLWebKeyPassBundle::base.html.twig' %}
 
 {% block title %}
-  {{ node }}
+  {{ title }}
 {% endblock %}
 
 {% block h2_nodes %}
-  {% for node in nodes %}
+  {% for node in path %}
     » {{ node }}
   {% endfor %}
 {% endblock %}
