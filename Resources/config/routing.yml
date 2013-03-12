@@ -17,18 +17,74 @@
 #
 # Author: Sébastien Wilmet
 
+# Root
+
 ucl_wkp_root_view:
     pattern: /
-    defaults: { _controller: UCLWebKeyPassBundle:RootNode:viewRoot}
+    defaults: { _controller: UCLWebKeyPassBundle:RootNode:viewRoot }
+
+ucl_wkp_root_add_category:
+    pattern: /add_category
+    defaults: { _controller: UCLWebKeyPassBundle:RootNode:viewRoot }
+
+# Category
 
 ucl_wkp_category_view:
     pattern: /category/{node_id}
     defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:view }
 
+ucl_wkp_category_edit:
+    pattern: /category/{node_id}/edit
+    defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:view }
+
+ucl_wkp_category_add_server:
+    pattern: /category/{node_id}/add_server
+    defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:view }
+
+ucl_wkp_category_add_subcategory:
+    pattern: /category/{node_id}/add_subcategory
+    defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:view }
+
+ucl_wkp_category_remove:
+    pattern: /category/{node_id}/remove
+    defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:view }
+
+# Server
+
 ucl_wkp_server_view:
     pattern: /server/{node_id}
     defaults: { _controller: UCLWebKeyPassBundle:ServerNode:view }
 
+ucl_wkp_server_edit:
+    pattern: /server/{node_id}/edit
+    defaults: { _controller: UCLWebKeyPassBundle:ServerNode:view }
+
+ucl_wkp_server_add_vm:
+    pattern: /server/{node_id}/add_vm
+    defaults: { _controller: UCLWebKeyPassBundle:ServerNode:view }
+
+ucl_wkp_server_move:
+    pattern: /server/{node_id}/move
+    defaults: { _controller: UCLWebKeyPassBundle:ServerNode:view }
+
+ucl_wkp_server_remove:
+    pattern: /server/{node_id}/remove
+    defaults: { _controller: UCLWebKeyPassBundle:ServerNode:view }
+
+# Virtual Machine
+
 ucl_wkp_vm_view:
     pattern: /vm/{node_id}
+    defaults: { _controller: UCLWebKeyPassBundle:VMNode:view }
+
+ucl_wkp_vm_edit:
+    pattern: /vm/{node_id}/edit
+    defaults: { _controller: UCLWebKeyPassBundle:VMNode:view }
+
+ucl_wkp_vm_move:
+    pattern: /vm/{node_id}/move
+    defaults: { _controller: UCLWebKeyPassBundle:VMNode:view }
+
+ucl_wkp_vm_remove:
+    pattern: /vm/{node_id}/remove
     defaults: { _controller: UCLWebKeyPassBundle:VMNode:view }

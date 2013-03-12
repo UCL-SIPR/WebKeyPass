@@ -31,11 +31,25 @@ class CategoryNodeController extends NodeController
         return $this->getEmptyNodeInfos ();
     }
 
-    protected function getActions ()
+    protected function getActions ($node_id)
     {
-        return array (array ('name' => 'Add Server'),
-                      array ('name' => 'Add Sub-category'),
-                      array ('name' => 'Remove'));
+        $route_data = array ('node_id' => $node_id);
+
+        return array (array ('name' => 'Edit',
+                             'route' => 'ucl_wkp_category_edit',
+                             'route_data' => $route_data),
+
+                      array ('name' => 'Add Server',
+                             'route' => 'ucl_wkp_category_add_server',
+                             'route_data' => $route_data),
+
+                      array ('name' => 'Add Sub-category',
+                             'route' => 'ucl_wkp_category_add_subcategory',
+                             'route_data' => $route_data),
+
+                      array ('name' => 'Remove',
+                             'route' => 'ucl_wkp_category_remove',
+                             'route_data' => $route_data));
     }
 
     protected function checkType ($node)

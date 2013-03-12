@@ -45,7 +45,7 @@
   <h3>Actions</h3>
   <ul class="actions">
     {% for action in actions %}
-      <li><a href="#">{{ action.name }}</a></li>
+      <li><a href="{{ path(action.route, action.route_data) }}">{{ action.name }}</a></li>
     {% endfor %}
   </ul>
   <div style="clear: both;"></div>

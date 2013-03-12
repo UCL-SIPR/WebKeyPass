@@ -26,11 +26,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class VMNodeController extends NodeController
 {
-    protected function getActions ()
+    protected function getActions ($node_id)
     {
-        return array (array ('name' => 'Edit'),
-                      array ('name' => 'Move'),
-                      array ('name' => 'Remove'));
+        $route_data = array ('node_id' => $node_id);
+
+        return array (array ('name' => 'Edit',
+                             'route' => 'ucl_wkp_vm_edit',
+                             'route_data' => $route_data),
+
+                      array ('name' => 'Move',
+                             'route' => 'ucl_wkp_vm_move',
+                             'route_data' => $route_data),
+
+                      array ('name' => 'Remove',
+                             'route' => 'ucl_wkp_vm_remove',
+                             'route_data' => $route_data));
     }
 
     protected function checkType ($node)

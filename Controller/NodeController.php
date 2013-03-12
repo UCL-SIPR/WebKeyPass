@@ -53,7 +53,7 @@ class NodeController extends Controller
         return $infos;
     }
 
-    protected function getActions ()
+    protected function getActions ($node_id)
     {
         return array ();
     }
@@ -99,7 +99,7 @@ class NodeController extends Controller
 
         $title = $node->getName ();
         $infos = $this->getNodeInfos ($node);
-        $actions = $this->getActions ();
+        $actions = $this->getActions ($node_id);
         $path = $this->getPath ($node);
         $nodes = $node_repo->getNodes ();
 

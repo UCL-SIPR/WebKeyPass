@@ -26,16 +26,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class RootNodeController extends NodeController
 {
-    protected function getActions ()
+    protected function getRootActions ()
     {
-        return array (array ('name' => 'Add Category'));
+        return array (array ('name' => 'Add Category',
+                             'route' => 'ucl_wkp_root_add_category',
+                             'route_data' => array ()));
     }
 
     public function viewRootAction ()
     {
         $title = 'Root';
         $infos = $this->getEmptyNodeInfos ();
-        $actions = $this->getActions ();
+        $actions = $this->getRootActions ();
         $path = array ();
 
         $node_repo = $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node');

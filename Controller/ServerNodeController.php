@@ -26,12 +26,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ServerNodeController extends NodeController
 {
-    protected function getActions ()
+    protected function getActions ($node_id)
     {
-        return array (array ('name' => 'Edit'),
-                      array ('name' => 'Add VM'),
-                      array ('name' => 'Move'),
-                      array ('name' => 'Remove'));
+        $route_data = array ('node_id' => $node_id);
+
+        return array (array ('name' => 'Edit',
+                             'route' => 'ucl_wkp_server_edit',
+                             'route_data' => $route_data),
+
+                      array ('name' => 'Add VM',
+                             'route' => 'ucl_wkp_server_add_vm',
+                             'route_data' => $route_data),
+
+                      array ('name' => 'Move',
+                             'route' => 'ucl_wkp_server_move',
+                             'route_data' => $route_data),
+
+                      array ('name' => 'Remove',
+                             'route' => 'ucl_wkp_server_remove',
+                             'route_data' => $route_data));
     }
 
     protected function checkType ($node)
