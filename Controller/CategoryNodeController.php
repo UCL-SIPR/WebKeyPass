@@ -38,4 +38,9 @@ class CategoryNodeController extends NodeController
                       array ('name' => 'Add Sub-category'),
                       array ('name' => 'Remove'));
     }
+
+    protected function checkType ($node)
+    {
+        return $node->getTypeStr () == 'category';
+    }
 }

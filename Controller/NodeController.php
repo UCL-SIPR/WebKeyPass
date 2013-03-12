@@ -52,6 +52,11 @@ class NodeController extends Controller
         return array ();
     }
 
+    protected function checkType ($node)
+    {
+        return true;
+    }
+
     private function getPath ($node)
     {
         $path = array ($node->getName ());
@@ -71,7 +76,12 @@ class NodeController extends Controller
 
         if (!$node)
         {
-            throw $this->createNotFoundException ('No node found for id '.$id);
+            throw $this->createNotFoundException ('Node id '.$node_id.' not found');
+        }
+
+        if (!$this->checkType ($node))
+        {
+            throw $this->createNotFoundException ('Wrong node type');
         }
 
         $title = $node->getName ();

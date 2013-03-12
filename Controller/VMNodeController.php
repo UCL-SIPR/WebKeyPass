@@ -32,4 +32,9 @@ class VMNodeController extends NodeController
                       array ('name' => 'Move'),
                       array ('name' => 'Remove'));
     }
+
+    protected function checkType ($node)
+    {
+        return $node->getTypeStr () == 'vm';
+    }
 }
