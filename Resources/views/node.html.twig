@@ -21,17 +21,16 @@
 
 {% extends 'UCLWebKeyPassBundle::base.html.twig' %}
 
-{% block title %}
-  {{ title }}
-{% endblock %}
+{% block contents %}
+  <h3>Actions</h3>
+  <ul class="actions">
+    {% for action in actions %}
+      <li><a href="{{ path(action.route, action.route_data) }}">{{ action.name }}</a></li>
+    {% endfor %}
+  </ul>
+  <div style="clear: both;"></div>
 
-{% block h2_nodes %}
-  {% for node in path %}
-    » {{ include('UCLWebKeyPassBundle::node_link.html.twig', {'node': node}) }}
-  {% endfor %}
-{% endblock %}
-
-{% block information %}
+  <h3>Information</h3>
   <table>
     {% for info in infos %}
       <tr>

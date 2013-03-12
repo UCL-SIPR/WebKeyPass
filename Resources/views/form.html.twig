@@ -19,32 +19,14 @@
  # Author: Sébastien Wilmet
  #}
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>UCL WebKeyPass - {{ title }}</title>
-<link href="{{ asset('bundles/uclwebkeypass/css/style.css') }}" type="text/css" rel="stylesheet" />
-</head>
+{% extends 'UCLWebKeyPassBundle::base.html.twig' %}
 
-<body>
-<h1>UCL WebKeyPass</h1>
+{% block contents %}
+  <h3>{{ action }}</h3>
 
-<div id="side_panel">
-  <ul>
-    {{ include('UCLWebKeyPassBundle::tree_view.html.twig', {'nodes': nodes}) }}
-  </ul>
-</div>
+  <form action="{{ path('ucl_wkp_root_add_category') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
 
-<div id="contents">
-  <h2>
-    <a href="{{ path('ucl_wkp_root_view') }}">Root</a>
-    {% for node in path %}
-      » {{ include('UCLWebKeyPassBundle::node_link.html.twig', {'node': node}) }}
-    {% endfor %}
-  </h2>
-
-  {% block contents %}
-  {% endblock %}
-</div>
-</body>
-</html>
+    <input type="submit" />
+  </form>
+{% endblock %}

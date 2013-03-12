@@ -23,6 +23,8 @@
 namespace UCL\WebKeyPassBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use UCL\WebKeyPassBundle\Form\CategoryForm;
+use UCL\WebKeyPassBundle\Entity\Category;
 
 class RootNodeController extends NodeController
 {
@@ -33,21 +35,41 @@ class RootNodeController extends NodeController
                              'route_data' => array ()));
     }
 
-    public function viewRootAction ()
+    private function getCommonData ()
     {
-        $title = 'Root';
-        $infos = $this->getEmptyNodeInfos ();
-        $actions = $this->getRootActions ();
-        $path = array ();
+        $data = array ();
+        $data['title'] = 'Root';
+        $data['path'] = array ();
 
         $node_repo = $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node');
-        $nodes = $node_repo->getNodes ();
+        $data['nodes'] = $node_repo->getNodes ();
 
-        return $this->render ('UCLWebKeyPassBundle::node.html.twig',
-                              array ('title' => $title,
-                                     'path' => $path,
-                                     'actions' => $actions,
-                                     'infos' => $infos,
-                                     'nodes' => $nodes));
+        return $data;
+    }
+
+    public function viewRootAction ()
+    {
+        $data = $this->getCommonData ();
+
+        $data['infos'] = $this->getEmptyNodeInfos ();
+        $data['actions'] = $this->getRootActions ();
+
+        return $this->render ('UCLWebKeyPassBundle::node.html.twig', $data);
+    }
+
+    public function addCategoryAction ()
+    {
+        $data = $this->getCommonData ();
+
+        $data['action'] = 'Add Category';
+
+        $category = new Category ();
+        $category->setName ('OpenBSD');
+        $category->setIcon ('bsd.png');
+
+        $form = $this->createForm (new CategoryForm(), $category);
+        $data['form'] = $form->createView ();
+
+        return $this->render ('UCLWebKeyPassBundle::form.html.twig', $data);
     }
 }

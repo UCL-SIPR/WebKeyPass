@@ -25,7 +25,7 @@ ucl_wkp_root_view:
 
 ucl_wkp_root_add_category:
     pattern: /add_category
-    defaults: { _controller: UCLWebKeyPassBundle:RootNode:viewRoot }
+    defaults: { _controller: UCLWebKeyPassBundle:RootNode:addCategory }
 
 # Category
 
