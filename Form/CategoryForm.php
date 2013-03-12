@@ -27,10 +27,22 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class CategoryForm extends AbstractType
 {
+    private function getAllIcons ()
+    {
+        /* TODO use the Finder Symfony2 component */
+
+        return array ('apple.png' => 'apple.png',
+                      'microsoft.png' => 'microsoft.png',
+                      'solaris.png' => 'solaris.png',
+                      'tux.png' => 'tux.png');
+    }
+
     public function buildForm (FormBuilderInterface $builder, array $options)
     {
+        $icons = $this->getAllIcons ();
+
         $builder->add ('name');
-        $builder->add ('icon');
+        $builder->add ('icon', 'choice', array ('choices' => $icons));
     }
 
     public function getName ()
