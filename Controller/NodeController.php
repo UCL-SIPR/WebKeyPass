@@ -26,6 +26,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class NodeController extends Controller
 {
+    protected function getEmptyNodeInfos ()
+    {
+        return array (array ('title' => 'No information',
+                             'content' => ''));
+    }
+
     protected function getNodeInfos ($node)
     {
         $infos = array ();

@@ -24,22 +24,28 @@ namespace UCL\WebKeyPassBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class CategoryNodeController extends NodeController
+class RootNodeController extends NodeController
 {
-    protected function getNodeInfos ($node)
-    {
-        return $this->getEmptyNodeInfos ();
-    }
-
     protected function getActions ()
     {
-        return array (array ('name' => 'Add Server'),
-                      array ('name' => 'Add Sub-category'),
-                      array ('name' => 'Remove'));
+        return array (array ('name' => 'Add Category'));
     }
 
-    protected function checkType ($node)
+    public function viewRootAction ()
     {
-        return $node->getTypeStr () == 'category';
+        $title = 'Root';
+        $infos = $this->getEmptyNodeInfos ();
+        $actions = $this->getActions ();
+        $path = array ();
+
+        $node_repo = $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node');
+        $nodes = $node_repo->getNodes ();
+
+        return $this->render ('UCLWebKeyPassBundle::node.html.twig',
+                              array ('title' => $title,
+                                     'path' => $path,
+                                     'actions' => $actions,
+                                     'infos' => $infos,
+                                     'nodes' => $nodes));
     }
 }

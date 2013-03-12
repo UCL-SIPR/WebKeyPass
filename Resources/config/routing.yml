@@ -17,9 +17,9 @@
 #
 # Author: Sébastien Wilmet
 
-ucl_wkp_main_view:
+ucl_wkp_root_view:
     pattern: /
-    defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:view, node_id: 1}
+    defaults: { _controller: UCLWebKeyPassBundle:RootNode:viewRoot}
 
 ucl_wkp_category_view:
     pattern: /category/{node_id}
