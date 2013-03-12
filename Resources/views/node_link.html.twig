@@ -19,25 +19,13 @@
  # Author: Sébastien Wilmet
  #}
 
-{% extends 'UCLWebKeyPassBundle::base.html.twig' %}
+{% if node.class == 'category' %}
+  <a href="{{ path('ucl_wkp_category_view', {'node_id': node.id}) }}">
+{% elseif node.class == 'server' %}
+  <a href="{{ path('ucl_wkp_server_view', {'node_id': node.id}) }}">
+{% elseif node.class == 'vm' %}
+  <a href="{{ path('ucl_wkp_vm_view', {'node_id': node.id}) }}">
+{% endif %}
 
-{% block title %}
-  {{ title }}
-{% endblock %}
-
-{% block h2_nodes %}
-  {% for node in path %}
-    » {{ include('UCLWebKeyPassBundle::node_link.html.twig', {'node': node}) }}
-  {% endfor %}
-{% endblock %}
-
-{% block information %}
-  <table>
-    {% for info in infos %}
-      <tr>
-        <td>{{ info.title }}</td>
-        <td>{{ info.content }}</td>
-      </tr>
-    {% endfor %}
-  </table>
-{% endblock %}
+    {{ node.name }}
+  </a>

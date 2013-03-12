@@ -25,16 +25,7 @@
       <img src="{{ asset('bundles/uclwebkeypass/images/') }}{{ node.icon }}" alt="" />
     {% endif %}
 
-    {% if node.class == 'category' %}
-      <a href="{{ path('ucl_wkp_category_view', {'node_id': node.id}) }}">
-    {% elseif node.class == 'server' %}
-      <a href="{{ path('ucl_wkp_server_view', {'node_id': node.id}) }}">
-    {% elseif node.class == 'vm' %}
-      <a href="{{ path('ucl_wkp_vm_view', {'node_id': node.id}) }}">
-    {% endif %}
-
-        {{ node.name }}
-      </a>
+    {{ include('UCLWebKeyPassBundle::node_link.html.twig', {'node': node}) }}
 
     {% if node.subnodes %}
       <ul>

@@ -63,13 +63,20 @@ class NodeController extends Controller
         return true;
     }
 
+    private function getPathNodeInfos ($node)
+    {
+        return array ('class' => $node->getTypeStr (),
+                      'id' => $node->getId (),
+                      'name' => $node->getName ());
+    }
+
     private function getPath ($node)
     {
-        $path = array ($node->getName ());
+        $path = array ($this->getPathNodeInfos ($node));
 
         for ($parent = $node->getParent (); $parent != null; $parent = $parent->getParent ())
         {
-            $path[] = $parent->getName ();
+            $path[] = $this->getPathNodeInfos ($parent);
         }
 
         return array_reverse ($path);
