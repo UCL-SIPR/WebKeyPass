@@ -23,6 +23,7 @@
 namespace UCL\WebKeyPassBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use UCL\WebKeyPassBundle\Form\CategoryForm;
 use UCL\WebKeyPassBundle\Entity\Category;
 
@@ -35,13 +36,11 @@ class RootNodeController extends NodeController
                              'route_data' => array ()));
     }
 
-    private function getCommonData ()
+    protected function getCommonData ($node_repo, $node)
     {
         $data = array ();
         $data['title'] = 'Root';
         $data['path'] = array ();
-
-        $node_repo = $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node');
         $data['nodes'] = $node_repo->getNodes ();
 
         return $data;
@@ -49,7 +48,8 @@ class RootNodeController extends NodeController
 
     public function viewRootAction ()
     {
-        $data = $this->getCommonData ();
+        $node_repo = $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node');
+        $data = $this->getCommonData ($node_repo, null);
 
         $data['infos'] = $this->getEmptyNodeInfos ();
         $data['actions'] = $this->getRootActions ();
@@ -57,19 +57,21 @@ class RootNodeController extends NodeController
         return $this->render ('UCLWebKeyPassBundle::node.html.twig', $data);
     }
 
-    public function addCategoryAction ()
+    public function addCategoryAction (Request $request)
     {
-        $data = $this->getCommonData ();
-
-        $data['action'] = 'Add Category';
-
         $category = new Category ();
         $category->setName ('OpenBSD');
         $category->setIcon ('bsd.png');
 
         $form = $this->createForm (new CategoryForm(), $category);
-        $data['form'] = $form->createView ();
 
-        return $this->render ('UCLWebKeyPassBundle::form.html.twig', $data);
+        $redirect_url = $this->generateUrl ('ucl_wkp_root_view');
+
+        return $this->handleForm ($request,
+                                  null,
+                                  'Add Category',
+                                  $form,
+                                  'Category added successfully.',
+                                  $redirect_url);
     }
 }

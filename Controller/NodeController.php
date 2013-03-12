@@ -23,6 +23,7 @@
 namespace UCL\WebKeyPassBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class NodeController extends Controller
 {
@@ -82,6 +83,16 @@ class NodeController extends Controller
         return array_reverse ($path);
     }
 
+    protected function getCommonData ($node_repo, $node)
+    {
+        $data = array ();
+        $data['title'] = $node->getName ();
+        $data['path'] = $this->getPath ($node);
+        $data['nodes'] = $node_repo->getNodes ();
+
+        return $data;
+    }
+
     public function viewAction ($node_id)
     {
         $node_repo = $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node');
@@ -97,17 +108,41 @@ class NodeController extends Controller
             throw $this->createNotFoundException ('Wrong node type');
         }
 
-        $title = $node->getName ();
-        $infos = $this->getNodeInfos ($node);
-        $actions = $this->getActions ($node_id);
-        $path = $this->getPath ($node);
-        $nodes = $node_repo->getNodes ();
+        $data = $this->getCommonData ($node_repo, $node);
 
-        return $this->render ('UCLWebKeyPassBundle::node.html.twig',
-                              array ('title' => $title,
-                                     'path' => $path,
-                                     'actions' => $actions,
-                                     'infos' => $infos,
-                                     'nodes' => $nodes));
+        $data['infos'] = $this->getNodeInfos ($node);
+        $data['actions'] = $this->getActions ($node_id);
+
+        return $this->render ('UCLWebKeyPassBundle::node.html.twig', $data);
+    }
+
+    protected function handleForm (Request $request,
+                                   $node,
+                                   $action_name,
+                                   $form,
+                                   $success_msg,
+                                   $success_redirect_url)
+    {
+        $node_repo = $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node');
+
+        $data = $this->getCommonData ($node_repo, $node);
+        $data['action'] = $action_name;
+
+        if ($request->isMethod ('POST'))
+        {
+            $form->bind ($request);
+
+            if ($form->isValid ())
+            {
+                $flash_bag = $this->get ('session')->getFlashBag ();
+                $flash_bag->add ('notice', $success_msg);
+
+                return $this->redirect ($success_redirect_url);
+            }
+        }
+
+        $data['form'] = $form->createView ();
+
+        return $this->render ('UCLWebKeyPassBundle::form.html.twig', $data);
     }
 }

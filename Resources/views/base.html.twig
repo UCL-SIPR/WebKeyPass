@@ -43,6 +43,12 @@
     {% endfor %}
   </h2>
 
+  {% for flashMessage in app.session.flashbag.get('notice') %}
+    <div class="flash-notice">
+      {{ flashMessage }}
+    </div>
+  {% endfor %}
+
   {% block contents %}
   {% endblock %}
 </div>
