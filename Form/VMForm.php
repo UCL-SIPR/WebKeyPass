@@ -34,8 +34,8 @@ class VMForm extends AbstractType
         $builder->add ('hostname');
         $builder->add ('comment');
 
-        $category_type = 2;
-        $builder->add ('type', 'hidden', array ('data' => $category_type));
+        $node_type = 2;
+        $builder->add ('type', 'hidden', array ('data' => $node_type));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

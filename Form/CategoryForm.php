@@ -54,8 +54,8 @@ class CategoryForm extends AbstractType
         $builder->add ('name');
         $builder->add ('icon', 'choice', array ('choices' => $icons));
 
-        $category_type = 0;
-        $builder->add ('type', 'hidden', array ('data' => $category_type));
+        $node_type = 0;
+        $builder->add ('type', 'hidden', array ('data' => $node_type));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
