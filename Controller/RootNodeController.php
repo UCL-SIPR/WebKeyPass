@@ -59,14 +59,21 @@ class RootNodeController extends NodeController
 
     public function addCategoryAction ()
     {
+        $data = $this->getCommonData (null);
+        $data['action'] = 'Add Category';
+        $data['submit_route'] = 'ucl_wkp_root_add_category';
+        $data['submit_route_data'] = array ();
+
         $node = new Node ();
         $form = $this->createForm (new CategoryForm (), $node);
 
         $redirect_url = $this->generateUrl ('ucl_wkp_root_view');
 
-        return $this->handleForm (null,
-                                  'Add Category',
+        $action_type = 'add';
+
+        return $this->handleForm ($data,
                                   $form,
+                                  $action_type,
                                   'Category added successfully.',
                                   $redirect_url);
     }

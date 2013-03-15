@@ -35,7 +35,7 @@ ucl_wkp_category_view:
 
 ucl_wkp_category_edit:
     pattern: /category/{node_id}/edit
-    defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:view }
+    defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:edit }
 
 ucl_wkp_category_add_server:
     pattern: /category/{node_id}/add_server

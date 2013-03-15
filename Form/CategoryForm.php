@@ -25,6 +25,7 @@ namespace UCL\WebKeyPassBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class CategoryForm extends AbstractType
 {
@@ -55,6 +56,13 @@ class CategoryForm extends AbstractType
 
         $category_type = 0;
         $builder->add ('type', 'hidden', array ('data' => $category_type));
+    }
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults (array (
+            'data_class' => 'UCL\WebKeyPassBundle\Entity\Node',
+        ));
     }
 
     public function getName ()

@@ -129,15 +129,12 @@ class NodeController extends Controller
         return $this->render ('UCLWebKeyPassBundle::node.html.twig', $data);
     }
 
-    protected function handleForm ($node,
-                                   $action_name,
+    protected function handleForm ($data,
                                    $form,
+                                   $action_type,
                                    $success_msg,
                                    $success_redirect_url)
     {
-        $data = $this->getCommonData ($node);
-        $data['action'] = $action_name;
-
         $request = $this->getRequest ();
 
         if ($request->isMethod ('POST'))
@@ -146,10 +143,14 @@ class NodeController extends Controller
 
             if ($form->isValid ())
             {
-                $entity = $form->getData ();
-
                 $db_manager = $this->getDoctrine ()->getManager ();
-                $db_manager->persist ($entity);
+
+                if ($action_type == 'add')
+                {
+                    $node = $form->getData ();
+                    $db_manager->persist ($node);
+                }
+
                 $db_manager->flush ();
 
                 $flash_bag = $this->get ('session')->getFlashBag ();
