@@ -27,6 +27,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 class NodeController extends Controller
 {
+    protected function getNodeRepo ()
+    {
+        return $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node');
+    }
+
     protected function getEmptyNodeInfos ()
     {
         return array (array ('title' => 'No information',
@@ -83,19 +88,21 @@ class NodeController extends Controller
         return array_reverse ($path);
     }
 
-    protected function getCommonData ($node_repo, $node)
+    protected function getCommonData ($node)
     {
         $data = array ();
         $data['title'] = $node->getName ();
         $data['path'] = $this->getPath ($node);
+
+        $node_repo = $this->getNodeRepo ();
         $data['nodes'] = $node_repo->getNodes ();
 
         return $data;
     }
 
-    public function viewAction ($node_id)
+    protected function getNodeFromId ($node_id)
     {
-        $node_repo = $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node');
+        $node_repo = $this->getNodeRepo ();
         $node = $node_repo->find ($node_id);
 
         if (!$node)
@@ -108,25 +115,30 @@ class NodeController extends Controller
             throw $this->createNotFoundException ('Wrong node type');
         }
 
-        $data = $this->getCommonData ($node_repo, $node);
+        return $node;
+    }
 
+    public function viewAction ($node_id)
+    {
+        $node = $this->getNodeFromId ($node_id);
+
+        $data = $this->getCommonData ($node);
         $data['infos'] = $this->getNodeInfos ($node);
         $data['actions'] = $this->getActions ($node_id);
 
         return $this->render ('UCLWebKeyPassBundle::node.html.twig', $data);
     }
 
-    protected function handleForm (Request $request,
-                                   $node,
+    protected function handleForm ($node,
                                    $action_name,
                                    $form,
                                    $success_msg,
                                    $success_redirect_url)
     {
-        $node_repo = $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node');
-
-        $data = $this->getCommonData ($node_repo, $node);
+        $data = $this->getCommonData ($node);
         $data['action'] = $action_name;
+
+        $request = $this->getRequest ();
 
         if ($request->isMethod ('POST'))
         {

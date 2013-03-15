@@ -36,11 +36,13 @@ class RootNodeController extends NodeController
                              'route_data' => array ()));
     }
 
-    protected function getCommonData ($node_repo, $node)
+    protected function getCommonData ($node)
     {
         $data = array ();
         $data['title'] = 'Root';
         $data['path'] = array ();
+
+        $node_repo = $this->getNodeRepo ();
         $data['nodes'] = $node_repo->getNodes ();
 
         return $data;
@@ -48,24 +50,21 @@ class RootNodeController extends NodeController
 
     public function viewRootAction ()
     {
-        $node_repo = $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node');
-        $data = $this->getCommonData ($node_repo, null);
-
+        $data = $this->getCommonData (null);
         $data['infos'] = $this->getEmptyNodeInfos ();
         $data['actions'] = $this->getRootActions ();
 
         return $this->render ('UCLWebKeyPassBundle::node.html.twig', $data);
     }
 
-    public function addCategoryAction (Request $request)
+    public function addCategoryAction ()
     {
         $node = new Node ();
         $form = $this->createForm (new CategoryForm (), $node);
 
         $redirect_url = $this->generateUrl ('ucl_wkp_root_view');
 
-        return $this->handleForm ($request,
-                                  null,
+        return $this->handleForm (null,
                                   'Add Category',
                                   $form,
                                   'Category added successfully.',
