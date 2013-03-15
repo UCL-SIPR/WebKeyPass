@@ -24,17 +24,25 @@ namespace UCL\WebKeyPassBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Finder\Finder;
 
 class CategoryForm extends AbstractType
 {
     private function getAllIcons ()
     {
-        /* TODO use the Finder Symfony2 component */
+        $finder = new Finder ();
+        $finder->files ()->in (__DIR__ . '/../Resources/public/icons/');
+        $finder->name ('*.png');
+        $finder->sortByName ();
 
-        return array ('apple.png' => 'apple.png',
-                      'microsoft.png' => 'microsoft.png',
-                      'solaris.png' => 'solaris.png',
-                      'tux.png' => 'tux.png');
+        $icons = array ();
+
+        foreach ($finder as $icon)
+        {
+            $icons[] = basename ($icon, '.png');
+        }
+
+        return $icons;
     }
 
     public function buildForm (FormBuilderInterface $builder, array $options)
