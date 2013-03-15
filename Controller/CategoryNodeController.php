@@ -25,6 +25,7 @@ namespace UCL\WebKeyPassBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use UCL\WebKeyPassBundle\Form\CategoryForm;
+use UCL\WebKeyPassBundle\Form\ServerForm;
 use UCL\WebKeyPassBundle\Entity\Node;
 
 class CategoryNodeController extends NodeController
@@ -101,6 +102,29 @@ class CategoryNodeController extends NodeController
                                   $form,
                                   $action_type,
                                   'Sub-category added successfully.',
+                                  $redirect_url);
+    }
+
+    public function addServerAction ($node_id)
+    {
+        $category = $this->getNodeFromId ($node_id);
+        $server = new Node ();
+        $server->setParent ($category);
+        $form = $this->createForm (new ServerForm (), $server);
+
+        $data = $this->getCommonData ($category);
+        $data['action'] = 'Add Server';
+        $data['submit_route'] = 'ucl_wkp_category_add_server';
+        $data['submit_route_data'] = array ('node_id' => $node_id);
+
+        $redirect_url = $this->generateUrl ('ucl_wkp_category_view', array ('node_id' => $node_id));
+
+        $action_type = 'add';
+
+        return $this->handleForm ($data,
+                                  $form,
+                                  $action_type,
+                                  'Server added successfully.',
                                   $redirect_url);
     }
 }
