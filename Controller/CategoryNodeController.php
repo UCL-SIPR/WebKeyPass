@@ -127,4 +127,16 @@ class CategoryNodeController extends NodeController
                                   'Server added successfully.',
                                   $redirect_url);
     }
+
+    public function removeAction ($node_id)
+    {
+        $node = $this->getNodeFromId ($node_id);
+        $redirect_url = $this->generateUrl ('ucl_wkp_root_view');
+
+        $success_msg = 'Category removed successfully.';
+
+        return $this->handleRemove ($node,
+                                    $success_msg,
+                                    $redirect_url);
+    }
 }

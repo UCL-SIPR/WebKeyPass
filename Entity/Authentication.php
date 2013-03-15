@@ -39,7 +39,7 @@ class Authentication
 
     /**
      * @ORM\ManyToOne(targetEntity="Node", inversedBy="authentications")
-     * @ORM\JoinColumn(name="node_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="node_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $node;
 

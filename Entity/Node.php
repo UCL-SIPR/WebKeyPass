@@ -45,7 +45,7 @@ class Node
 
     /**
      * @ORM\ManyToOne(targetEntity="Node", inversedBy="children")
-     * @ORM\JoinColumn(name="parent", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="parent", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private $parent;
 

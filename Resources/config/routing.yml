@@ -47,7 +47,7 @@ ucl_wkp_category_add_subcategory:
 
 ucl_wkp_category_remove:
     pattern: /category/{node_id}/remove
-    defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:view }
+    defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:remove }
 
 # Server
 
@@ -69,7 +69,7 @@ ucl_wkp_server_move:
 
 ucl_wkp_server_remove:
     pattern: /server/{node_id}/remove
-    defaults: { _controller: UCLWebKeyPassBundle:ServerNode:view }
+    defaults: { _controller: UCLWebKeyPassBundle:ServerNode:remove }
 
 # Virtual Machine
 
@@ -87,4 +87,4 @@ ucl_wkp_vm_move:
 
 ucl_wkp_vm_remove:
     pattern: /vm/{node_id}/remove
-    defaults: { _controller: UCLWebKeyPassBundle:VMNode:view }
+    defaults: { _controller: UCLWebKeyPassBundle:VMNode:remove }

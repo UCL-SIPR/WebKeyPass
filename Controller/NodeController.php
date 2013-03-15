@@ -164,4 +164,18 @@ class NodeController extends Controller
 
         return $this->render ('UCLWebKeyPassBundle::form.html.twig', $data);
     }
+
+    protected function handleRemove ($node_to_remove,
+                                     $success_msg,
+                                     $success_redirect_url)
+    {
+        $db_manager = $this->getDoctrine ()->getManager ();
+        $db_manager->remove ($node_to_remove);
+        $db_manager->flush ();
+
+        $flash_bag = $this->get ('session')->getFlashBag ();
+        $flash_bag->add ('notice', $success_msg);
+
+        return $this->redirect ($success_redirect_url);
+    }
 }

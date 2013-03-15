@@ -98,4 +98,17 @@ class ServerNodeController extends NodeController
                                   'Virtual Machine added successfully.',
                                   $redirect_url);
     }
+
+    public function removeAction ($node_id)
+    {
+        $node = $this->getNodeFromId ($node_id);
+        $parent_id = $node->getParent ()->getId ();
+        $redirect_url = $this->generateUrl ('ucl_wkp_category_view', array ('node_id' => $parent_id));
+
+        $success_msg = 'Server removed successfully.';
+
+        return $this->handleRemove ($node,
+                                    $success_msg,
+                                    $redirect_url);
+    }
 }
