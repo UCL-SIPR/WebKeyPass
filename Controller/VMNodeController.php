@@ -23,6 +23,7 @@
 namespace UCL\WebKeyPassBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use UCL\WebKeyPassBundle\Form\VMForm;
 
 class VMNodeController extends NodeController
 {
@@ -46,5 +47,26 @@ class VMNodeController extends NodeController
     protected function checkType ($node)
     {
         return $node->getTypeStr () == 'vm';
+    }
+
+    public function editAction ($node_id)
+    {
+        $node = $this->getNodeFromId ($node_id);
+        $form = $this->createForm (new VMForm (), $node);
+
+        $data = $this->getCommonData ($node);
+        $data['action'] = 'Edit Virtual Machine';
+        $data['submit_route'] = 'ucl_wkp_vm_edit';
+        $data['submit_route_data'] = array ('node_id' => $node_id);
+
+        $redirect_url = $this->generateUrl ('ucl_wkp_vm_view', array ('node_id' => $node_id));
+
+        $action_type = 'edit';
+
+        return $this->handleForm ($data,
+                                  $form,
+                                  $action_type,
+                                  'Virtual Machine edited successfully.',
+                                  $redirect_url);
     }
 }

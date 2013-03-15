@@ -79,7 +79,7 @@ ucl_wkp_vm_view:
 
 ucl_wkp_vm_edit:
     pattern: /vm/{node_id}/edit
-    defaults: { _controller: UCLWebKeyPassBundle:VMNode:view }
+    defaults: { _controller: UCLWebKeyPassBundle:VMNode:edit }
 
 ucl_wkp_vm_move:
     pattern: /vm/{node_id}/move
