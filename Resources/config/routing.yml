@@ -43,7 +43,7 @@ ucl_wkp_category_add_server:
 
 ucl_wkp_category_add_subcategory:
     pattern: /category/{node_id}/add_subcategory
-    defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:view }
+    defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:addSubCategory }
 
 ucl_wkp_category_remove:
     pattern: /category/{node_id}/remove
