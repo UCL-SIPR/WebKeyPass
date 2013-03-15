@@ -25,7 +25,7 @@ namespace UCL\WebKeyPassBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use UCL\WebKeyPassBundle\Form\CategoryForm;
-use UCL\WebKeyPassBundle\Entity\Category;
+use UCL\WebKeyPassBundle\Entity\Node;
 
 class RootNodeController extends NodeController
 {
@@ -59,11 +59,8 @@ class RootNodeController extends NodeController
 
     public function addCategoryAction (Request $request)
     {
-        $category = new Category ();
-        $category->setName ('OpenBSD');
-        $category->setIcon ('bsd.png');
-
-        $form = $this->createForm (new CategoryForm(), $category);
+        $node = new Node ();
+        $form = $this->createForm (new CategoryForm (), $node);
 
         $redirect_url = $this->generateUrl ('ucl_wkp_root_view');
 

@@ -134,6 +134,12 @@ class NodeController extends Controller
 
             if ($form->isValid ())
             {
+                $entity = $form->getData ();
+
+                $db_manager = $this->getDoctrine ()->getManager ();
+                $db_manager->persist ($entity);
+                $db_manager->flush ();
+
                 $flash_bag = $this->get ('session')->getFlashBag ();
                 $flash_bag->add ('notice', $success_msg);
 

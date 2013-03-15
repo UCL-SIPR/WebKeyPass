@@ -39,7 +39,8 @@ class CategoryForm extends AbstractType
 
         foreach ($finder as $icon)
         {
-            $icons[] = basename ($icon, '.png');
+            $icon_name = basename ($icon, '.png');
+            $icons[$icon_name] = $icon_name;
         }
 
         return $icons;
@@ -51,6 +52,9 @@ class CategoryForm extends AbstractType
 
         $builder->add ('name');
         $builder->add ('icon', 'choice', array ('choices' => $icons));
+
+        $category_type = 0;
+        $builder->add ('type', 'hidden', array ('data' => $category_type));
     }
 
     public function getName ()
@@ -61,5 +65,10 @@ class CategoryForm extends AbstractType
     public function getIcon ()
     {
         return 'icon';
+    }
+
+    public function getType ()
+    {
+        return 'type';
     }
 }
