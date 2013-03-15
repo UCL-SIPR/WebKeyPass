@@ -57,7 +57,7 @@ ucl_wkp_server_view:
 
 ucl_wkp_server_edit:
     pattern: /server/{node_id}/edit
-    defaults: { _controller: UCLWebKeyPassBundle:ServerNode:view }
+    defaults: { _controller: UCLWebKeyPassBundle:ServerNode:edit }
 
 ucl_wkp_server_add_vm:
     pattern: /server/{node_id}/add_vm

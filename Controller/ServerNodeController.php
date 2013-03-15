@@ -23,6 +23,8 @@
 namespace UCL\WebKeyPassBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use UCL\WebKeyPassBundle\Form\ServerForm;
+use UCL\WebKeyPassBundle\Entity\Node;
 
 class ServerNodeController extends NodeController
 {
@@ -50,5 +52,26 @@ class ServerNodeController extends NodeController
     protected function checkType ($node)
     {
         return $node->getTypeStr () == 'server';
+    }
+
+    public function editAction ($node_id)
+    {
+        $node = $this->getNodeFromId ($node_id);
+        $form = $this->createForm (new ServerForm (), $node);
+
+        $data = $this->getCommonData ($node);
+        $data['action'] = 'Edit Server';
+        $data['submit_route'] = 'ucl_wkp_server_edit';
+        $data['submit_route_data'] = array ('node_id' => $node_id);
+
+        $redirect_url = $this->generateUrl ('ucl_wkp_server_view', array ('node_id' => $node_id));
+
+        $action_type = 'edit';
+
+        return $this->handleForm ($data,
+                                  $form,
+                                  $action_type,
+                                  'Server edited successfully.',
+                                  $redirect_url);
     }
 }
