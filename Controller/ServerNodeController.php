@@ -24,6 +24,7 @@ namespace UCL\WebKeyPassBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use UCL\WebKeyPassBundle\Form\ServerForm;
+use UCL\WebKeyPassBundle\Form\VMForm;
 use UCL\WebKeyPassBundle\Entity\Node;
 
 class ServerNodeController extends NodeController
@@ -72,6 +73,29 @@ class ServerNodeController extends NodeController
                                   $form,
                                   $action_type,
                                   'Server edited successfully.',
+                                  $redirect_url);
+    }
+
+    public function addVMAction ($node_id)
+    {
+        $server = $this->getNodeFromId ($node_id);
+        $vm = new Node ();
+        $vm->setParent ($server);
+        $form = $this->createForm (new VMForm (), $vm);
+
+        $data = $this->getCommonData ($server);
+        $data['action'] = 'Add Virtual Machine';
+        $data['submit_route'] = 'ucl_wkp_server_add_vm';
+        $data['submit_route_data'] = array ('node_id' => $node_id);
+
+        $redirect_url = $this->generateUrl ('ucl_wkp_server_view', array ('node_id' => $node_id));
+
+        $action_type = 'add';
+
+        return $this->handleForm ($data,
+                                  $form,
+                                  $action_type,
+                                  'Virtual Machine added successfully.',
                                   $redirect_url);
     }
 }
