@@ -36,7 +36,7 @@ class RootNodeController extends NodeController
                              'route_data' => array ()));
     }
 
-    protected function getCommonData ($node)
+    public function getCommonData ()
     {
         $data = array ();
         $data['title'] = 'Root';
@@ -50,7 +50,7 @@ class RootNodeController extends NodeController
 
     public function viewRootAction ()
     {
-        $data = $this->getCommonData (null);
+        $data = $this->getCommonData ();
         $data['infos'] = $this->getEmptyNodeInfos ();
         $data['actions'] = $this->getRootActions ();
 
@@ -59,22 +59,10 @@ class RootNodeController extends NodeController
 
     public function addCategoryAction ()
     {
-        $data = $this->getCommonData (null);
-        $data['action'] = 'Add Category';
-        $data['submit_route'] = 'ucl_wkp_root_add_category';
-        $data['submit_route_data'] = array ();
+        $action = new AddCategoryAction ($this, new Node ());
+        $action->setSubmitRoute ('ucl_wkp_root_add_category');
+        $action->setRedirectRoute ('ucl_wkp_root_view');
 
-        $node = new Node ();
-        $form = $this->createForm (new CategoryForm (), $node);
-
-        $redirect_url = $this->generateUrl ('ucl_wkp_root_view');
-
-        $action_type = 'add';
-
-        return $this->handleForm ($data,
-                                  $form,
-                                  $action_type,
-                                  'Category added successfully.',
-                                  $redirect_url);
+        return $action->handleForm ();
     }
 }

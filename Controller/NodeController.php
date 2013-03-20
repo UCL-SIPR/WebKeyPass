@@ -27,6 +27,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class NodeController extends Controller
 {
+    protected $node;
+
     protected function getNodeRepo ()
     {
         return $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node');
@@ -88,11 +90,11 @@ class NodeController extends Controller
         return array_reverse ($path);
     }
 
-    protected function getCommonData ($node)
+    public function getCommonData ()
     {
         $data = array ();
-        $data['title'] = $node->getName ();
-        $data['path'] = $this->getPath ($node);
+        $data['title'] = $this->node->getName ();
+        $data['path'] = $this->getPath ($this->node);
 
         $node_repo = $this->getNodeRepo ();
         $data['nodes'] = $node_repo->getNodes ();
@@ -120,10 +122,10 @@ class NodeController extends Controller
 
     public function viewAction ($node_id)
     {
-        $node = $this->getNodeFromId ($node_id);
+        $this->node = $this->getNodeFromId ($node_id);
 
-        $data = $this->getCommonData ($node);
-        $data['infos'] = $this->getNodeInfos ($node);
+        $data = $this->getCommonData ();
+        $data['infos'] = $this->getNodeInfos ($this->node);
         $data['actions'] = $this->getActions ($node_id);
 
         return $this->render ('UCLWebKeyPassBundle::node.html.twig', $data);

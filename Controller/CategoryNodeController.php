@@ -63,10 +63,10 @@ class CategoryNodeController extends NodeController
 
     public function editAction ($node_id)
     {
-        $node = $this->getNodeFromId ($node_id);
-        $form = $this->createForm (new CategoryForm (), $node);
+        $this->node = $this->getNodeFromId ($node_id);
+        $form = $this->createForm (new CategoryForm (), $this->node);
 
-        $data = $this->getCommonData ($node);
+        $data = $this->getCommonData ();
         $data['action'] = 'Edit Category';
         $data['submit_route'] = 'ucl_wkp_category_edit';
         $data['submit_route_data'] = array ('node_id' => $node_id);
@@ -84,35 +84,29 @@ class CategoryNodeController extends NodeController
 
     public function addSubCategoryAction ($node_id)
     {
-        $parent_node = $this->getNodeFromId ($node_id);
-        $child_node = new Node ();
-        $child_node->setParent ($parent_node);
-        $form = $this->createForm (new CategoryForm (), $child_node);
+        $this->node = $this->getNodeFromId ($node_id);
 
-        $data = $this->getCommonData ($parent_node);
-        $data['action'] = 'Add Sub-category';
-        $data['submit_route'] = 'ucl_wkp_category_add_subcategory';
-        $data['submit_route_data'] = array ('node_id' => $node_id);
+        $new_node = new Node ();
+        $new_node->setParent ($this->node);
 
-        $redirect_url = $this->generateUrl ('ucl_wkp_category_view', array ('node_id' => $node_id));
+        $action = new AddSubCategoryAction ($this, $new_node);
+        $action->setSubmitRoute ('ucl_wkp_category_add_subcategory',
+                                 array ('node_id' => $node_id));
 
-        $action_type = 'add';
+        $action->setRedirectRoute ('ucl_wkp_category_view',
+                                   array ('node_id' => $node_id));
 
-        return $this->handleForm ($data,
-                                  $form,
-                                  $action_type,
-                                  'Sub-category added successfully.',
-                                  $redirect_url);
+        return $action->handleForm ();
     }
 
     public function addServerAction ($node_id)
     {
-        $category = $this->getNodeFromId ($node_id);
+        $this->node = $this->getNodeFromId ($node_id);
         $server = new Node ();
-        $server->setParent ($category);
+        $server->setParent ($this->node);
         $form = $this->createForm (new ServerForm (), $server);
 
-        $data = $this->getCommonData ($category);
+        $data = $this->getCommonData ();
         $data['action'] = 'Add Server';
         $data['submit_route'] = 'ucl_wkp_category_add_server';
         $data['submit_route_data'] = array ('node_id' => $node_id);

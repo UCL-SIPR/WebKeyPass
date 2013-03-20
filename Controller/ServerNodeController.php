@@ -57,10 +57,10 @@ class ServerNodeController extends NodeController
 
     public function editAction ($node_id)
     {
-        $node = $this->getNodeFromId ($node_id);
-        $form = $this->createForm (new ServerForm (), $node);
+        $this->node = $this->getNodeFromId ($node_id);
+        $form = $this->createForm (new ServerForm (), $this->node);
 
-        $data = $this->getCommonData ($node);
+        $data = $this->getCommonData ();
         $data['action'] = 'Edit Server';
         $data['submit_route'] = 'ucl_wkp_server_edit';
         $data['submit_route_data'] = array ('node_id' => $node_id);
@@ -78,12 +78,12 @@ class ServerNodeController extends NodeController
 
     public function addVMAction ($node_id)
     {
-        $server = $this->getNodeFromId ($node_id);
+        $this->node = $this->getNodeFromId ($node_id);
         $vm = new Node ();
-        $vm->setParent ($server);
+        $vm->setParent ($this->node);
         $form = $this->createForm (new VMForm (), $vm);
 
-        $data = $this->getCommonData ($server);
+        $data = $this->getCommonData ();
         $data['action'] = 'Add Virtual Machine';
         $data['submit_route'] = 'ucl_wkp_server_add_vm';
         $data['submit_route_data'] = array ('node_id' => $node_id);
