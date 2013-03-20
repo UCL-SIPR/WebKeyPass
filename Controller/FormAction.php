@@ -26,19 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class FormAction extends Action
 {
-    private $submit_route = '';
-    private $submit_route_data = array ();
     private $redirect_url = '';
-
-    /* Set submit route.
-     * When the form is submitted, where to go?
-     * TODO: get this information automatically, based on the controller
-     */
-    public function setSubmitRoute ($route, $route_data = array ())
-    {
-        $this->submit_route = $route;
-        $this->submit_route_data = $route_data;
-    }
 
     /* Set redirect route when the action has been performed successfully. */
     public function setRedirectRoute ($route, $route_data = array ())
@@ -58,8 +46,6 @@ class FormAction extends Action
     {
         $data = $this->controller->getCommonData ();
         $data['action'] = $this->fullname;
-        $data['submit_route'] = $this->submit_route;
-        $data['submit_route_data'] = $this->submit_route_data;
 
         $form = $this->controller->createForm ($this->getForm (), $this->node);
 

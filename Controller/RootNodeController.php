@@ -60,7 +60,6 @@ class RootNodeController extends NodeController
     public function addCategoryAction ()
     {
         $action = new AddCategoryAction ($this, new Node ());
-        $action->setSubmitRoute ('ucl_wkp_root_add_category');
         $action->setRedirectRoute ('ucl_wkp_root_view');
 
         return $action->handleForm ();

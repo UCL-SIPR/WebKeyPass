@@ -90,8 +90,6 @@ class CategoryNodeController extends NodeController
         $new_node->setParent ($this->node);
 
         $action = new AddSubCategoryAction ($this, $new_node);
-        $action->setSubmitRoute ('ucl_wkp_category_add_subcategory',
-                                 array ('node_id' => $node_id));
 
         $action->setRedirectRoute ('ucl_wkp_category_view',
                                    array ('node_id' => $node_id));
