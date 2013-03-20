@@ -22,61 +22,7 @@
 
 namespace UCL\WebKeyPassBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
-class CategoryForm extends AbstractType
+class CategoryForm extends NodeForm
 {
-    private function getAllIcons ()
-    {
-        $finder = new Finder ();
-        $finder->files ()->in (__DIR__ . '/../Resources/public/icons/');
-        $finder->name ('*.png');
-        $finder->sortByName ();
-
-        $icons = array ();
-
-        foreach ($finder as $icon)
-        {
-            $icon_name = basename ($icon, '.png');
-            $icons[$icon_name] = $icon_name;
-        }
-
-        return $icons;
-    }
-
-    public function buildForm (FormBuilderInterface $builder, array $options)
-    {
-        $icons = $this->getAllIcons ();
-
-        $builder->add ('name');
-        $builder->add ('icon', 'choice', array ('choices' => $icons));
-
-        $node_type = 0;
-        $builder->add ('type', 'hidden', array ('data' => $node_type));
-    }
-
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults (array (
-            'data_class' => 'UCL\WebKeyPassBundle\Entity\Node',
-        ));
-    }
-
-    public function getName ()
-    {
-        return 'name';
-    }
-
-    public function getIcon ()
-    {
-        return 'icon';
-    }
-
-    public function getType ()
-    {
-        return 'type';
-    }
+    protected $has_icon = true;
 }

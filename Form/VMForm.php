@@ -22,46 +22,9 @@
 
 namespace UCL\WebKeyPassBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
-class VMForm extends AbstractType
+class VMForm extends NodeForm
 {
-    public function buildForm (FormBuilderInterface $builder, array $options)
-    {
-        $builder->add ('name');
-        $builder->add ('hostname');
-        $builder->add ('comment');
-
-        $node_type = 2;
-        $builder->add ('type', 'hidden', array ('data' => $node_type));
-    }
-
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults (array (
-            'data_class' => 'UCL\WebKeyPassBundle\Entity\Node',
-        ));
-    }
-
-    public function getName ()
-    {
-        return 'name';
-    }
-
-    public function getHostname ()
-    {
-        return 'hostname';
-    }
-
-    public function getComment ()
-    {
-        return 'comment';
-    }
-
-    public function getType ()
-    {
-        return 'type';
-    }
+    protected $node_type = 2; # virtual machine
+    protected $has_hostname = true;
+    protected $has_comment = true;
 }
