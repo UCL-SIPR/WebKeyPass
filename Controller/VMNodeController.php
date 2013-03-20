@@ -74,12 +74,11 @@ class VMNodeController extends NodeController
     {
         $node = $this->getNodeFromId ($node_id);
         $parent_id = $node->getParent ()->getId ();
-        $redirect_url = $this->generateUrl ('ucl_wkp_server_view', array ('node_id' => $parent_id));
+
+        $action = new RemoveAction ($this, $node);
+        $action->setRedirectRoute ('ucl_wkp_server_view', array ('node_id' => $parent_id));
 
         $success_msg = 'Virtual Machine removed successfully.';
-
-        return $this->handleRemove ($node,
-                                    $success_msg,
-                                    $redirect_url);
+        return $action->perform ($success_msg);
     }
 }
