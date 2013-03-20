@@ -57,4 +57,14 @@ class NodeRepository extends EntityRepository
         $root_nodes = $this->findByParent (null);
         return $this->getNodesInfos ($root_nodes);
     }
+
+    public function getNodesByType ($node_type)
+    {
+        return $this->getEntityManager ()
+            ->createQueryBuilder ()
+            ->select ('node')
+            ->from ('UCLWebKeyPassBundle:Node', 'node')
+            ->where ('node.type = :node_type')
+            ->setParameter ('node_type', $node_type);
+    }
 }
