@@ -22,33 +22,16 @@
 
 namespace UCL\WebKeyPassBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-class Action
+class RemoveAction extends Action
 {
-    protected $controller;
-    protected $node;
-    protected $redirect_url;
-
-    protected $shortname = '';
-    protected $fullname = '';
-    protected $success_msg = '';
-
-    public function __construct ($controller, $node)
+    public function perform ($success_msg)
     {
-        $this->controller = $controller;
-        $this->node = $node;
-    }
+        $db_manager = $this->controller->getDoctrine ()->getManager ();
+        $db_manager->remove ($this->node);
+        $db_manager->flush ();
 
-    /* Set redirect route when the action has been performed successfully. */
-    public function setRedirectRoute ($route, $route_data = array ())
-    {
-        $this->redirect_url = $this->controller->generateUrl ($route, $route_data);
-    }
+        $this->addFlashMessage ($success_msg);
 
-    protected function addFlashMessage ($msg)
-    {
-        $flash_bag = $this->controller->get ('session')->getFlashBag ();
-        $flash_bag->add ('notice', $msg);
+        return $this->controller->redirect ($this->redirect_url);
     }
 }

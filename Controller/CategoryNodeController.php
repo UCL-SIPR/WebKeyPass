@@ -64,22 +64,12 @@ class CategoryNodeController extends NodeController
     public function editAction ($node_id)
     {
         $this->node = $this->getNodeFromId ($node_id);
-        $form = $this->createForm (new CategoryForm (), $this->node);
+        $action = new EditCategoryAction ($this, $this->node);
 
-        $data = $this->getCommonData ();
-        $data['action'] = 'Edit Category';
-        $data['submit_route'] = 'ucl_wkp_category_edit';
-        $data['submit_route_data'] = array ('node_id' => $node_id);
+        $action->setRedirectRoute ('ucl_wkp_category_view',
+                                   array ('node_id' => $node_id));
 
-        $redirect_url = $this->generateUrl ('ucl_wkp_category_view', array ('node_id' => $node_id));
-
-        $action_type = 'edit';
-
-        return $this->handleForm ($data,
-                                  $form,
-                                  $action_type,
-                                  'Category edited successfully.',
-                                  $redirect_url);
+        return $action->handleForm ();
     }
 
     public function addSubCategoryAction ($node_id)
@@ -100,35 +90,26 @@ class CategoryNodeController extends NodeController
     public function addServerAction ($node_id)
     {
         $this->node = $this->getNodeFromId ($node_id);
-        $server = new Node ();
-        $server->setParent ($this->node);
-        $form = $this->createForm (new ServerForm (), $server);
 
-        $data = $this->getCommonData ();
-        $data['action'] = 'Add Server';
-        $data['submit_route'] = 'ucl_wkp_category_add_server';
-        $data['submit_route_data'] = array ('node_id' => $node_id);
+        $new_node = new Node ();
+        $new_node->setParent ($this->node);
 
-        $redirect_url = $this->generateUrl ('ucl_wkp_category_view', array ('node_id' => $node_id));
+        $action = new AddServerAction ($this, $new_node);
 
-        $action_type = 'add';
+        $action->setRedirectRoute ('ucl_wkp_category_view',
+                                   array ('node_id' => $node_id));
 
-        return $this->handleForm ($data,
-                                  $form,
-                                  $action_type,
-                                  'Server added successfully.',
-                                  $redirect_url);
+        return $action->handleForm ();
     }
 
     public function removeAction ($node_id)
     {
         $node = $this->getNodeFromId ($node_id);
-        $redirect_url = $this->generateUrl ('ucl_wkp_root_view');
+
+        $action = new RemoveAction ($this, $node);
+        $action->setRedirectRoute ('ucl_wkp_root_view');
 
         $success_msg = 'Category removed successfully.';
-
-        return $this->handleRemove ($node,
-                                    $success_msg,
-                                    $redirect_url);
+        return $action->perform ($success_msg);
     }
 }

@@ -22,33 +22,16 @@
 
 namespace UCL\WebKeyPassBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use UCL\WebKeyPassBundle\Form\ServerForm;
 
-class Action
+class AddServerAction extends FormAddAction
 {
-    protected $controller;
-    protected $node;
-    protected $redirect_url;
+    protected $shortname = 'Add Server';
+    protected $fullname = 'Add Server';
+    protected $success_msg = 'Server added successfully.';
 
-    protected $shortname = '';
-    protected $fullname = '';
-    protected $success_msg = '';
-
-    public function __construct ($controller, $node)
+    protected function getForm ()
     {
-        $this->controller = $controller;
-        $this->node = $node;
-    }
-
-    /* Set redirect route when the action has been performed successfully. */
-    public function setRedirectRoute ($route, $route_data = array ())
-    {
-        $this->redirect_url = $this->controller->generateUrl ($route, $route_data);
-    }
-
-    protected function addFlashMessage ($msg)
-    {
-        $flash_bag = $this->controller->get ('session')->getFlashBag ();
-        $flash_bag->add ('notice', $msg);
+        return new ServerForm ();
     }
 }

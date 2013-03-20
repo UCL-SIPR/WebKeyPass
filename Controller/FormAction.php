@@ -26,14 +26,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class FormAction extends Action
 {
-    private $redirect_url = '';
-
-    /* Set redirect route when the action has been performed successfully. */
-    public function setRedirectRoute ($route, $route_data = array ())
-    {
-        $this->redirect_url = $this->controller->generateUrl ($route, $route_data);
-    }
-
     protected function getForm ()
     {
     }
@@ -61,8 +53,7 @@ class FormAction extends Action
                 $this->saveData ($db_manager, $form);
                 $db_manager->flush ();
 
-                $flash_bag = $this->controller->get ('session')->getFlashBag ();
-                $flash_bag->add ('notice', $this->success_msg);
+                $this->addFlashMessage ($this->success_msg);
 
                 return $this->controller->redirect ($this->redirect_url);
             }
