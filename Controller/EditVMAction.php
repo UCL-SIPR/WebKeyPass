@@ -26,7 +26,6 @@ use UCL\WebKeyPassBundle\Form\VMForm;
 
 class EditVMAction extends FormAction
 {
-    protected $shortname = 'Edit';
     protected $fullname = 'Edit Virtual Machine';
     protected $success_msg = 'Virtual machine edited successfully.';
 

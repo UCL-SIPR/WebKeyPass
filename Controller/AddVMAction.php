@@ -26,7 +26,6 @@ use UCL\WebKeyPassBundle\Form\VMForm;
 
 class AddVMAction extends FormAddAction
 {
-    protected $shortname = 'Add VM';
     protected $fullname = 'Add Virtual Machine';
     protected $success_msg = 'Virtual machine added successfully.';
 

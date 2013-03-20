@@ -26,7 +26,6 @@ use UCL\WebKeyPassBundle\Form\ServerForm;
 
 class AddServerAction extends FormAddAction
 {
-    protected $shortname = 'Add Server';
     protected $fullname = 'Add Server';
     protected $success_msg = 'Server added successfully.';
 

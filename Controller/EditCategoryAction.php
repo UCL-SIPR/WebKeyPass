@@ -26,7 +26,6 @@ use UCL\WebKeyPassBundle\Form\CategoryForm;
 
 class EditCategoryAction extends FormAction
 {
-    protected $shortname = 'Edit';
     protected $fullname = 'Edit Category';
     protected $success_msg = 'Category edited successfully.';
 

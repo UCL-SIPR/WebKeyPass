@@ -26,7 +26,6 @@ use UCL\WebKeyPassBundle\Form\CategoryForm;
 
 class AddCategoryAction extends FormAddAction
 {
-    protected $shortname = 'Add Category';
     protected $fullname = 'Add Category';
     protected $success_msg = 'Category added successfully.';
 

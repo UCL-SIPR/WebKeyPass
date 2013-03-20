@@ -30,7 +30,6 @@ class Action
     protected $node;
     protected $redirect_url;
 
-    protected $shortname = '';
     protected $fullname = '';
     protected $success_msg = '';
 

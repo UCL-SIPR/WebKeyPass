@@ -26,7 +26,6 @@ use UCL\WebKeyPassBundle\Form\ServerForm;
 
 class EditServerAction extends FormAction
 {
-    protected $shortname = 'Edit';
     protected $fullname = 'Edit Server';
     protected $success_msg = 'Server edited successfully.';
 
