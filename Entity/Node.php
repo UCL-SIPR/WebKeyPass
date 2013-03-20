@@ -216,4 +216,26 @@ class Node
                 return 'other';
         }
     }
+
+    public function __toString()
+    {
+        $parent_names = array ();
+
+        for ($parent = $this->getParent (); $parent != null; $parent = $parent->getParent ())
+        {
+            $parent_names[] = $parent->getName ();
+        }
+
+        $parent_names = array_reverse ($parent_names);
+
+        $str = '';
+        foreach ($parent_names as $parent_name)
+        {
+            $str .= $parent_name . ' » ';
+        }
+
+        $str .= $this->getName ();
+
+        return $str;
+    }
 }

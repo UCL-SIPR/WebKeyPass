@@ -81,8 +81,7 @@ class NodeForm extends AbstractType
         {
             $builder->add ('parent',
                            'entity',
-                           array ('class' => 'UCLWebKeyPassBundle:Node',
-                                  'property' => 'name'));
+                           array ('class' => 'UCLWebKeyPassBundle:Node'));
         }
 
         $builder->add ('type', 'hidden', array ('data' => $this->node_type));
