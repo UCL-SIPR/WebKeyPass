@@ -52,22 +52,12 @@ class VMNodeController extends NodeController
     public function editAction ($node_id)
     {
         $this->node = $this->getNodeFromId ($node_id);
-        $form = $this->createForm (new VMForm (), $this->node);
+        $action = new EditVMAction ($this, $this->node);
 
-        $data = $this->getCommonData ();
-        $data['action'] = 'Edit Virtual Machine';
-        $data['submit_route'] = 'ucl_wkp_vm_edit';
-        $data['submit_route_data'] = array ('node_id' => $node_id);
+        $action->setRedirectRoute ('ucl_wkp_vm_view',
+                                   array ('node_id' => $node_id));
 
-        $redirect_url = $this->generateUrl ('ucl_wkp_vm_view', array ('node_id' => $node_id));
-
-        $action_type = 'edit';
-
-        return $this->handleForm ($data,
-                                  $form,
-                                  $action_type,
-                                  'Virtual Machine edited successfully.',
-                                  $redirect_url);
+        return $action->handleForm ();
     }
 
     public function removeAction ($node_id)

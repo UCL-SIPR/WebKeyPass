@@ -58,45 +58,27 @@ class ServerNodeController extends NodeController
     public function editAction ($node_id)
     {
         $this->node = $this->getNodeFromId ($node_id);
-        $form = $this->createForm (new ServerForm (), $this->node);
+        $action = new EditServerAction ($this, $this->node);
 
-        $data = $this->getCommonData ();
-        $data['action'] = 'Edit Server';
-        $data['submit_route'] = 'ucl_wkp_server_edit';
-        $data['submit_route_data'] = array ('node_id' => $node_id);
+        $action->setRedirectRoute ('ucl_wkp_server_view',
+                                   array ('node_id' => $node_id));
 
-        $redirect_url = $this->generateUrl ('ucl_wkp_server_view', array ('node_id' => $node_id));
-
-        $action_type = 'edit';
-
-        return $this->handleForm ($data,
-                                  $form,
-                                  $action_type,
-                                  'Server edited successfully.',
-                                  $redirect_url);
+        return $action->handleForm ();
     }
 
     public function addVMAction ($node_id)
     {
         $this->node = $this->getNodeFromId ($node_id);
-        $vm = new Node ();
-        $vm->setParent ($this->node);
-        $form = $this->createForm (new VMForm (), $vm);
 
-        $data = $this->getCommonData ();
-        $data['action'] = 'Add Virtual Machine';
-        $data['submit_route'] = 'ucl_wkp_server_add_vm';
-        $data['submit_route_data'] = array ('node_id' => $node_id);
+        $new_node = new Node ();
+        $new_node->setParent ($this->node);
 
-        $redirect_url = $this->generateUrl ('ucl_wkp_server_view', array ('node_id' => $node_id));
+        $action = new AddVMAction ($this, $new_node);
 
-        $action_type = 'add';
+        $action->setRedirectRoute ('ucl_wkp_server_view',
+                                   array ('node_id' => $node_id));
 
-        return $this->handleForm ($data,
-                                  $form,
-                                  $action_type,
-                                  'Virtual Machine added successfully.',
-                                  $redirect_url);
+        return $action->handleForm ();
     }
 
     public function removeAction ($node_id)
