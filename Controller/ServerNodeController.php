@@ -25,6 +25,7 @@ namespace UCL\WebKeyPassBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use UCL\WebKeyPassBundle\Form\ServerForm;
 use UCL\WebKeyPassBundle\Form\VMForm;
+use UCL\WebKeyPassBundle\Form\MoveForm;
 use UCL\WebKeyPassBundle\Entity\Node;
 
 class ServerNodeController extends NodeController
@@ -91,5 +92,17 @@ class ServerNodeController extends NodeController
 
         $success_msg = 'Server removed successfully.';
         return $action->perform ($success_msg);
+    }
+
+    public function moveAction ($node_id)
+    {
+        $this->node = $this->getNodeFromId ($node_id);
+
+        $action = new MoveServerAction ($this, $this->node);
+
+        $action->setRedirectRoute ('ucl_wkp_server_view',
+                                   array ('node_id' => $node_id));
+
+        return $action->handleForm ();
     }
 }

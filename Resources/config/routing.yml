@@ -65,7 +65,7 @@ ucl_wkp_server_add_vm:
 
 ucl_wkp_server_move:
     pattern: /server/{node_id}/move
-    defaults: { _controller: UCLWebKeyPassBundle:ServerNode:view }
+    defaults: { _controller: UCLWebKeyPassBundle:ServerNode:move }
 
 ucl_wkp_server_remove:
     pattern: /server/{node_id}/remove

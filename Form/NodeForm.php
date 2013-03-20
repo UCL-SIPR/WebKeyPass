@@ -34,6 +34,8 @@ class NodeForm extends AbstractType
     protected $has_hostname = false;
     protected $has_icon = false;
     protected $has_comment = false;
+    protected $has_parent = false;
+    protected $parent_type = 0; # categories, by default
 
     protected function getAllIcons ()
     {
@@ -73,6 +75,14 @@ class NodeForm extends AbstractType
         if ($this->has_comment)
         {
             $builder->add ('comment');
+        }
+
+        if ($this->has_parent)
+        {
+            $builder->add ('parent',
+                           'entity',
+                           array ('class' => 'UCLWebKeyPassBundle:Node',
+                                  'property' => 'name'));
         }
 
         $builder->add ('type', 'hidden', array ('data' => $this->node_type));
