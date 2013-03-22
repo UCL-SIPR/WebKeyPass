@@ -43,7 +43,7 @@
     {% for info in infos %}
       <tr>
         <td>{{ info.title }}</td>
-        <td>{{ info.content }}</td>
+        <td>{{ info.content|raw }}</td>
       </tr>
     {% endfor %}
   </table>

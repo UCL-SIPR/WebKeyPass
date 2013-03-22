@@ -34,10 +34,26 @@ class NodeController extends Controller
         return $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node');
     }
 
+    protected function getAuthRepo ()
+    {
+        return $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Authentication');
+    }
+
     protected function getEmptyNodeInfos ()
     {
         return array (array ('title' => 'No information',
                              'content' => ''));
+    }
+
+    protected function getRemoveLoginLink ($auth)
+    {
+        $request = $this->container->get ('request');
+        $route = $request->get ('_route');
+        $route_data = $request->get ('_route_params');
+        $url = $this->generateUrl ($route, $route_data);
+        $url .= '/remove_login_' . $auth->getId ();
+
+        return "<a href=\"$url\" onclick=\"return confirm ('Are you sure you want to remove the login/password?')\">Remove</a>\n";
     }
 
     protected function getNodeInfos ($node)
@@ -50,6 +66,9 @@ class NodeController extends Controller
         foreach ($node->getAuthentications () as $auth)
         {
             $text = $auth->getLogin () . ': ' . $auth->getPassword ();
+
+            $text .= "<br />\n";
+            $text .= $this->getRemoveLoginLink ($auth);
 
             $infos[] = array ('title' => 'Login/Password',
                               'content' => $text);
@@ -120,6 +139,19 @@ class NodeController extends Controller
         return $node;
     }
 
+    protected function getAuthFromId ($auth_id)
+    {
+        $auth_repo = $this->getAuthRepo ();
+        $auth = $auth_repo->find ($auth_id);
+
+        if (!$auth)
+        {
+            throw $this->createNotFoundException ('Login/password with id '.$auth_id.' not found');
+        }
+
+        return $auth;
+    }
+
     public function viewAction ($node_id)
     {
         $this->node = $this->getNodeFromId ($node_id);
@@ -129,5 +161,19 @@ class NodeController extends Controller
         $data['actions'] = $this->getActions ($node_id);
 
         return $this->render ('UCLWebKeyPassBundle::node.html.twig', $data);
+    }
+
+    public function removeLoginAction ($node_id, $auth_id)
+    {
+        $node = $this->getNodeFromId ($node_id);
+        $node_type = $node->getTypeStr ();
+
+        $auth = $this->getAuthFromId ($auth_id);
+
+        $action = new RemoveAction ($this, $auth);
+        $action->setRedirectRoute ('ucl_wkp_'.$node_type.'_view', array ('node_id' => $node_id));
+
+        $success_msg = 'Login/password removed successfully.';
+        return $action->perform ($success_msg);
     }
 }

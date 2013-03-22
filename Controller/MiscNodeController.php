@@ -61,6 +61,9 @@ class MiscNodeController extends NodeController
         {
             $text = $auth->getLogin () . ': ' . $auth->getPassword ();
 
+            $text .= "<br />\n";
+            $text .= $this->getRemoveLoginLink ($auth);
+
             $infos[] = array ('title' => 'Login/Password',
                               'content' => $text);
         }
