@@ -26,5 +26,6 @@ class ServerForm extends NodeForm
 {
     protected $node_type = 1; # server
     protected $has_hostname = true;
+    protected $has_authentications = true;
     protected $has_comment = true;
 }

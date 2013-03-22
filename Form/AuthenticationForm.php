@@ -20,19 +20,37 @@
  * Author: Sébastien Wilmet
  */
 
-namespace UCL\WebKeyPassBundle\Controller;
+namespace UCL\WebKeyPassBundle\Form;
 
-class FormAddAction extends FormAction
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+class AuthenticationForm extends AbstractType
 {
-    protected function saveData ($db_manager, $form)
+    public function buildForm (FormBuilderInterface $builder, array $options)
     {
-        $node = $form->getData ();
+        $builder->add ('login');
+        $builder->add ('password');
+    }
 
-        foreach ($node->getAuthentications () as $auth)
-        {
-            $db_manager->persist ($auth);
-        }
+    public function setDefaultOptions (OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults (array ('data_class' => 'UCL\WebKeyPassBundle\Entity\Authentication'));
+    }
 
-        $db_manager->persist ($node);
+    public function getName ()
+    {
+        return 'authentication';
+    }
+
+    public function getLogin ()
+    {
+        return 'login';
+    }
+
+    public function getPassword ()
+    {
+        return 'password';
     }
 }

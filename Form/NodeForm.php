@@ -34,6 +34,7 @@ class NodeForm extends AbstractType
     protected $has_hostname = false;
     protected $has_icon = false;
     protected $has_comment = false;
+    protected $has_authentications = false;
     protected $has_parent = false;
     protected $parent_type = 0; # categories, by default
 
@@ -70,6 +71,11 @@ class NodeForm extends AbstractType
         if ($this->has_icon)
         {
             $builder->add ('icon', 'choice', array ('choices' => $this->getAllIcons ()));
+        }
+
+        if ($this->has_authentications)
+        {
+            $builder->add ('authentications', 'collection', array ('type' => new AuthenticationForm ()));
         }
 
         if ($this->has_comment)
