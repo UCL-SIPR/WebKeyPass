@@ -48,6 +48,12 @@ class MiscNodeController extends NodeController
                              'route_data' => $route_data));
     }
 
+    protected function getNodeInfos ($node)
+    {
+        return array (array ('title' => $node->getComment (),
+                             'content' => ''));
+    }
+
     protected function checkType ($node)
     {
         return $node->getTypeStr () == 'misc';
