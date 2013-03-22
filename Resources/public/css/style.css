@@ -79,6 +79,11 @@ h1
     list-style: disc;
 }
 
+#side_panel li.misc
+{
+    list-style: none;
+}
+
 /* Side panel: links in the tree view */
 
 #side_panel ul a
