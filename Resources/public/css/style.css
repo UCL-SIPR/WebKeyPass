@@ -151,3 +151,14 @@ textarea
     width: 40em;
     height: 10em;
 }
+
+/* Other */
+
+div.flash-notice
+{
+    border: 1px solid;
+    margin: 10px 0;
+    padding:15px 10px;
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
