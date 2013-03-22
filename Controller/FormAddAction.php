@@ -27,12 +27,6 @@ class FormAddAction extends FormAction
     protected function saveData ($db_manager, $form)
     {
         $node = $form->getData ();
-
-        foreach ($node->getAuthentications () as $auth)
-        {
-            $db_manager->persist ($auth);
-        }
-
         $db_manager->persist ($node);
     }
 }

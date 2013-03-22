@@ -25,6 +25,7 @@ namespace UCL\WebKeyPassBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use UCL\WebKeyPassBundle\Form\VMForm;
 use UCL\WebKeyPassBundle\Entity\Node;
+use UCL\WebKeyPassBundle\Entity\Authentication;
 
 class VMNodeController extends NodeController
 {
@@ -34,6 +35,10 @@ class VMNodeController extends NodeController
 
         return array (array ('name' => 'Edit',
                              'route' => 'ucl_wkp_vm_edit',
+                             'route_data' => $route_data),
+
+                      array ('name' => 'Add Login',
+                             'route' => 'ucl_wkp_vm_add_login',
                              'route_data' => $route_data),
 
                       array ('name' => 'Add Misc',
@@ -97,6 +102,21 @@ class VMNodeController extends NodeController
         $new_node->setParent ($this->node);
 
         $action = new AddMiscAction ($this, $new_node);
+
+        $action->setRedirectRoute ('ucl_wkp_vm_view',
+                                   array ('node_id' => $node_id));
+
+        return $action->handleForm ();
+    }
+
+    public function addLoginAction ($node_id)
+    {
+        $this->node = $this->getNodeFromId ($node_id);
+
+        $new_auth = new Authentication ();
+        $new_auth->setNode ($this->node);
+
+        $action = new AddLoginAction ($this, $new_auth);
 
         $action->setRedirectRoute ('ucl_wkp_vm_view',
                                    array ('node_id' => $node_id));

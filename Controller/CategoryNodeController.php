@@ -27,7 +27,6 @@ use Symfony\Component\HttpFoundation\Request;
 use UCL\WebKeyPassBundle\Form\CategoryForm;
 use UCL\WebKeyPassBundle\Form\ServerForm;
 use UCL\WebKeyPassBundle\Entity\Node;
-use UCL\WebKeyPassBundle\Entity\Authentication;
 
 class CategoryNodeController extends NodeController
 {
@@ -98,10 +97,6 @@ class CategoryNodeController extends NodeController
 
         $new_node = new Node ();
         $new_node->setParent ($this->node);
-
-        $auth = new Authentication ();
-        $auth->setNode ($new_node);
-        $new_node->getAuthentications ()->add ($auth);
 
         $action = new AddServerAction ($this, $new_node);
 

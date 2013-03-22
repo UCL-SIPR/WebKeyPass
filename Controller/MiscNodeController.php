@@ -24,6 +24,7 @@ namespace UCL\WebKeyPassBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use UCL\WebKeyPassBundle\Entity\Node;
+use UCL\WebKeyPassBundle\Entity\Authentication;
 
 class MiscNodeController extends NodeController
 {
@@ -33,6 +34,10 @@ class MiscNodeController extends NodeController
 
         return array (array ('name' => 'Edit',
                              'route' => 'ucl_wkp_misc_edit',
+                             'route_data' => $route_data),
+
+                      array ('name' => 'Add Login',
+                             'route' => 'ucl_wkp_misc_add_login',
                              'route_data' => $route_data),
 
                       array ('name' => 'Add Misc',
@@ -50,8 +55,20 @@ class MiscNodeController extends NodeController
 
     protected function getNodeInfos ($node)
     {
-        return array (array ('title' => $node->getComment (),
-                             'content' => ''));
+        $infos = array ();
+
+        foreach ($node->getAuthentications () as $auth)
+        {
+            $text = $auth->getLogin () . ': ' . $auth->getPassword ();
+
+            $infos[] = array ('title' => 'Login/Password',
+                              'content' => $text);
+        }
+
+        $infos[] = array ('title' => 'Comment',
+                          'content' => $node->getComment ());
+
+        return $infos;
     }
 
     protected function checkType ($node)
@@ -104,6 +121,21 @@ class MiscNodeController extends NodeController
         $new_node->setParent ($this->node);
 
         $action = new AddMiscAction ($this, $new_node);
+
+        $action->setRedirectRoute ('ucl_wkp_misc_view',
+                                   array ('node_id' => $node_id));
+
+        return $action->handleForm ();
+    }
+
+    public function addLoginAction ($node_id)
+    {
+        $this->node = $this->getNodeFromId ($node_id);
+
+        $new_auth = new Authentication ();
+        $new_auth->setNode ($this->node);
+
+        $action = new AddLoginAction ($this, $new_auth);
 
         $action->setRedirectRoute ('ucl_wkp_misc_view',
                                    array ('node_id' => $node_id));

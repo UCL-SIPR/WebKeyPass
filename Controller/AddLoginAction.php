@@ -20,11 +20,17 @@
  * Author: Sébastien Wilmet
  */
 
-namespace UCL\WebKeyPassBundle\Form;
+namespace UCL\WebKeyPassBundle\Controller;
 
-class ServerForm extends NodeForm
+use UCL\WebKeyPassBundle\Form\AuthenticationForm;
+
+class AddLoginAction extends FormAddAction
 {
-    protected $node_type = 1; # server
-    protected $has_hostname = true;
-    protected $has_comment = true;
+    protected $fullname = 'Add login/password';
+    protected $success_msg = 'Login/password added successfully.';
+
+    protected function getForm ()
+    {
+        return new AuthenticationForm ();
+    }
 }
