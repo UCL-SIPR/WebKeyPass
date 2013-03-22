@@ -25,6 +25,8 @@
   <a href="{{ path('ucl_wkp_server_view', {'node_id': node.id}) }}">
 {% elseif node.class == 'vm' %}
   <a href="{{ path('ucl_wkp_vm_view', {'node_id': node.id}) }}">
+{% elseif node.class == 'misc' %}
+  <a href="{{ path('ucl_wkp_misc_view', {'node_id': node.id}) }}">
 {% endif %}
 
     {{ node.name }}

@@ -212,6 +212,9 @@ class Node
             case 2:
                 return 'vm';
 
+            case 3:
+                return 'misc';
+
             default:
                 return 'other';
         }

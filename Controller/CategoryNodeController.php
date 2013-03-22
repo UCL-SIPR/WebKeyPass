@@ -51,6 +51,10 @@ class CategoryNodeController extends NodeController
                              'route' => 'ucl_wkp_category_add_subcategory',
                              'route_data' => $route_data),
 
+                      array ('name' => 'Add Misc',
+                             'route' => 'ucl_wkp_category_add_misc',
+                             'route_data' => $route_data),
+
                       array ('name' => 'Remove',
                              'route' => 'ucl_wkp_category_remove',
                              'route_data' => $route_data));
@@ -111,5 +115,20 @@ class CategoryNodeController extends NodeController
 
         $success_msg = 'Category removed successfully.';
         return $action->perform ($success_msg);
+    }
+
+    public function addMiscAction ($node_id)
+    {
+        $this->node = $this->getNodeFromId ($node_id);
+
+        $new_node = new Node ();
+        $new_node->setParent ($this->node);
+
+        $action = new AddMiscAction ($this, $new_node);
+
+        $action->setRedirectRoute ('ucl_wkp_category_view',
+                                   array ('node_id' => $node_id));
+
+        return $action->handleForm ();
     }
 }

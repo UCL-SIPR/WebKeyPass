@@ -23,43 +23,42 @@
 namespace UCL\WebKeyPassBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use UCL\WebKeyPassBundle\Form\VMForm;
 use UCL\WebKeyPassBundle\Entity\Node;
 
-class VMNodeController extends NodeController
+class MiscNodeController extends NodeController
 {
     protected function getActions ($node_id)
     {
         $route_data = array ('node_id' => $node_id);
 
         return array (array ('name' => 'Edit',
-                             'route' => 'ucl_wkp_vm_edit',
+                             'route' => 'ucl_wkp_misc_edit',
                              'route_data' => $route_data),
 
                       array ('name' => 'Add Misc',
-                             'route' => 'ucl_wkp_vm_add_misc',
+                             'route' => 'ucl_wkp_misc_add_misc',
                              'route_data' => $route_data),
 
                       array ('name' => 'Move',
-                             'route' => 'ucl_wkp_vm_move',
+                             'route' => 'ucl_wkp_misc_move',
                              'route_data' => $route_data),
 
                       array ('name' => 'Remove',
-                             'route' => 'ucl_wkp_vm_remove',
+                             'route' => 'ucl_wkp_misc_remove',
                              'route_data' => $route_data));
     }
 
     protected function checkType ($node)
     {
-        return $node->getTypeStr () == 'vm';
+        return $node->getTypeStr () == 'misc';
     }
 
     public function editAction ($node_id)
     {
         $this->node = $this->getNodeFromId ($node_id);
-        $action = new EditVMAction ($this, $this->node);
+        $action = new EditMiscAction ($this, $this->node);
 
-        $action->setRedirectRoute ('ucl_wkp_vm_view',
+        $action->setRedirectRoute ('ucl_wkp_misc_view',
                                    array ('node_id' => $node_id));
 
         return $action->handleForm ();
@@ -70,10 +69,12 @@ class VMNodeController extends NodeController
         $node = $this->getNodeFromId ($node_id);
         $parent_id = $node->getParent ()->getId ();
 
-        $action = new RemoveAction ($this, $node);
-        $action->setRedirectRoute ('ucl_wkp_server_view', array ('node_id' => $parent_id));
+        $parent_type = $node->getParent ()->getTypeStr ();
 
-        $success_msg = 'Virtual Machine removed successfully.';
+        $action = new RemoveAction ($this, $node);
+        $action->setRedirectRoute ('ucl_wkp_'.$parent_type.'_view', array ('node_id' => $parent_id));
+
+        $success_msg = 'Misc item removed successfully.';
         return $action->perform ($success_msg);
     }
 
@@ -81,9 +82,9 @@ class VMNodeController extends NodeController
     {
         $this->node = $this->getNodeFromId ($node_id);
 
-        $action = new MoveVMAction ($this, $this->node);
+        $action = new MoveMiscAction ($this, $this->node);
 
-        $action->setRedirectRoute ('ucl_wkp_vm_view',
+        $action->setRedirectRoute ('ucl_wkp_misc_view',
                                    array ('node_id' => $node_id));
 
         return $action->handleForm ();
@@ -98,7 +99,7 @@ class VMNodeController extends NodeController
 
         $action = new AddMiscAction ($this, $new_node);
 
-        $action->setRedirectRoute ('ucl_wkp_vm_view',
+        $action->setRedirectRoute ('ucl_wkp_misc_view',
                                    array ('node_id' => $node_id));
 
         return $action->handleForm ();

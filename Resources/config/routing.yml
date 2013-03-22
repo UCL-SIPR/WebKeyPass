@@ -45,6 +45,10 @@ ucl_wkp_category_add_subcategory:
     pattern: /category/{node_id}/add_subcategory
     defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:addSubCategory }
 
+ucl_wkp_category_add_misc:
+    pattern: /category/{node_id}/add_misc
+    defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:addMisc }
+
 ucl_wkp_category_remove:
     pattern: /category/{node_id}/remove
     defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:remove }
@@ -62,6 +66,10 @@ ucl_wkp_server_edit:
 ucl_wkp_server_add_vm:
     pattern: /server/{node_id}/add_vm
     defaults: { _controller: UCLWebKeyPassBundle:ServerNode:addVM }
+
+ucl_wkp_server_add_misc:
+    pattern: /server/{node_id}/add_misc
+    defaults: { _controller: UCLWebKeyPassBundle:ServerNode:addMisc }
 
 ucl_wkp_server_move:
     pattern: /server/{node_id}/move
@@ -81,6 +89,10 @@ ucl_wkp_vm_edit:
     pattern: /vm/{node_id}/edit
     defaults: { _controller: UCLWebKeyPassBundle:VMNode:edit }
 
+ucl_wkp_vm_add_misc:
+    pattern: /vm/{node_id}/add_misc
+    defaults: { _controller: UCLWebKeyPassBundle:VMNode:addMisc }
+
 ucl_wkp_vm_move:
     pattern: /vm/{node_id}/move
     defaults: { _controller: UCLWebKeyPassBundle:VMNode:move }
@@ -88,3 +100,25 @@ ucl_wkp_vm_move:
 ucl_wkp_vm_remove:
     pattern: /vm/{node_id}/remove
     defaults: { _controller: UCLWebKeyPassBundle:VMNode:remove }
+
+# Misc
+
+ucl_wkp_misc_view:
+    pattern: /misc/{node_id}
+    defaults: { _controller: UCLWebKeyPassBundle:MiscNode:view }
+
+ucl_wkp_misc_edit:
+    pattern: /misc/{node_id}/edit
+    defaults: { _controller: UCLWebKeyPassBundle:MiscNode:edit }
+
+ucl_wkp_misc_add_misc:
+    pattern: /misc/{node_id}/add_misc
+    defaults: { _controller: UCLWebKeyPassBundle:MiscNode:addMisc }
+
+ucl_wkp_misc_move:
+    pattern: /misc/{node_id}/move
+    defaults: { _controller: UCLWebKeyPassBundle:MiscNode:move }
+
+ucl_wkp_misc_remove:
+    pattern: /misc/{node_id}/remove
+    defaults: { _controller: UCLWebKeyPassBundle:MiscNode:remove }

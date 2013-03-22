@@ -42,6 +42,10 @@ class ServerNodeController extends NodeController
                              'route' => 'ucl_wkp_server_add_vm',
                              'route_data' => $route_data),
 
+                      array ('name' => 'Add Misc',
+                             'route' => 'ucl_wkp_server_add_misc',
+                             'route_data' => $route_data),
+
                       array ('name' => 'Move',
                              'route' => 'ucl_wkp_server_move',
                              'route_data' => $route_data),
@@ -99,6 +103,21 @@ class ServerNodeController extends NodeController
         $this->node = $this->getNodeFromId ($node_id);
 
         $action = new MoveServerAction ($this, $this->node);
+
+        $action->setRedirectRoute ('ucl_wkp_server_view',
+                                   array ('node_id' => $node_id));
+
+        return $action->handleForm ();
+    }
+
+    public function addMiscAction ($node_id)
+    {
+        $this->node = $this->getNodeFromId ($node_id);
+
+        $new_node = new Node ();
+        $new_node->setParent ($this->node);
+
+        $action = new AddMiscAction ($this, $new_node);
 
         $action->setRedirectRoute ('ucl_wkp_server_view',
                                    array ('node_id' => $node_id));
