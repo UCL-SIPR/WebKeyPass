@@ -132,3 +132,22 @@ h1
     padding-bottom: 1em;
     padding-right: 1em;
 }
+
+/* Form */
+
+form label
+{
+    float: left;
+    width: 6em;
+}
+
+form div
+{
+    margin-bottom: 1em;
+}
+
+textarea
+{
+    width: 40em;
+    height: 10em;
+}
