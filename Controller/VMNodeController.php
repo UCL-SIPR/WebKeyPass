@@ -71,4 +71,16 @@ class VMNodeController extends NodeController
         $success_msg = 'Virtual Machine removed successfully.';
         return $action->perform ($success_msg);
     }
+
+    public function moveAction ($node_id)
+    {
+        $this->node = $this->getNodeFromId ($node_id);
+
+        $action = new MoveVMAction ($this, $this->node);
+
+        $action->setRedirectRoute ('ucl_wkp_vm_view',
+                                   array ('node_id' => $node_id));
+
+        return $action->handleForm ();
+    }
 }
