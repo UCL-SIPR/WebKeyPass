@@ -26,13 +26,35 @@ use Doctrine\ORM\EntityRepository;
 
 class NodeRepository extends EntityRepository
 {
+    private function getChildren ($parent_id)
+    {
+        $query = $this->getEntityManager ()
+            ->createQueryBuilder ()
+            ->select ('node')
+            ->from ('UCLWebKeyPassBundle:Node', 'node');
+
+        if ($parent_id == null)
+        {
+            $query = $query->where ('node.parent is null');
+        }
+        else
+        {
+            $query = $query->where ('node.parent = :parent_id')
+                ->setParameter ('parent_id', $parent_id);
+        }
+
+        return $query->orderBy ('node.name', 'ASC')
+            ->getQuery ()
+            ->getResult ();
+    }
+
     private function getNodesInfos ($nodes)
     {
         $tree = array ();
 
         foreach ($nodes as $node)
         {
-            $subnodes = $node->getChildren ();
+            $subnodes = $this->getChildren ($node->getId ());
             $subtree = $this->getNodesInfos ($subnodes);
 
             $tree[] = array ('id' => $node->getId (),
@@ -54,7 +76,7 @@ class NodeRepository extends EntityRepository
 
     public function getNodes ()
     {
-        $root_nodes = $this->findByParent (null);
+        $root_nodes = $this->getChildren (null);
         return $this->getNodesInfos ($root_nodes);
     }
 
