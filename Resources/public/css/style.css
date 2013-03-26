@@ -125,6 +125,18 @@ h1
     margin-right: 2em;
 }
 
+#contents ul.auth_actions
+{
+    margin: 0;
+    padding: 0;
+    margin-top: 0.5em;
+}
+
+#contents ul.auth_actions li
+{
+    list-style: none;
+}
+
 /* Contents: information */
 
 #contents table td
@@ -162,3 +174,10 @@ div.flash-notice
     color: #4F8A10;
     background-color: #DFF2BF;
 }
+
+span.login
+{
+    margin-right: 2em;
+}
+
+

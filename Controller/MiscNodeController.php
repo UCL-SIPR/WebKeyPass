@@ -55,23 +55,8 @@ class MiscNodeController extends NodeController
 
     protected function getNodeInfos ($node)
     {
-        $infos = array ();
-
-        foreach ($node->getAuthentications () as $auth)
-        {
-            $text = $auth->getLogin () . ': ' . $auth->getPassword ();
-
-            $text .= "<br />\n";
-            $text .= $this->getRemoveLoginLink ($auth);
-
-            $infos[] = array ('title' => 'Login/Password',
-                              'content' => $text);
-        }
-
-        $infos[] = array ('title' => 'Comment',
-                          'content' => $node->getComment ());
-
-        return $infos;
+        return array (array ('title' => 'Comment',
+                             'content' => $node->getComment ()));
     }
 
     protected function checkType ($node)

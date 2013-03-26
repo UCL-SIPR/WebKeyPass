@@ -45,17 +45,6 @@ class NodeController extends Controller
                              'content' => ''));
     }
 
-    protected function getRemoveLoginLink ($auth)
-    {
-        $request = $this->container->get ('request');
-        $route = $request->get ('_route');
-        $route_data = $request->get ('_route_params');
-        $url = $this->generateUrl ($route, $route_data);
-        $url .= '/remove_login_' . $auth->getId ();
-
-        return "<a href=\"$url\" onclick=\"return confirm ('Are you sure you want to remove the login/password?')\">Remove</a>\n";
-    }
-
     protected function getNodeInfos ($node)
     {
         $infos = array ();
@@ -63,21 +52,35 @@ class NodeController extends Controller
         $infos[] = array ('title' => 'Hostname',
                           'content' => $node->getHostname ());
 
-        foreach ($node->getAuthentications () as $auth)
-        {
-            $text = $auth->getLogin () . ': ' . $auth->getPassword ();
-
-            $text .= "<br />\n";
-            $text .= $this->getRemoveLoginLink ($auth);
-
-            $infos[] = array ('title' => 'Login/Password',
-                              'content' => $text);
-        }
-
         $infos[] = array ('title' => 'Comment',
                           'content' => $node->getComment ());
 
         return $infos;
+    }
+
+    protected function getRemoveLoginUrl ($auth)
+    {
+        $request = $this->container->get ('request');
+        $route = $request->get ('_route');
+        $route_data = $request->get ('_route_params');
+        $url = $this->generateUrl ($route, $route_data);
+        $url .= '/remove_login_' . $auth->getId ();
+
+        return $url;
+    }
+
+    protected function getAuthentications ($node)
+    {
+        $auths = array ();
+
+        foreach ($node->getAuthentications () as $auth)
+        {
+            $auths[] = array ('login' => $auth->getLogin (),
+                              'password' => $auth->getPassword (),
+                              'remove_url' => $this->getRemoveLoginUrl ($auth));
+        }
+
+        return $auths;
     }
 
     protected function getActions ($node_id)
@@ -158,6 +161,7 @@ class NodeController extends Controller
 
         $data = $this->getCommonData ();
         $data['infos'] = $this->getNodeInfos ($this->node);
+        $data['authentications'] = $this->getAuthentications ($this->node);
         $data['actions'] = $this->getActions ($node_id);
 
         return $this->render ('UCLWebKeyPassBundle::node.html.twig', $data);

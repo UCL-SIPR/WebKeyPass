@@ -43,8 +43,40 @@
     {% for info in infos %}
       <tr>
         <td>{{ info.title }}</td>
-        <td>{{ info.content|raw }}</td>
+        <td>{{ info.content }}</td>
+      </tr>
+    {% endfor %}
+
+    {% for auth in authentications %}
+      <tr>
+        <td>Login</td>
+        <td>
+          <span class="login">{{ auth.login }}</span>
+          <span id="password{{ loop.index }}" style="display: none">{{ auth.password }}</span>
+          <ul class="auth_actions">
+            <li><a id="showHide{{ loop.index }}" href="javascript:toggle ('password{{ loop.index }}', 'showHide{{ loop.index }}');">Show Password</a></li>
+            <li><a href="{{ auth.remove_url }}" onclick="return confirm ('Are you sure you want to remove the login/password?')">Remove</a></li>
+          </ul>
+        </td>
       </tr>
     {% endfor %}
   </table>
+
+  <script language="javascript">
+  function toggle (passwordId, showHideId)
+  {
+      var ele = document.getElementById (passwordId);
+      var text = document.getElementById (showHideId);
+      if (ele.style.display == "inline")
+      {
+          ele.style.display = "none";
+          text.innerHTML = "Show Password";
+      }
+      else
+      {
+          ele.style.display = "inline";
+          text.innerHTML = "Hide Password";
+      }
+  }
+  </script>
 {% endblock %}
