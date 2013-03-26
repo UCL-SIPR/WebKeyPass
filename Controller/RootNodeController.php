@@ -52,6 +52,7 @@ class RootNodeController extends NodeController
     {
         $data = $this->getCommonData ();
         $data['infos'] = $this->getEmptyNodeInfos ();
+        $data['authentications'] = array ();
         $data['actions'] = $this->getRootActions ();
 
         return $this->render ('UCLWebKeyPassBundle::node.html.twig', $data);
