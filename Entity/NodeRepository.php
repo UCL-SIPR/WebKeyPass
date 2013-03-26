@@ -93,6 +93,6 @@ class NodeRepository extends EntityRepository
                 ->setParameter ('node_type', $node_type);
         }
 
-        return $query;
+        return $query->getQuery ()->getResult ();
     }
 }

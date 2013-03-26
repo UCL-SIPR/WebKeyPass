@@ -26,6 +26,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
 
 class NodeForm extends AbstractType
 {
@@ -36,6 +37,8 @@ class NodeForm extends AbstractType
     protected $has_comment = false;
     protected $has_parent = false;
     protected $parent_type = 0; # categories, by default
+
+    private $node_repo = null;
 
     protected function getAllIcons ()
     {
@@ -53,6 +56,25 @@ class NodeForm extends AbstractType
         }
 
         return $icons;
+    }
+
+    public function setNodeRepository ($node_repo)
+    {
+        $this->node_repo = $node_repo;
+    }
+
+    private function getParentNodes ()
+    {
+        $nodes = $this->node_repo->getNodesByType ($this->parent_type);
+        sort ($nodes, SORT_STRING);
+
+        $labels = array ();
+        foreach ($nodes as $node)
+        {
+            $labels[] = $node->__toString ();
+        }
+
+        return new ChoiceList ($nodes, $labels);
     }
 
     public function buildForm (FormBuilderInterface $builder, array $options)
@@ -79,14 +101,7 @@ class NodeForm extends AbstractType
 
         if ($this->has_parent)
         {
-            $builder->add ('parent',
-                           'entity',
-                           array ('class' => 'UCLWebKeyPassBundle:Node',
-                                  'query_builder' =>
-                                  function ($er)
-                                  {
-                                      return $er->getNodesByType ($this->parent_type);
-                                  }));
+            $builder->add ('parent', 'choice', array ('choice_list' => $this->getParentNodes ()));
         }
 
         $builder->add ('type', 'hidden', array ('data' => $this->node_type));

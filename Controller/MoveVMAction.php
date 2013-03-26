@@ -31,6 +31,9 @@ class MoveVMAction extends FormAction
 
     protected function getForm ()
     {
-        return new MoveVMForm ();
+        $form = new MoveVMForm ();
+        $form->setNodeRepository ($this->controller->getNodeRepo ());
+
+        return $form;
     }
 }

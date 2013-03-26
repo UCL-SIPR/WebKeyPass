@@ -31,6 +31,9 @@ class MoveMiscAction extends FormAction
 
     protected function getForm ()
     {
-        return new MoveMiscForm ();
+        $form = new MoveMiscForm ();
+        $form->setNodeRepository ($this->controller->getNodeRepo ());
+
+        return $form;
     }
 }

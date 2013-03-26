@@ -29,7 +29,7 @@ class NodeController extends Controller
 {
     protected $node;
 
-    protected function getNodeRepo ()
+    public function getNodeRepo ()
     {
         return $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node');
     }

@@ -31,6 +31,9 @@ class MoveServerAction extends FormAction
 
     protected function getForm ()
     {
-        return new MoveServerForm ();
+        $form = new MoveServerForm ();
+        $form->setNodeRepository ($this->controller->getNodeRepo ());
+
+        return $form;
     }
 }
