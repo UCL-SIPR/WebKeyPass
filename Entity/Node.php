@@ -137,7 +137,14 @@ class Node
 
     public function getComment()
     {
-        return $this->comment;
+        if ($this->comment == "")
+        {
+            return "No information";
+        }
+        else
+        {
+            return $this->comment;
+        }
     }
 
     public function addChildren(\UCL\WebKeyPassBundle\Entity\Node $children)

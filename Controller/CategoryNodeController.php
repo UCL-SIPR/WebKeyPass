@@ -32,7 +32,12 @@ class CategoryNodeController extends NodeController
 {
     protected function getNodeInfos ($node)
     {
-        return $this->getEmptyNodeInfos ();
+        $infos = array ();
+
+        $infos[] = array ('title' => '',
+                          'content' => $node->getComment ());
+
+        return $infos;
     }
 
     protected function getActions ($node_id)

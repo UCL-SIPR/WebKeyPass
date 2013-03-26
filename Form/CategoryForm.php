@@ -25,4 +25,5 @@ namespace UCL\WebKeyPassBundle\Form;
 class CategoryForm extends NodeForm
 {
     protected $has_icon = true;
+    protected $has_comment = true;
 }
