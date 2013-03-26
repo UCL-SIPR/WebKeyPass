@@ -60,6 +60,11 @@ class Node
     private $hostname;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $serial_number;
+
+    /**
      * @ORM\Column(type="smallint")
      */
     private $type;
@@ -114,6 +119,18 @@ class Node
     public function getHostname()
     {
         return $this->hostname;
+    }
+
+    public function setSerialNumber($serial_number)
+    {
+        $this->serial_number = $serial_number;
+
+        return $this;
+    }
+
+    public function getSerialNumber()
+    {
+        return $this->serial_number;
     }
 
     public function setType($type)

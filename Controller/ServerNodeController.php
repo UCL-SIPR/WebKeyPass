@@ -65,6 +65,22 @@ class ServerNodeController extends NodeController
         return $node->getTypeStr () == 'server';
     }
 
+    protected function getNodeInfos ($node)
+    {
+        $infos = array ();
+
+        $infos[] = array ('title' => 'Hostname',
+                          'content' => $node->getHostname ());
+
+        $infos[] = array ('title' => 'Serial Number',
+                          'content' => $node->getSerialNumber ());
+
+        $infos[] = array ('title' => 'Comment',
+                          'content' => $node->getComment ());
+
+        return $infos;
+    }
+
     public function editAction ($node_id)
     {
         $this->node = $this->getNodeFromId ($node_id);

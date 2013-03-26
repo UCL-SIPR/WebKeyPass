@@ -33,6 +33,7 @@ class NodeForm extends AbstractType
     protected $node_type = 0; # category, by default
     protected $has_name = true;
     protected $has_hostname = false;
+    protected $has_serial_number = false;
     protected $has_icon = false;
     protected $has_comment = false;
     protected $has_parent = false;
@@ -107,6 +108,11 @@ class NodeForm extends AbstractType
         if ($this->has_hostname)
         {
             $builder->add ('hostname');
+        }
+
+        if ($this->has_serial_number)
+        {
+            $builder->add ('serial_number');
         }
 
         if ($this->has_icon)
