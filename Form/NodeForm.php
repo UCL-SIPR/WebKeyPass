@@ -39,6 +39,7 @@ class NodeForm extends AbstractType
     protected $parent_type = 0; # categories, by default
 
     private $node_repo = null;
+    private $node_to_move = null;
 
     protected function getAllIcons ()
     {
@@ -63,9 +64,28 @@ class NodeForm extends AbstractType
         $this->node_repo = $node_repo;
     }
 
+    /* Useful, so the node to move is not selected as a parent node. */
+    public function setNodeToMove ($node_to_move)
+    {
+        $this->node_to_move = $node_to_move;
+    }
+
     private function getParentNodes ()
     {
-        $nodes = $this->node_repo->getNodesByType ($this->parent_type);
+        $all_nodes = $this->node_repo->getNodesByType ($this->parent_type);
+
+        /* If the node we want to move is present in the parent nodes, remove
+           it. We can not set the parent of a node as the node itself, there
+           would be an infinite loop. */
+        $nodes = array ();
+        foreach ($all_nodes as $node)
+        {
+            if ($node != $this->node_to_move)
+            {
+                $nodes[] = $node;
+            }
+        }
+
         sort ($nodes, SORT_STRING);
 
         $labels = array ();
