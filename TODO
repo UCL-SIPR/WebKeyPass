@@ -1,5 +1,7 @@
 TODO
 
+- Add serial number field for servers
+- For the name of nodes, show a list of existing names, with a possibility to add a new name
 - Encrypt/decrypt passwords
 - Search entry
 - Flexible authentication system to the application (fallback to simple login/password)
