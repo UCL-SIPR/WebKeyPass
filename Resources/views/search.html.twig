@@ -26,9 +26,28 @@
 {% endblock %}
 
 {% block contents %}
-  {% for path in found_paths %}
+  <h3>By names</h3>
+  {% for path in found_paths_by_names %}
     <p>
       {{ include('UCLWebKeyPassBundle::path.html.twig', {'path': path}) }}
     </p>
+  {% else %}
+    <p>No results.</p>
   {% endfor %}
+
+  <h3>By serial numbers</h3>
+  <table>
+    {% for data in found_data_by_serial_numbers %}
+      <tr>
+        <td>
+          {{ include('UCLWebKeyPassBundle::path.html.twig', {'path': data.path}) }}
+        </td>
+        <td>
+          {{ data.serial_number }}
+        </td>
+      </tr>
+    {% else %}
+      <tr><td>No results.</td></tr>
+    {% endfor %}
+  </table>
 {% endblock %}

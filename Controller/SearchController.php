@@ -35,7 +35,8 @@ class SearchController extends MainController
         $node_repo = $this->getNodeRepo ();
         $data['nodes'] = $node_repo->getNodes ();
 
-        $data['found_paths'] = array ();
+        $data['found_paths_by_names'] = array ();
+        $data['found_data_by_serial_numbers'] = array ();
 
         $form = $this->getSearchForm ();
         $request = $this->getRequest ();
@@ -47,17 +48,30 @@ class SearchController extends MainController
             if ($form->isValid ())
             {
                 $search_data = $form->getData ();
-
                 $node_repo = $this->getNodeRepo ();
+
+                /* Search results by names */
                 $found_nodes = $node_repo->searchNames ($search_data['search_text']);
 
-                $found_paths = array ();
+                $found_paths_by_names = array ();
                 foreach ($found_nodes as $found_node)
                 {
-                    $found_paths[] = $this->getPath ($found_node);
+                    $found_paths_by_names[] = $this->getPath ($found_node);
                 }
 
-                $data['found_paths'] = $found_paths;
+                $data['found_paths_by_names'] = $found_paths_by_names;
+
+                /* Search results by serial numbers */
+                $found_nodes = $node_repo->searchSerialNumbers ($search_data['search_text']);
+
+                $found_data = array ();
+                foreach ($found_nodes as $found_node)
+                {
+                    $found_data[] = array ('path' => $this->getPath ($found_node),
+                                           'serial_number' => $found_node->getSerialNumber ());
+                }
+
+                $data['found_data_by_serial_numbers'] = $found_data;
             }
         }
 
