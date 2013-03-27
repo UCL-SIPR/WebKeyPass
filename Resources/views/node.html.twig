@@ -21,6 +21,12 @@
 
 {% extends 'UCLWebKeyPassBundle::base.html.twig' %}
 
+{% block page_title %}
+  <h2>
+    {{ include('UCLWebKeyPassBundle::path.html.twig', {'path': path}) }}
+  </h2>
+{% endblock %}
+
 {% block contents %}
   <h3>Actions</h3>
   <ul class="actions">

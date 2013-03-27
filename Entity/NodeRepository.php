@@ -95,4 +95,19 @@ class NodeRepository extends EntityRepository
 
         return $query->getQuery ()->getResult ();
     }
+
+    public function searchNames ($search_text)
+    {
+        $nodes = $this->getEntityManager ()
+            ->createQueryBuilder ()
+            ->select ('node')
+            ->from ('UCLWebKeyPassBundle:Node', 'node')
+            ->where ('node.name like :search_text')
+            ->setParameter ('search_text', '%'.$search_text.'%')
+            ->getQuery ()
+            ->getResult ();
+
+        sort ($nodes, SORT_STRING);
+        return $nodes;
+    }
 }

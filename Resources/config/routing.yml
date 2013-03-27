@@ -117,7 +117,7 @@ ucl_wkp_vm_remove:
     pattern: /vm/{node_id}/remove
     defaults: { _controller: UCLWebKeyPassBundle:VMNode:remove }
 
-# Misc
+# Misc nodes
 
 ucl_wkp_misc_view:
     pattern: /misc/{node_id}
@@ -146,3 +146,9 @@ ucl_wkp_misc_move:
 ucl_wkp_misc_remove:
     pattern: /misc/{node_id}/remove
     defaults: { _controller: UCLWebKeyPassBundle:MiscNode:remove }
+
+# Other
+
+ucl_wkp_search:
+    pattern: /search
+    defaults: { _controller: UCLWebKeyPassBundle:Search:search }

@@ -45,6 +45,8 @@ class RootNodeController extends NodeController
         $node_repo = $this->getNodeRepo ();
         $data['nodes'] = $node_repo->getNodes ();
 
+        $data['search_form'] = $this->getSearchForm ()->createView ();
+
         return $data;
     }
 

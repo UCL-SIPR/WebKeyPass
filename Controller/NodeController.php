@@ -25,14 +25,9 @@ namespace UCL\WebKeyPassBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class NodeController extends Controller
+class NodeController extends MainController
 {
     protected $node;
-
-    public function getNodeRepo ()
-    {
-        return $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node');
-    }
 
     protected function getAuthRepo ()
     {
@@ -93,25 +88,6 @@ class NodeController extends Controller
         return true;
     }
 
-    private function getPathNodeInfos ($node)
-    {
-        return array ('class' => $node->getTypeStr (),
-                      'id' => $node->getId (),
-                      'name' => $node->getName ());
-    }
-
-    private function getPath ($node)
-    {
-        $path = array ($this->getPathNodeInfos ($node));
-
-        for ($parent = $node->getParent (); $parent != null; $parent = $parent->getParent ())
-        {
-            $path[] = $this->getPathNodeInfos ($parent);
-        }
-
-        return array_reverse ($path);
-    }
-
     public function getCommonData ()
     {
         $data = array ();
@@ -120,6 +96,8 @@ class NodeController extends Controller
 
         $node_repo = $this->getNodeRepo ();
         $data['nodes'] = $node_repo->getNodes ();
+
+        $data['search_form'] = $this->getSearchForm ()->createView ();
 
         return $data;
     }

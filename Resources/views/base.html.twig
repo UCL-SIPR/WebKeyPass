@@ -30,18 +30,22 @@
 <h1>UCL WebKeyPass</h1>
 
 <div id="side_panel">
+  <form action="{{ path('ucl_wkp_search') }}" method="post" {{ form_enctype(search_form) }}>
+    {{ form_errors(search_form) }}
+    {{ form_errors(search_form.search_text) }}
+    {{ form_widget(search_form.search_text) }}
+    {{ form_rest(search_form) }}
+    <input type="submit" value="Search" />
+  </form>
+
   <ul>
     {{ include('UCLWebKeyPassBundle::tree_view.html.twig', {'nodes': nodes}) }}
   </ul>
 </div>
 
 <div id="contents">
-  <h2>
-    <a href="{{ path('ucl_wkp_root_view') }}">Root</a>
-    {% for node in path %}
-      » {{ include('UCLWebKeyPassBundle::node_link.html.twig', {'node': node}) }}
-    {% endfor %}
-  </h2>
+  {% block page_title %}
+  {% endblock %}
 
   {% for flashMessage in app.session.flashbag.get('notice') %}
     <div class="flash-notice">
