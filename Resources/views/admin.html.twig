@@ -31,6 +31,12 @@
 
   <h2>{{ title }}</h2>
 
+  {% for flashMessage in app.session.flashbag.get('notice') %}
+    <div class="flash-notice">
+      {{ flashMessage }}
+    </div>
+  {% endfor %}
+
   <table class="data">
     <tr>
       <th>User</th>
@@ -58,8 +64,12 @@
           {% endif %}
         </td>
         <td>
-          <a href="{{ path('ucl_wkp_admin_remove_user', user.remove_route_data) }}"
-             onclick="return confirm ('Are you sure you want to remove the user &quot;{{ user.username }}&quot;?')">Remove</a>
+          {% if user.id == auth_user_id %}
+            Impossible
+          {% else %}
+            <a href="{{ path('ucl_wkp_admin_remove_user', user.remove_route_data) }}"
+               onclick="return confirm ('Are you sure you want to remove the user &quot;{{ user.username }}&quot;?')">Remove</a>
+          {% endif %}
         </td>
         <td>
           <a href="#">Edit</a>

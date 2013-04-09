@@ -40,7 +40,8 @@ class AdminController extends Controller
         $list = array ();
         foreach ($all_users as $user)
         {
-            $list[] = array ('username' => $user->getUsername (),
+            $list[] = array ('id' => $user->getId (),
+                             'username' => $user->getUsername (),
                              'is_active' => $user->getIsActive (),
                              'is_admin' => $user->getIsAdmin (),
                              'remove_route_data' => array ('user_id' => $user->getId ()));
@@ -49,7 +50,7 @@ class AdminController extends Controller
         return $list;
     }
 
-    protected function getUserFromId ($user_id)
+    private function getUserFromId ($user_id)
     {
         $user_repo = $this->getUserRepo ();
         $user = $user_repo->find ($user_id);
@@ -62,11 +63,17 @@ class AdminController extends Controller
         return $user;
     }
 
+    private function getAuthenticatedUser ()
+    {
+        return $this->get ('security.context')->getToken ()->getUser ();
+    }
+
     public function showUserListAction ()
     {
         $data = array ();
         $data['title'] = 'Admin Zone';
         $data['users'] = $this->getUserList ();
+        $data['auth_user_id'] = $this->getAuthenticatedUser ()->getId ();
 
         return $this->render ('UCLWebKeyPassBundle::admin.html.twig', $data);
     }
