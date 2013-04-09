@@ -30,6 +30,7 @@ class AdminController extends Controller
     public function adminAction ()
     {
         $data = array ();
+        $data['title'] = 'Admin Zone';
         return $this->render ('UCLWebKeyPassBundle::admin.html.twig', $data);
     }
 }

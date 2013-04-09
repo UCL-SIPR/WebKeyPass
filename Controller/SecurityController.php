@@ -46,6 +46,7 @@ class SecurityController extends Controller
         $data = array ();
         $data['last_username'] = $session->get(SecurityContext::LAST_USERNAME);
         $data['error'] = $error;
+        $data['title'] = 'Login';
 
         return $this->render ('UCLWebKeyPassBundle::login.html.twig', $data);
     }

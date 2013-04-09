@@ -19,26 +19,18 @@
  # Author: Sébastien Wilmet
  #}
 
-{% extends 'UCLWebKeyPassBundle::page.html.twig' %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>UCL WebKeyPass - {{ title }}</title>
+<link href="{{ asset('bundles/uclwebkeypass/css/style.css') }}" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+<h1>UCL WebKeyPass</h1>
 
 {% block body %}
-  {% if error %}
-    <div>{{ error.message }}</div>
-  {% endif %}
-
-  <form action="{{ path('ucl_wkp_login_check') }}" method="post">
-    <p>
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="_username" value="{{ last_username }}" />
-    </p>
-
-    <p>
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="_password" />
-    </p>
-
-    <p>
-      <button type="submit">Login</button>
-    </p>
-  </form>
 {% endblock %}
+
+</body>
+</html>
