@@ -1,0 +1,30 @@
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+
+    providers:
+        in_memory:
+            memory:
+                users:
+                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
+                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+
+    firewalls:
+        login:
+            pattern: ^/WebKeyPass/login$
+            security: false
+
+        secured_area:
+            pattern: ^/WebKeyPass/
+            form_login:
+                check_path: /WebKeyPass/login_check
+                login_path: /WebKeyPass/login
+            logout:
+                path:   /WebKeyPass/logout
+                target: /WebKeyPass/
+
+    access_control:
+        - { path: ^/WebKeyPass/admin, roles: ROLE_ADMIN }

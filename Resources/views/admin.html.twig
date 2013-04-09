@@ -22,43 +22,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>UCL WebKeyPass - {{ title }}</title>
+<title>UCL WebKeyPass - Admin</title>
 <link href="{{ asset('bundles/uclwebkeypass/css/style.css') }}" type="text/css" rel="stylesheet" />
 </head>
 
 <body>
 <h1>UCL WebKeyPass</h1>
 
-<div id="side_panel">
-  <form action="{{ path('ucl_wkp_search') }}" method="post" {{ form_enctype(search_form) }}>
-    {{ form_errors(search_form) }}
-    {{ form_errors(search_form.search_text) }}
-    {{ form_widget(search_form.search_text) }}
-    {{ form_rest(search_form) }}
-    <input type="submit" value="Search" />
-  </form>
-
-  <ul>
-    {{ include('UCLWebKeyPassBundle::tree_view.html.twig', {'nodes': nodes}) }}
-  </ul>
-</div>
-
-<div id="links">
-  <a href="{{ path('ucl_wkp_logout') }}">Logout</a>
-</div>
-
-<div id="contents">
-  {% block page_title %}
-  {% endblock %}
-
-  {% for flashMessage in app.session.flashbag.get('notice') %}
-    <div class="flash-notice">
-      {{ flashMessage }}
-    </div>
-  {% endfor %}
-
-  {% block contents %}
-  {% endblock %}
-</div>
+<h2>Admin Zone</h2>
 </body>
 </html>
