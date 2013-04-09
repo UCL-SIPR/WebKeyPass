@@ -40,21 +40,45 @@ class AdminController extends Controller
         $list = array ();
         foreach ($all_users as $user)
         {
-            $list[] = array ('id' => $user->getId (),
-                             'username' => $user->getUsername (),
+            $list[] = array ('username' => $user->getUsername (),
                              'is_active' => $user->getIsActive (),
-                             'is_admin' => $user->getIsAdmin ());
+                             'is_admin' => $user->getIsAdmin (),
+                             'remove_route_data' => array ('user_id' => $user->getId ()));
         }
 
         return $list;
     }
 
-    public function adminAction ()
+    protected function getUserFromId ($user_id)
+    {
+        $user_repo = $this->getUserRepo ();
+        $user = $user_repo->find ($user_id);
+
+        if (!$user)
+        {
+            throw $this->createNotFoundException ('User id '.$user_id.' not found');
+        }
+
+        return $user;
+    }
+
+    public function showUserListAction ()
     {
         $data = array ();
         $data['title'] = 'Admin Zone';
         $data['users'] = $this->getUserList ();
 
         return $this->render ('UCLWebKeyPassBundle::admin.html.twig', $data);
+    }
+
+    public function removeAction ($user_id)
+    {
+        $user = $this->getUserFromId ($user_id);
+
+        $action = new RemoveAction ($this, $user);
+        $action->setRedirectRoute ('ucl_wkp_admin');
+
+        $success_msg = 'User removed successfully.';
+        return $action->perform ($success_msg);
     }
 }

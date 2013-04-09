@@ -151,7 +151,11 @@ ucl_wkp_misc_remove:
 
 ucl_wkp_admin:
     pattern: /admin
-    defaults: { _controller: UCLWebKeyPassBundle:Admin:admin }
+    defaults: { _controller: UCLWebKeyPassBundle:Admin:showUserList }
+
+ucl_wkp_admin_remove_user:
+    pattern: /admin/{user_id}/remove
+    defaults: { _controller: UCLWebKeyPassBundle:Admin:remove }
 
 # Other
 

@@ -58,7 +58,8 @@
           {% endif %}
         </td>
         <td>
-          <a href="#">Remove</a>
+          <a href="{{ path('ucl_wkp_admin_remove_user', user.remove_route_data) }}"
+             onclick="return confirm ('Are you sure you want to remove the user &quot;{{ user.username }}&quot;?')">Remove</a>
         </td>
         <td>
           <a href="#">Edit</a>
