@@ -52,7 +52,7 @@ class AdminController extends Controller
                              'username' => $user->getUsername (),
                              'is_active' => $user->getIsActive (),
                              'is_admin' => $user->getIsAdmin (),
-                             'remove_route_data' => array ('user_id' => $user->getId ()));
+                             'route_data' => array ('user_id' => $user->getId ()));
         }
 
         return $list;
@@ -99,6 +99,15 @@ class AdminController extends Controller
     public function addUserAction ()
     {
         $action = new AddUserAction ($this, new User ());
+        $action->setRedirectRoute ('ucl_wkp_admin');
+
+        return $action->handleForm ();
+    }
+
+    public function editUserAction ($user_id)
+    {
+        $user = $this->getUserFromId ($user_id);
+        $action = new EditUserAction ($this, $user);
         $action->setRedirectRoute ('ucl_wkp_admin');
 
         return $action->handleForm ();

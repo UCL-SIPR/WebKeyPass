@@ -157,6 +157,10 @@ ucl_wkp_admin_remove_user:
     pattern: /admin/{user_id}/remove
     defaults: { _controller: UCLWebKeyPassBundle:Admin:remove }
 
+ucl_wkp_admin_edit_user:
+    pattern: /admin/{user_id}/edit
+    defaults: { _controller: UCLWebKeyPassBundle:Admin:editUser }
+
 ucl_wkp_admin_add_user:
     pattern: /admin/add_user
     defaults: { _controller: UCLWebKeyPassBundle:Admin:addUser }
