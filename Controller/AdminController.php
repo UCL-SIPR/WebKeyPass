@@ -27,10 +27,34 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends Controller
 {
+    private function getUserRepo ()
+    {
+        return $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:User');
+    }
+
+    private function getUserList ()
+    {
+        $user_repo = $this->getUserRepo ();
+        $all_users = $user_repo->getAllUsers ();
+
+        $list = array ();
+        foreach ($all_users as $user)
+        {
+            $list[] = array ('id' => $user->getId (),
+                             'username' => $user->getUsername (),
+                             'is_active' => $user->getIsActive (),
+                             'is_admin' => $user->getIsAdmin ());
+        }
+
+        return $list;
+    }
+
     public function adminAction ()
     {
         $data = array ();
         $data['title'] = 'Admin Zone';
+        $data['users'] = $this->getUserList ();
+
         return $this->render ('UCLWebKeyPassBundle::admin.html.twig', $data);
     }
 }

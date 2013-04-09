@@ -164,6 +164,20 @@ textarea
     height: 10em;
 }
 
+/* Real tables */
+
+table.data
+{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+table.data th, table.data td
+{
+    border: 1px solid black;
+    padding: 0.2em 0.5em;
+}
+
 /* Other */
 
 div.flash-notice

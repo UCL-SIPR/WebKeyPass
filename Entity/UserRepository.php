@@ -26,4 +26,14 @@ use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository
 {
+    public function getAllUsers ()
+    {
+        return $this->getEntityManager ()
+            ->createQueryBuilder ()
+            ->select ('user')
+            ->from ('UCLWebKeyPassBundle:User', 'user')
+            ->orderBy ('user.username', 'ASC')
+            ->getQuery ()
+            ->getResult ();
+    }
 }
