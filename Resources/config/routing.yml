@@ -178,5 +178,9 @@ ucl_wkp_login:
 ucl_wkp_login_check:
     pattern: /login_check
 
+ucl_wkp_login_success:
+    pattern: /login_success
+    defaults: { _controller: UCLWebKeyPassBundle:Security:loginSuccess }
+
 ucl_wkp_logout:
     pattern: /logout

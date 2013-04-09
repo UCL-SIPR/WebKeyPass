@@ -22,6 +22,8 @@ security:
             form_login:
                 check_path: /WebKeyPass/login_check
                 login_path: /WebKeyPass/login
+                always_use_default_target_path: true
+                default_target_path: /WebKeyPass/login_success
             logout:
                 path:   /WebKeyPass/logout
                 target: /WebKeyPass/

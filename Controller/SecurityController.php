@@ -24,6 +24,7 @@ namespace UCL\WebKeyPassBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
+use UCL\WebKeyPassBundle\Entity\Log;
 
 class SecurityController extends Controller
 {
@@ -49,5 +50,26 @@ class SecurityController extends Controller
         $data['title'] = 'Login';
 
         return $this->render ('UCLWebKeyPassBundle::login.html.twig', $data);
+    }
+
+    private function getAuthenticatedUser ()
+    {
+        return $this->get ('security.context')->getToken ()->getUser ();
+    }
+
+    public function loginSuccessAction ()
+    {
+        $log = new Log ();
+        $log->setType ('login');
+
+        $user = $this->getAuthenticatedUser ();
+        $log->setComment ('User: ' . $user->getUsername ());
+
+        $db_manager = $this->getDoctrine ()->getManager ();
+        $db_manager->persist ($log);
+        $db_manager->flush ();
+
+        $redirect_url = $this->generateUrl ('ucl_wkp_root_view');
+        return $this->redirect ($redirect_url);
     }
 }
