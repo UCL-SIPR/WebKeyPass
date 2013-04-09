@@ -112,13 +112,13 @@ h1
 
 /* Contents: action links */
 
-#contents ul.actions
+ul.actions
 {
     margin: 0;
     padding: 0;
 }
 
-#contents ul.actions li
+ul.actions li
 {
     float: left;
     list-style: none;

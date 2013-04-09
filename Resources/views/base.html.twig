@@ -37,7 +37,13 @@
   </div>
 
   <div id="links">
-    <a href="{{ path('ucl_wkp_logout') }}">Logout</a>
+    <ul class="actions">
+      {% if is_granted('ROLE_ADMIN') %}
+        <li><a href="{{ path('ucl_wkp_admin') }}">Admin Zone</a></li>
+      {% endif %}
+
+      <li><a href="{{ path('ucl_wkp_logout') }}">Logout</a></li>
+    </ul>
   </div>
 
   <div id="contents">

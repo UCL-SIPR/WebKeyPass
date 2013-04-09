@@ -22,5 +22,12 @@
 {% extends 'UCLWebKeyPassBundle::page.html.twig' %}
 
 {% block body %}
+  <div id="links">
+    <ul class="actions">
+      <li><a href="{{ path('ucl_wkp_root_view') }}">Quit Admin Zone</a></li>
+      <li><a href="{{ path('ucl_wkp_logout') }}">Logout</a></li>
+    </ul>
+  </div>
+
   <h2>{{ title }}</h2>
 {% endblock %}
