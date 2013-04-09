@@ -1,7 +1,7 @@
 security:
     encoders:
         UCL\WebKeyPassBundle\Entity\User:
-            algorithm:        sha1
+            algorithm:        sha256
             encode_as_base64: false
             iterations:       1
 

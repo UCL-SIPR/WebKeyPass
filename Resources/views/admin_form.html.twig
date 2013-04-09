@@ -19,24 +19,14 @@
  # Author: Sébastien Wilmet
  #}
 
-{% extends 'UCLWebKeyPassBundle::page.html.twig' %}
+{% extends 'UCLWebKeyPassBundle::admin.html.twig' %}
 
-{% block body %}
-  <div id="links">
-    <ul class="actions">
-      <li><a href="{{ path('ucl_wkp_root_view') }}">Quit Admin Zone</a></li>
-      <li><a href="{{ path('ucl_wkp_logout') }}">Logout</a></li>
-    </ul>
-  </div>
+{% block contents %}
+  <h3>{{ action }}</h3>
 
-  <h2>{{ title }}</h2>
+  <form action="#" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
 
-  {% for flashMessage in app.session.flashbag.get('notice') %}
-    <div class="flash-notice">
-      {{ flashMessage }}
-    </div>
-  {% endfor %}
-
-  {% block contents %}
-  {% endblock %}
+    <input type="submit" />
+  </form>
 {% endblock %}

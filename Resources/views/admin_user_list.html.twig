@@ -1,0 +1,73 @@
+{#
+ # This file is part of WebKeyPass.
+ #
+ # Copyright © 2013 Université Catholique de Louvain
+ #
+ # WebKeyPass is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation, either version 3 of the License, or
+ # (at your option) any later version.
+ #
+ # WebKeyPass is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+ # along with WebKeyPass.  If not, see <http://www.gnu.org/licenses/>.
+ #
+ # Author: Sébastien Wilmet
+ #}
+
+{% extends 'UCLWebKeyPassBundle::admin.html.twig' %}
+
+{% block contents %}
+  <h3>Actions</h3>
+  <ul class="actions">
+    <li><a href="{{ path('ucl_wkp_admin_add_user') }}">Add User</a></li>
+  </ul>
+
+  <div style="clear: both;"></div>
+
+  <h3>Users List</h3>
+  <table class="data">
+    <tr>
+      <th>User</th>
+      <th>Is active</th>
+      <th>Is admin</th>
+      <th>Remove</th>
+      <th>Edit</th>
+    </tr>
+
+    {% for user in users %}
+      <tr>
+        <td>{{ user.username }}</td>
+        <td>
+          {% if user.is_active %}
+            Yes
+          {% else %}
+            No
+          {% endif %}
+        </td>
+        <td>
+          {% if user.is_admin %}
+            Yes
+          {% else %}
+            No
+          {% endif %}
+        </td>
+        <td>
+          {% if user.id == auth_user_id %}
+            Impossible
+          {% else %}
+            <a href="{{ path('ucl_wkp_admin_remove_user', user.remove_route_data) }}"
+               onclick="return confirm ('Are you sure you want to remove the user &quot;{{ user.username }}&quot;?')">Remove</a>
+          {% endif %}
+        </td>
+        <td>
+          <a href="#">Edit</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

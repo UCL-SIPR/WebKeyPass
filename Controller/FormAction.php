@@ -34,6 +34,11 @@ class FormAction extends Action
     {
     }
 
+    protected function renderTemplate ($data)
+    {
+        return $this->controller->render ('UCLWebKeyPassBundle::form.html.twig', $data);
+    }
+
     public function handleForm ()
     {
         $data = $this->controller->getCommonData ();
@@ -60,6 +65,6 @@ class FormAction extends Action
         }
 
         $data['form'] = $form->createView ();
-        return $this->controller->render ('UCLWebKeyPassBundle::form.html.twig', $data);
+        return $this->renderTemplate ($data);
     }
 }

@@ -24,9 +24,17 @@ namespace UCL\WebKeyPassBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use UCL\WebKeyPassBundle\Entity\User;
 
 class AdminController extends Controller
 {
+    public function getCommonData ()
+    {
+        $data = array ();
+        $data['title'] = 'Admin Zone';
+        return $data;
+    }
+
     private function getUserRepo ()
     {
         return $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:User');
@@ -70,12 +78,11 @@ class AdminController extends Controller
 
     public function showUserListAction ()
     {
-        $data = array ();
-        $data['title'] = 'Admin Zone';
+        $data = $this->getCommonData ();
         $data['users'] = $this->getUserList ();
         $data['auth_user_id'] = $this->getAuthenticatedUser ()->getId ();
 
-        return $this->render ('UCLWebKeyPassBundle::admin.html.twig', $data);
+        return $this->render ('UCLWebKeyPassBundle::admin_user_list.html.twig', $data);
     }
 
     public function removeAction ($user_id)
@@ -87,5 +94,13 @@ class AdminController extends Controller
 
         $success_msg = 'User removed successfully.';
         return $action->perform ($success_msg);
+    }
+
+    public function addUserAction ()
+    {
+        $action = new AddUserAction ($this, new User ());
+        $action->setRedirectRoute ('ucl_wkp_admin');
+
+        return $action->handleForm ();
     }
 }
