@@ -118,10 +118,10 @@ class AdminController extends Controller
         return $action->handleForm ();
     }
 
-    private function getLogEntries ()
+    private function getLogEntries ($year_month)
     {
         $log_repo = $this->getLogRepo ();
-        $logs = $log_repo->getAllLogs ();
+        $logs = $log_repo->getLogs ($year_month);
 
         $log_entries = array ();
         foreach ($logs as $log)
@@ -137,11 +137,34 @@ class AdminController extends Controller
         return $log_entries;
     }
 
-    public function showLogAction ()
+    public function showLogAction ($year_month)
     {
         $data = $this->getCommonData ();
-        $data['log_entries'] = $this->getLogEntries ();
+        $data['log_entries'] = $this->getLogEntries ($year_month);
 
         return $this->render ('UCLWebKeyPassBundle::admin_log.html.twig', $data);
+    }
+
+    private function getLogMonths ()
+    {
+        $log_repo = $this->getLogRepo ();
+        $months = $log_repo->getMonths ();
+        $log_months = array ();
+
+        foreach ($months as $month)
+        {
+            $log_months[] = array ('route_data' => $month,
+                                   'str' => $month['year_month']);
+        }
+
+        return $log_months;
+    }
+
+    public function showLogMonthsAction ()
+    {
+        $data = $this->getCommonData ();
+        $data['months'] = $this->getLogMonths ();
+
+        return $this->render ('UCLWebKeyPassBundle::admin_log_months.html.twig', $data);
     }
 }

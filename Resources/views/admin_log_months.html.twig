@@ -19,26 +19,13 @@
  # Author: Sébastien Wilmet
  #}
 
-{% extends 'UCLWebKeyPassBundle::page.html.twig' %}
+{% extends 'UCLWebKeyPassBundle::admin.html.twig' %}
 
-{% block body %}
-  <div id="links">
-    <ul class="actions">
-      <li><a href="{{ path('ucl_wkp_admin_user_list') }}">Users</a></li>
-      <li><a href="{{ path('ucl_wkp_admin_log_months') }}">Log</a></li>
-      <li><a href="{{ path('ucl_wkp_root_view') }}">Quit Admin Zone</a></li>
-      <li><a href="{{ path('ucl_wkp_logout') }}">Logout</a></li>
-    </ul>
-  </div>
-
-  <h2>{{ title }}</h2>
-
-  {% for flashMessage in app.session.flashbag.get('notice') %}
-    <div class="flash-notice">
-      {{ flashMessage }}
-    </div>
-  {% endfor %}
-
-  {% block contents %}
-  {% endblock %}
+{% block contents %}
+  <h3>Log</h3>
+  <ul>
+    {% for month in months %}
+      <li><a href="{{ path('ucl_wkp_admin_log', month.route_data) }}">{{ month.str }}</a></li>
+    {% endfor %}
+  </ul>
 {% endblock %}

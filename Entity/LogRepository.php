@@ -26,12 +26,25 @@ use Doctrine\ORM\EntityRepository;
 
 class LogRepository extends EntityRepository
 {
-    public function getAllLogs ()
+    public function getMonths ()
+    {
+        return $this->getEntityManager ()
+            ->createQueryBuilder ()
+            ->select ('distinct substring(log.date, 1, 7) as year_month')
+            ->from ('UCLWebKeyPassBundle:Log', 'log')
+            ->orderBy ('year_month', 'ASC')
+            ->getQuery ()
+            ->getResult ();
+    }
+
+    public function getLogs ($year_month)
     {
         return $this->getEntityManager ()
             ->createQueryBuilder ()
             ->select ('log')
             ->from ('UCLWebKeyPassBundle:Log', 'log')
+            ->where ('substring(log.date, 1, 7) = :year_month')
+            ->setParameter ('year_month', $year_month)
             ->orderBy ('log.date', 'ASC')
             ->getQuery ()
             ->getResult ();

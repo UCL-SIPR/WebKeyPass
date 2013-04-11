@@ -153,8 +153,12 @@ ucl_wkp_admin_user_list:
     pattern: /admin/user_list
     defaults: { _controller: UCLWebKeyPassBundle:Admin:showUserList }
 
-ucl_wkp_admin_log:
+ucl_wkp_admin_log_months:
     pattern: /admin/log
+    defaults: { _controller: UCLWebKeyPassBundle:Admin:showLogMonths }
+
+ucl_wkp_admin_log:
+    pattern: /admin/log/{year_month}
     defaults: { _controller: UCLWebKeyPassBundle:Admin:showLog }
 
 ucl_wkp_admin_remove_user:
