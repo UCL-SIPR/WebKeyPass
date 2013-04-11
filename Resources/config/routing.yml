@@ -184,3 +184,7 @@ ucl_wkp_login_success:
 
 ucl_wkp_logout:
     pattern: /logout
+    defaults: { _controller: UCLWebKeyPassBundle:Security:logLogout }
+
+ucl_wkp_logout_real:
+    pattern: /logout_real

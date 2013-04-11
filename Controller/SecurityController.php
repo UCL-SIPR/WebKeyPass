@@ -72,4 +72,20 @@ class SecurityController extends Controller
         $redirect_url = $this->generateUrl ('ucl_wkp_root_view');
         return $this->redirect ($redirect_url);
     }
+
+    public function logLogoutAction ()
+    {
+        $log = new Log ();
+        $log->setType ('logout');
+
+        $user = $this->getAuthenticatedUser ();
+        $log->setComment ('User: ' . $user->getUsername ());
+
+        $db_manager = $this->getDoctrine ()->getManager ();
+        $db_manager->persist ($log);
+        $db_manager->flush ();
+
+        $redirect_url = $this->generateUrl ('ucl_wkp_logout_real');
+        return $this->redirect ($redirect_url);
+    }
 }
