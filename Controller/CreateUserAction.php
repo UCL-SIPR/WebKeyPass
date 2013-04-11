@@ -38,4 +38,10 @@ class CreateUserAction extends FormAddAction
     {
         return new CreateUserForm ();
     }
+
+    protected function formIsValid ($form)
+    {
+        $user = $form->getData ();
+        return $this->isStrongPassword ($form, $user->getClearPassword ());
+    }
 }

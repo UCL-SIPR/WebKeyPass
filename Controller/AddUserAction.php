@@ -38,4 +38,10 @@ class AddUserAction extends FormAddAction
     {
         return $this->controller->render ('UCLWebKeyPassBundle::admin_form.html.twig', $data);
     }
+
+    protected function formIsValid ($form)
+    {
+        $user = $form->getData ();
+        return $this->isStrongPassword ($form, $user->getClearPassword ());
+    }
 }

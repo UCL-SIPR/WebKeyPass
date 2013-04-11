@@ -33,4 +33,10 @@ class ChangePasswordUserAction extends FormAction
     {
         return new ChangePasswordUserForm ();
     }
+
+    protected function formIsValid ($form)
+    {
+        $user = $form->getData ();
+        return $this->isStrongPassword ($form, $user->getClearPassword ());
+    }
 }

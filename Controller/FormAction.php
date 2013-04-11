@@ -23,6 +23,7 @@
 namespace UCL\WebKeyPassBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\FormError;
 
 class FormAction extends Action
 {
@@ -39,6 +40,47 @@ class FormAction extends Action
         return $this->controller->render ('UCLWebKeyPassBundle::form.html.twig', $data);
     }
 
+    protected function isStrongPassword ($form, $password)
+    {
+        $min_length = 8;
+        $ok = true;
+
+        if (strlen ($password) < $min_length)
+        {
+            $msg = 'The password must have '. $min_length .' characters minimum.';
+            $form->addError (new FormError ($msg));
+            $ok = false;
+        }
+
+        if (!preg_match ("/[0-9]/", $password))
+        {
+            $msg = 'The password must contain a digit.';
+            $form->addError (new FormError ($msg));
+            $ok = false;
+        }
+
+        if (!preg_match ("/[a-z]/", $password))
+        {
+            $msg = 'The password must contain a lowercase letter.';
+            $form->addError (new FormError ($msg));
+            $ok = false;
+        }
+
+        if (!preg_match ("/[A-Z]/", $password))
+        {
+            $msg = 'The password must contain an uppercase letter.';
+            $form->addError (new FormError ($msg));
+            $ok = false;
+        }
+
+        return $ok;
+    }
+
+    protected function formIsValid ($form)
+    {
+        return true;
+    }
+
     public function handleForm ()
     {
         $data = $this->controller->getCommonData ();
@@ -52,7 +94,8 @@ class FormAction extends Action
         {
             $form->bind ($request);
 
-            if ($form->isValid ())
+            if ($this->formIsValid ($form) &&
+                $form->isValid ())
             {
                 $db_manager = $this->controller->getDoctrine ()->getManager ();
                 $this->saveData ($db_manager, $form);

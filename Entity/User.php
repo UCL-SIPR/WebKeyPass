@@ -58,6 +58,8 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $isAdmin;
 
+    private $clear_password;
+
     public function __construct()
     {
         $this->isActive = true;
@@ -143,8 +145,14 @@ class User implements AdvancedUserInterface, \Serializable
 
     public function setPassword($password)
     {
+        $this->clear_password = $password;
         $this->password = hash ('sha256', $password);
         return $this;
+    }
+
+    public function getClearPassword ()
+    {
+        return $this->clear_password;
     }
 
     public function resetPassword ()

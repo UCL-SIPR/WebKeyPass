@@ -2,7 +2,7 @@ TODO
 
 - User form: two password fields
 - User form: error if user already taken
-- User form: strong password required
+- User form: add name, e-mail, private key fields
 - Write installation instructions
 - Better user password hashing (with a salt, and several iterations)
 
