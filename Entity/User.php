@@ -147,6 +147,11 @@ class User implements AdvancedUserInterface, \Serializable
         return $this;
     }
 
+    public function resetPassword ()
+    {
+        $this->password = "";
+    }
+
     public function getIsActive()
     {
         return $this->isActive;

@@ -67,4 +67,19 @@ class RootNodeController extends NodeController
 
         return $action->handleForm ();
     }
+
+    private function getAuthenticatedUser ()
+    {
+        return $this->get ('security.context')->getToken ()->getUser ();
+    }
+
+    public function changePasswordAction ()
+    {
+        $user = $this->getAuthenticatedUser ();
+        $user->resetPassword ();
+        $action = new ChangePasswordUserAction ($this, $user);
+        $action->setRedirectRoute ('ucl_wkp_root_view');
+
+        return $action->handleForm ();
+    }
 }

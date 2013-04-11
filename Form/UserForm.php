@@ -28,22 +28,34 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class UserForm extends AbstractType
 {
+    protected $has_username = true;
     protected $has_password = true;
+    protected $has_is_active = true;
+    protected $has_is_admin = true;
 
     public function buildForm (FormBuilderInterface $builder, array $options)
     {
-        $builder->add ('username');
+        if ($this->has_username)
+        {
+            $builder->add ('username');
+        }
 
         if ($this->has_password)
         {
             $builder->add ('password');
         }
 
-        $builder->add ('isActive', 'checkbox', array ('label' => 'Is active',
-                                                      'required' => false));
+        if ($this->has_is_active)
+        {
+            $builder->add ('isActive', 'checkbox', array ('label' => 'Is active',
+                                                          'required' => false));
+        }
 
-        $builder->add ('isAdmin', 'checkbox', array ('label' => 'Is admin',
-                                                     'required' => false));
+        if ($this->has_is_admin)
+        {
+            $builder->add ('isAdmin', 'checkbox', array ('label' => 'Is admin',
+                                                         'required' => false));
+        }
     }
 
     public function setDefaultOptions (OptionsResolverInterface $resolver)
