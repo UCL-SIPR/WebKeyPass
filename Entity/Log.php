@@ -86,6 +86,11 @@ class Log
         return $this->date;
     }
 
+    public function getDateStr()
+    {
+        return $this->date->format ('d/m/Y H:i');
+    }
+
     public function setComment($comment)
     {
         $this->comment = $comment;

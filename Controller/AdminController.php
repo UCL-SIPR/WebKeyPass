@@ -40,6 +40,11 @@ class AdminController extends Controller
         return $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:User');
     }
 
+    private function getLogRepo ()
+    {
+        return $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Log');
+    }
+
     private function getUserList ()
     {
         $user_repo = $this->getUserRepo ();
@@ -85,12 +90,12 @@ class AdminController extends Controller
         return $this->render ('UCLWebKeyPassBundle::admin_user_list.html.twig', $data);
     }
 
-    public function removeAction ($user_id)
+    public function removeUserAction ($user_id)
     {
         $user = $this->getUserFromId ($user_id);
 
         $action = new RemoveAction ($this, $user);
-        $action->setRedirectRoute ('ucl_wkp_admin');
+        $action->setRedirectRoute ('ucl_wkp_admin_user_list');
 
         $success_msg = 'User removed successfully.';
         return $action->perform ($success_msg);
@@ -99,7 +104,7 @@ class AdminController extends Controller
     public function addUserAction ()
     {
         $action = new AddUserAction ($this, new User ());
-        $action->setRedirectRoute ('ucl_wkp_admin');
+        $action->setRedirectRoute ('ucl_wkp_admin_user_list');
 
         return $action->handleForm ();
     }
@@ -108,8 +113,35 @@ class AdminController extends Controller
     {
         $user = $this->getUserFromId ($user_id);
         $action = new EditUserAction ($this, $user);
-        $action->setRedirectRoute ('ucl_wkp_admin');
+        $action->setRedirectRoute ('ucl_wkp_admin_user_list');
 
         return $action->handleForm ();
+    }
+
+    private function getLogEntries ()
+    {
+        $log_repo = $this->getLogRepo ();
+        $logs = $log_repo->getAllLogs ();
+
+        $log_entries = array ();
+        foreach ($logs as $log)
+        {
+            $log_entry = array ();
+            $log_entry['type'] = $log->getType ();
+            $log_entry['info'] = $log->getComment ();
+            $log_entry['date'] = $log->getDateStr ();
+
+            $log_entries[] = $log_entry;
+        }
+
+        return $log_entries;
+    }
+
+    public function showLogAction ()
+    {
+        $data = $this->getCommonData ();
+        $data['log_entries'] = $this->getLogEntries ();
+
+        return $this->render ('UCLWebKeyPassBundle::admin_log.html.twig', $data);
     }
 }

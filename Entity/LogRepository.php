@@ -26,4 +26,14 @@ use Doctrine\ORM\EntityRepository;
 
 class LogRepository extends EntityRepository
 {
+    public function getAllLogs ()
+    {
+        return $this->getEntityManager ()
+            ->createQueryBuilder ()
+            ->select ('log')
+            ->from ('UCLWebKeyPassBundle:Log', 'log')
+            ->orderBy ('log.date', 'ASC')
+            ->getQuery ()
+            ->getResult ();
+    }
 }

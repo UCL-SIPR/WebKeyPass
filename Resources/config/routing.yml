@@ -149,13 +149,17 @@ ucl_wkp_misc_remove:
 
 # Admin zone
 
-ucl_wkp_admin:
-    pattern: /admin
+ucl_wkp_admin_user_list:
+    pattern: /admin/user_list
     defaults: { _controller: UCLWebKeyPassBundle:Admin:showUserList }
+
+ucl_wkp_admin_log:
+    pattern: /admin/log
+    defaults: { _controller: UCLWebKeyPassBundle:Admin:showLog }
 
 ucl_wkp_admin_remove_user:
     pattern: /admin/{user_id}/remove
-    defaults: { _controller: UCLWebKeyPassBundle:Admin:remove }
+    defaults: { _controller: UCLWebKeyPassBundle:Admin:removeUser }
 
 ucl_wkp_admin_edit_user:
     pattern: /admin/{user_id}/edit
