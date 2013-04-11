@@ -2,14 +2,12 @@ TODO
 
 - User form: two password fields
 - User form: error if user already taken
-- User account: edit password (strong password required)
-- Login page: create new account (the admin can enable it afterwards)
+- User form: strong password required
 - Write installation instructions
 - Better user password hashing (with a salt, and several iterations)
 
 - For the name of nodes, show a list of existing names, with a possibility to add a new name
 - Encrypt/decrypt passwords
-- Log the accesses
 - Tree view: some JavaScript for showing/hiding nodes
 - Improve CSS
 - Add/remove icons form
