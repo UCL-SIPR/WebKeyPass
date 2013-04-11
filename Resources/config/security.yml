@@ -13,6 +13,10 @@ security:
             entity: { class: UCLWebKeyPassBundle:User, property: username }
 
     firewalls:
+        create_account:
+            pattern: ^/WebKeyPass/create_account
+            security: false
+
         login:
             pattern: ^/WebKeyPass/login$
             security: false
