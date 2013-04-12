@@ -34,9 +34,25 @@ class ChangePasswordUserAction extends FormAction
         return new ChangePasswordUserForm ();
     }
 
+    protected function getFormData ()
+    {
+        return array ('password1' => '',
+                      'password2' => '');
+    }
+
+    protected function saveData ($db_manager, $form)
+    {
+        $form_data = $form->getData ();
+        $user = $this->node;
+        $user->setPassword ($form_data['password1']);
+    }
+
     protected function formIsValid ($form)
     {
-        $user = $form->getData ();
-        return $this->isStrongPassword ($form, $user->getClearPassword ());
+        $form_data = $form->getData ();
+
+        return $this->checkPasswords ($form,
+                                      $form_data['password1'],
+                                      $form_data['password2']);
     }
 }

@@ -46,7 +46,8 @@ class UserForm extends AbstractType
 
         if ($this->has_password)
         {
-            $builder->add ('password');
+            $builder->add ('password1', 'password', array ('label' => 'Password'));
+            $builder->add ('password2', 'password', array ('label' => 'Password (retype)'));
         }
 
         if ($this->has_first_name)
@@ -80,11 +81,6 @@ class UserForm extends AbstractType
             $builder->add ('isAdmin', 'checkbox', array ('label' => 'Is admin',
                                                          'required' => false));
         }
-    }
-
-    public function setDefaultOptions (OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults (array ('data_class' => 'UCL\WebKeyPassBundle\Entity\User'));
     }
 
     public function getName ()

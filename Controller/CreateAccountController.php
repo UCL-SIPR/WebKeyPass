@@ -37,11 +37,7 @@ class CreateAccountController extends MainController
 
     public function createAccountAction ()
     {
-        $user = new User ();
-        $user->setIsActive (false);
-        $user->setIsAdmin (false);
-
-        $action = new CreateUserAction ($this, $user);
+        $action = new CreateUserAction ($this, null);
         $action->setRedirectRoute ('ucl_wkp_login');
 
         return $action->handleForm ();

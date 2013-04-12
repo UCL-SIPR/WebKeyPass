@@ -31,6 +31,11 @@ class FormAction extends Action
     {
     }
 
+    protected function getFormData ()
+    {
+        return $this->node;
+    }
+
     protected function saveData ($db_manager, $form)
     {
     }
@@ -38,6 +43,20 @@ class FormAction extends Action
     protected function renderTemplate ($data)
     {
         return $this->controller->render ('UCLWebKeyPassBundle::form.html.twig', $data);
+    }
+
+    protected function checkPasswords ($form, $password1, $password2)
+    {
+        $ok = $this->isStrongPassword ($form, $password1);
+
+        if ($password1 !== $password2)
+        {
+            $msg = 'The passwords don\'t match.';
+            $form->addError (new FormError ($msg));
+            $ok = false;
+        }
+
+        return $ok;
     }
 
     protected function isStrongPassword ($form, $password)
@@ -86,7 +105,7 @@ class FormAction extends Action
         $data = $this->controller->getCommonData ();
         $data['action'] = $this->fullname;
 
-        $form = $this->controller->createForm ($this->getForm (), $this->node);
+        $form = $this->controller->createForm ($this->getForm (), $this->getFormData ());
 
         $request = $this->controller->getRequest ();
 

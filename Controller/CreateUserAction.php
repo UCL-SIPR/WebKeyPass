@@ -23,6 +23,7 @@
 namespace UCL\WebKeyPassBundle\Controller;
 
 use UCL\WebKeyPassBundle\Form\CreateUserForm;
+use UCL\WebKeyPassBundle\Entity\User;
 
 class CreateUserAction extends FormAddAction
 {
@@ -39,9 +40,40 @@ class CreateUserAction extends FormAddAction
         return new CreateUserForm ();
     }
 
+    protected function getFormData ()
+    {
+        return array ('username' => '',
+                      'password1' => '',
+                      'password2' => '',
+                      'first_name' => '',
+                      'last_name' => '',
+                      'email' => '',
+                      'private_key' => '');
+    }
+
+    protected function saveData ($db_manager, $form)
+    {
+        $form_data = $form->getData ();
+        $user = new User ();
+
+        $user->setUsername ($form_data['username']);
+        $user->setPassword ($form_data['password1']);
+        $user->setFirstName ($form_data['first_name']);
+        $user->setLastName ($form_data['last_name']);
+        $user->setEmail ($form_data['email']);
+        $user->setPrivateKey ($form_data['private_key']);
+        $user->setIsActive (false);
+        $user->setIsAdmin (false);
+
+        $db_manager->persist ($user);
+    }
+
     protected function formIsValid ($form)
     {
-        $user = $form->getData ();
-        return $this->isStrongPassword ($form, $user->getClearPassword ());
+        $form_data = $form->getData ();
+
+        return $this->checkPasswords ($form,
+                                      $form_data['password1'],
+                                      $form_data['password2']);
     }
 }

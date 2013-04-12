@@ -103,7 +103,7 @@ class AdminController extends Controller
 
     public function addUserAction ()
     {
-        $action = new AddUserAction ($this, new User ());
+        $action = new AddUserAction ($this, null);
         $action->setRedirectRoute ('ucl_wkp_admin_user_list');
 
         return $action->handleForm ();
