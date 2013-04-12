@@ -26,7 +26,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class EditUserForm extends UserForm
+class AdminEditUserForm extends UserForm
 {
     protected $has_password = false;
     protected $has_private_key = false;

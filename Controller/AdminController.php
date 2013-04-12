@@ -107,7 +107,7 @@ class AdminController extends MainController
     public function editUserAction ($user_id)
     {
         $user = $this->getUserFromId ($user_id);
-        $action = new EditUserAction ($this, $user);
+        $action = new AdminEditUserAction ($this, $user);
         $action->setRedirectRoute ('ucl_wkp_admin_user_list');
 
         return $action->handleForm ();

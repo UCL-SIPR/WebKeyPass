@@ -22,16 +22,16 @@
 
 namespace UCL\WebKeyPassBundle\Controller;
 
-use UCL\WebKeyPassBundle\Form\EditUserForm;
+use UCL\WebKeyPassBundle\Form\AdminEditUserForm;
 
-class EditUserAction extends FormAction
+class AdminEditUserAction extends FormAction
 {
     protected $fullname = 'Edit User';
     protected $success_msg = 'User edited successfully.';
 
     protected function getForm ()
     {
-        return new EditUserForm ();
+        return new AdminEditUserForm ();
     }
 
     protected function renderTemplate ($data)
