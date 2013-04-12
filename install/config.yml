@@ -1,0 +1,6 @@
+# app/config/config.yml
+#
+# Import the bundle's security config file.
+
+imports:
+    - { resource: '@UCLWebKeyPassBundle/Resources/config/security.yml' }

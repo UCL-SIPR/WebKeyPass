@@ -1,0 +1,5 @@
+# app/config/routing.yml
+
+ucl_web_key_pass:
+    resource: "@UCLWebKeyPassBundle/Resources/config/routing.yml"
+    prefix:   /WebKeyPass

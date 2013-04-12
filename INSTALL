@@ -1,0 +1,47 @@
+Installation
+
+* Install Symfony 2
+
+This bundle has been developed with Symfony 2.1.8, but any further 2.1.x
+version should work too.
+
+* Place the bundle
+
+The contents of this bundle should be placed in
+src/UCL/WebKeyPassBundle/ in the Symfony directory.
+
+* Routing
+
+See the file install/routing.yml (in this bundle). Add its contents to
+app/config/routing.yml (in the Symfony installation).
+
+* Register the bundle
+
+Add the following line in app/AppKernel.php.
+
+	new UCL\WebKeyPassBundle\UCLWebKeyPassBundle()
+
+* Assets (images, css, …)
+
+Run the following command:
+$ php app/console assets:install web --symlink
+
+* Import security config
+
+See the file install/config.yml.
+Remove the 'security' section of app/config/security.yml (if the section
+exists).
+
+* Database
+
+Ensure that app/config/parameters.yml is correct.
+Execute the following command:
+$ php app/console doctrine:schema:create
+
+Or:
+$ php app/console doctrine:schema:update --force
+
+* Test
+
+Open in your web browser:
+http://path/to/Symfony/web/app.php/WebKeyPass/
