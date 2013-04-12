@@ -179,9 +179,9 @@ ucl_wkp_search:
     pattern: /search
     defaults: { _controller: UCLWebKeyPassBundle:Search:search }
 
-ucl_wkp_change_password:
-    pattern: /change_password
-    defaults: { _controller: UCLWebKeyPassBundle:RootNode:changePassword }
+ucl_wkp_edit_user:
+    pattern: /edit_user
+    defaults: { _controller: UCLWebKeyPassBundle:RootNode:editUser }
 
 ucl_wkp_create_account:
     pattern: /create_account

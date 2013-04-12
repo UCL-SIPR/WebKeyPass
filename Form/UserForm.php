@@ -30,6 +30,7 @@ class UserForm extends AbstractType
 {
     protected $has_username = true;
     protected $has_password = true;
+    protected $has_old_password = false;
     protected $has_first_name = true;
     protected $has_last_name = true;
     protected $has_email = true;
@@ -44,10 +45,19 @@ class UserForm extends AbstractType
             $builder->add ('username');
         }
 
+        if ($this->has_old_password)
+        {
+            $builder->add ('old-password', 'password', array ('label' => 'Old password',
+                                                              'required' => false));
+        }
+
         if ($this->has_password)
         {
-            $builder->add ('password1', 'password', array ('label' => 'Password'));
-            $builder->add ('password2', 'password', array ('label' => 'Password (retype)'));
+            $builder->add ('password1', 'password', array ('label' => 'Password',
+                                                           'required' => false));
+
+            $builder->add ('password2', 'password', array ('label' => 'Password (retype)',
+                                                           'required' => false));
         }
 
         if ($this->has_first_name)
