@@ -26,18 +26,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use UCL\WebKeyPassBundle\Entity\User;
 
-class AdminController extends Controller
+class AdminController extends MainController
 {
     public function getCommonData ()
     {
         $data = array ();
         $data['title'] = 'Admin Zone';
         return $data;
-    }
-
-    private function getUserRepo ()
-    {
-        return $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:User');
     }
 
     private function getLogRepo ()

@@ -32,6 +32,11 @@ class MainController extends Controller
         return $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:Node');
     }
 
+    public function getUserRepo ()
+    {
+        return $this->getDoctrine ()->getRepository ('UCLWebKeyPassBundle:User');
+    }
+
     protected function getPathNodeInfos ($node)
     {
         return array ('class' => $node->getTypeStr (),

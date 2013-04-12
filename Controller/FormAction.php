@@ -95,6 +95,21 @@ class FormAction extends Action
         return $ok;
     }
 
+    protected function checkUsername ($form, $username)
+    {
+        $ok = true;
+
+        $user_repo = $this->controller->getUserRepo ();
+        if ($user_repo->userExists ($username))
+        {
+            $msg = 'The username is already taken.';
+            $form->addError (new FormError ($msg));
+            $ok = false;
+        }
+
+        return $ok;
+    }
+
     protected function formIsValid ($form)
     {
         return true;

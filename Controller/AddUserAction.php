@@ -72,10 +72,21 @@ class AddUserAction extends FormAddAction
 
     protected function formIsValid ($form)
     {
+        $ok = true;
         $form_data = $form->getData ();
 
-        return $this->checkPasswords ($form,
-                                      $form_data['password1'],
-                                      $form_data['password2']);
+        if (!$this->checkPasswords ($form,
+                                    $form_data['password1'],
+                                    $form_data['password2']))
+        {
+            $ok = false;
+        }
+
+        if (!$this->checkUsername ($form, $form_data['username']))
+        {
+            $ok = false;
+        }
+
+        return $ok;
     }
 }

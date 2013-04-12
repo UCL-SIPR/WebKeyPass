@@ -1,8 +1,6 @@
 TODO
 
-- User form: error if user already taken
 - Better user password hashing (with a salt, and several iterations)
-
 - For the name of nodes, show a list of existing names, with a possibility to add a new name
 - Encrypt/decrypt passwords
 - Tree view: some JavaScript for showing/hiding nodes
