@@ -26,18 +26,8 @@
 {% endblock %}
 
 {% block contents %}
-  <h3>By names</h3>
-  {% for path in found_paths_by_names %}
-    <p>
-      {{ include('UCLWebKeyPassBundle::path.html.twig', {'path': path}) }}
-    </p>
-  {% else %}
-    <p>No results.</p>
-  {% endfor %}
-
-  <h3>By serial numbers</h3>
   <table>
-    {% for data in found_data_by_serial_numbers %}
+    {% for data in found_data %}
       <tr>
         <td>
           {{ include('UCLWebKeyPassBundle::path.html.twig', {'path': data.path}) }}
