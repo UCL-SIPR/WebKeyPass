@@ -29,4 +29,5 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class EditUserForm extends UserForm
 {
     protected $has_password = false;
+    protected $has_private_key = false;
 }

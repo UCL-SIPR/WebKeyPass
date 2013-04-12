@@ -58,6 +58,26 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $isAdmin;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $first_name;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $last_name;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $private_key;
+
     private $clear_password;
 
     public function __construct()
@@ -180,5 +200,53 @@ class User implements AdvancedUserInterface, \Serializable
     {
         $this->isAdmin = $isAdmin;
         return $this;
+    }
+
+    public function setFirstName($firstName)
+    {
+        $this->first_name = $firstName;
+
+        return $this;
+    }
+
+    public function getFirstName()
+    {
+        return $this->first_name;
+    }
+
+    public function setLastName($lastName)
+    {
+        $this->last_name = $lastName;
+
+        return $this;
+    }
+
+    public function getLastName()
+    {
+        return $this->last_name;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setPrivateKey($privateKey)
+    {
+        $this->private_key = $privateKey;
+
+        return $this;
+    }
+
+    public function getPrivateKey()
+    {
+        return $this->private_key;
     }
 }

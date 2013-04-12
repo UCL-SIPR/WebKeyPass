@@ -30,6 +30,10 @@ class UserForm extends AbstractType
 {
     protected $has_username = true;
     protected $has_password = true;
+    protected $has_first_name = true;
+    protected $has_last_name = true;
+    protected $has_email = true;
+    protected $has_private_key = true;
     protected $has_is_active = true;
     protected $has_is_admin = true;
 
@@ -43,6 +47,26 @@ class UserForm extends AbstractType
         if ($this->has_password)
         {
             $builder->add ('password');
+        }
+
+        if ($this->has_first_name)
+        {
+            $builder->add ('first_name');
+        }
+
+        if ($this->has_last_name)
+        {
+            $builder->add ('last_name');
+        }
+
+        if ($this->has_email)
+        {
+            $builder->add ('email');
+        }
+
+        if ($this->has_private_key)
+        {
+            $builder->add ('private_key');
         }
 
         if ($this->has_is_active)

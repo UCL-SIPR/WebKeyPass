@@ -29,6 +29,10 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class ChangePasswordUserForm extends UserForm
 {
     protected $has_username = false;
+    protected $has_first_name = false;
+    protected $has_last_name = false;
+    protected $has_email = false;
+    protected $has_private_key = false;
     protected $has_is_active = false;
     protected $has_is_admin = false;
 }
