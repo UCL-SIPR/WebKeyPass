@@ -57,7 +57,7 @@ class CreateUserAction extends FormAddAction
         $user = new User ();
 
         $user->setUsername ($form_data['username']);
-        $user->setPassword ($form_data['password1']);
+        $this->setUserPassword ($user, $form_data['password1']);
         $user->setFirstName ($form_data['first_name']);
         $user->setLastName ($form_data['last_name']);
         $user->setEmail ($form_data['email']);

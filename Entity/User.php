@@ -46,6 +46,11 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @ORM\Column(type="string")
      */
+    private $salt;
+
+    /**
+     * @ORM\Column(type="string")
+     */
     private $password;
 
     /**
@@ -81,6 +86,7 @@ class User implements AdvancedUserInterface, \Serializable
     public function __construct()
     {
         $this->isActive = true;
+        $this->salt = md5 (uniqid (null, true));
     }
 
     public function getRoles()
@@ -133,11 +139,6 @@ class User implements AdvancedUserInterface, \Serializable
         return $this->isActive;
     }
 
-    public function getSalt()
-    {
-        return null;
-    }
-
     /* Getters and setters */
 
     public function getId()
@@ -156,6 +157,11 @@ class User implements AdvancedUserInterface, \Serializable
         return $this;
     }
 
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
     public function getPassword()
     {
         return $this->password;
@@ -163,7 +169,7 @@ class User implements AdvancedUserInterface, \Serializable
 
     public function setPassword($password)
     {
-        $this->password = hash ('sha256', $password);
+        $this->password = $password;
         return $this;
     }
 

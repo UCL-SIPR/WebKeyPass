@@ -1,6 +1,5 @@
 TODO
 
-- Better user password hashing (with a salt, and several iterations)
 - Encrypt/decrypt passwords
 - Tree view: some JavaScript for showing/hiding nodes
 - Improve CSS

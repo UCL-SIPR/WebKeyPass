@@ -53,7 +53,7 @@ class EditUserAction extends FormAction
 
         if ($form_data['old-password'] != '')
         {
-            $user->setPassword ($form_data['password1']);
+            $this->setUserPassword ($user, $form_data['password1']);
         }
 
         $user->setEmail ($form_data['email']);
@@ -65,7 +65,7 @@ class EditUserAction extends FormAction
 
         $user = $this->node;
         $test_user = new User ();
-        $test_user->setPassword ($old_password);
+        $this->setUserPassword ($test_user, $old_password);
 
         if ($user->getPassword () !== $test_user->getPassword ())
         {

@@ -40,6 +40,14 @@ class FormAction extends Action
     {
     }
 
+    protected function setUserPassword ($user, $password)
+    {
+        $factory = $this->controller->get ('security.encoder_factory');
+        $encoder = $factory->getEncoder ($user);
+        $hashed_password = $encoder->encodePassword ($password, $user->getSalt ());
+        $user->setPassword ($hashed_password);
+    }
+
     protected function renderTemplate ($data)
     {
         return $this->controller->render ('UCLWebKeyPassBundle::form.html.twig', $data);
