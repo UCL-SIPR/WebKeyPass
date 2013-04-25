@@ -83,6 +83,11 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $private_key;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $encrypted_master_key;
+
     public function __construct()
     {
         $this->isActive = true;
@@ -241,5 +246,16 @@ class User implements AdvancedUserInterface, \Serializable
     public function getPrivateKey()
     {
         return $this->private_key;
+    }
+
+    public function setEncryptedMasterKey($encryptedMasterKey)
+    {
+        $this->encrypted_master_key = base64_encode ($encryptedMasterKey);
+        return $this;
+    }
+
+    public function getEncryptedMasterKey()
+    {
+        return base64_decode ($this->encrypted_master_key);
     }
 }

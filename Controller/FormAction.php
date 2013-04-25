@@ -152,4 +152,42 @@ class FormAction extends Action
         $data['form'] = $form->createView ();
         return $this->renderTemplate ($data);
     }
+
+    private function getCryptModule ($user)
+    {
+        $crypt_module = mcrypt_module_open (MCRYPT_RIJNDAEL_256, '', MCRYPT_MODE_ECB, '');
+
+        $iv = mcrypt_create_iv (mcrypt_enc_get_iv_size ($crypt_module), MCRYPT_DEV_RANDOM);
+
+        $max_key_size = mcrypt_enc_get_key_size ($crypt_module);
+        $private_key = substr (md5 ($user->getPrivateKey ()), 0, $max_key_size);
+
+        mcrypt_generic_init ($crypt_module, $private_key, $iv);
+
+        return $crypt_module;
+    }
+
+    private function closeCryptModule ($crypt_module)
+    {
+        mcrypt_generic_deinit ($crypt_module);
+        mcrypt_module_close ($crypt_module);
+    }
+
+    protected function encryptMasterKey ($master_key, $user)
+    {
+        $crypt_module = $this->getCryptModule ($user);
+        $encrypted_master_key = mcrypt_generic ($crypt_module, $master_key);
+        $this->closeCryptModule ($crypt_module);
+
+        $user->setEncryptedMasterKey ($encrypted_master_key);
+    }
+
+    protected function decryptMasterKey ($user)
+    {
+        $crypt_module = $this->getCryptModule ($user);
+        $master_key = mdecrypt_generic ($crypt_module, $user->getEncryptedMasterKey ());
+        $this->closeCryptModule ($crypt_module);
+
+        return trim ($master_key);
+    }
 }

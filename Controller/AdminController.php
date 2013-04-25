@@ -71,7 +71,7 @@ class AdminController extends MainController
         return $user;
     }
 
-    private function getAuthenticatedUser ()
+    public function getAuthenticatedUser ()
     {
         return $this->get ('security.context')->getToken ()->getUser ();
     }
@@ -161,5 +161,13 @@ class AdminController extends MainController
         $data['months'] = $this->getLogMonths ();
 
         return $this->render ('UCLWebKeyPassBundle::admin_log_months.html.twig', $data);
+    }
+
+    public function masterKeyAction ()
+    {
+        $action = new AddMasterKeyAction ($this, null);
+        $action->setRedirectRoute ('ucl_wkp_admin_user_list');
+
+        return $action->handleForm ();
     }
 }

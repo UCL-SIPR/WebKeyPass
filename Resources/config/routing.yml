@@ -173,6 +173,10 @@ ucl_wkp_admin_add_user:
     pattern: /admin/add_user
     defaults: { _controller: UCLWebKeyPassBundle:Admin:addUser }
 
+ucl_wkp_admin_master_key:
+    pattern: /admin/master_key
+    defaults: { _controller: UCLWebKeyPassBundle:Admin:masterKey }
+
 # Other
 
 ucl_wkp_search:
