@@ -32,6 +32,7 @@ class NodeForm extends AbstractType
 {
     protected $node_type = 0; # category, by default
     protected $has_name = true;
+    protected $has_list_name = false;
     protected $has_hostname = false;
     protected $has_serial_number = false;
     protected $has_icon = false;
@@ -98,11 +99,34 @@ class NodeForm extends AbstractType
         return new ChoiceList ($nodes, $labels);
     }
 
+    private function getNameChoices ()
+    {
+        $names = $this->node_repo->getNames ($this->node_type);
+        $choices = array (0 => '');
+
+        foreach ($names as $array_name)
+        {
+            $name = $array_name['name'];
+            $choices[$name] = $name;
+        }
+
+        return $choices;
+    }
+
     public function buildForm (FormBuilderInterface $builder, array $options)
     {
         if ($this->has_name)
         {
             $builder->add ('name');
+        }
+
+        if ($this->has_list_name)
+        {
+            $builder->add ('list_name', 'choice', array ('label' => 'Name',
+                                                         'choices' => $this->getNameChoices ()));
+
+            $builder->add ('other_name', 'text', array ('label' => 'Other name',
+                                                        'required' => false));
         }
 
         if ($this->has_hostname)
@@ -122,7 +146,7 @@ class NodeForm extends AbstractType
 
         if ($this->has_comment)
         {
-            $builder->add ('comment');
+            $builder->add ('comment', null, array ('required' => false));
         }
 
         if ($this->has_parent)
@@ -131,11 +155,6 @@ class NodeForm extends AbstractType
         }
 
         $builder->add ('type', 'hidden', array ('data' => $this->node_type));
-    }
-
-    public function setDefaultOptions (OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults (array ('data_class' => 'UCL\WebKeyPassBundle\Entity\Node'));
     }
 
     public function getName ()

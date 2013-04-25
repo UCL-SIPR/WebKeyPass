@@ -31,6 +31,36 @@ class EditMiscAction extends FormAction
 
     protected function getForm ()
     {
-        return new MiscForm ();
+        $form = new MiscForm ();
+        $form->setNodeRepository ($this->controller->getNodeRepo ());
+
+        return $form;
+    }
+
+    protected function getFormData ()
+    {
+        return array ('list_name' => $this->node->getName (),
+                      'other_name' => '',
+                      'icon' => $this->node->getIcon (),
+                      'comment' => $this->node->getComment (),
+                      '_node' => $this->node);
+    }
+
+    protected function saveData ($db_manager, $form)
+    {
+        $data = $form->getData ();
+        $node = $data['_node'];
+
+        if ($data['other_name'] != '')
+        {
+            $node->setName ($data['other_name']);
+        }
+        else
+        {
+            $node->setName ($data['list_name']);
+        }
+
+        $node->setIcon ($data['icon']);
+        $node->setComment ($data['comment']);
     }
 }

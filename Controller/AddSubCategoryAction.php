@@ -31,6 +31,39 @@ class AddSubCategoryAction extends FormAddAction
 
     protected function getForm ()
     {
-        return new CategoryForm ();
+        $form = new CategoryForm ();
+        $form->setNodeRepository ($this->controller->getNodeRepo ());
+
+        return $form;
+    }
+
+    protected function getFormData ()
+    {
+        return array ('list_name' => '',
+                      'other_name' => '',
+                      'icon' => '',
+                      'comment' => '',
+                      '_node' => $this->node);
+    }
+
+    protected function saveData ($db_manager, $form)
+    {
+        $data = $form->getData ();
+        $node = $data['_node'];
+
+        if ($data['other_name'] != '')
+        {
+            $node->setName ($data['other_name']);
+        }
+        else
+        {
+            $node->setName ($data['list_name']);
+        }
+
+        $node->setIcon ($data['icon']);
+        $node->setComment ($data['comment']);
+        $node->setType (0);
+
+        $db_manager->persist ($node);
     }
 }

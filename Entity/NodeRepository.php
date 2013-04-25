@@ -120,4 +120,19 @@ class NodeRepository extends EntityRepository
     {
         return $this->search ($search_text, 'serial_number');
     }
+
+    public function getNames ($node_type)
+    {
+        $names = $this->getEntityManager ()
+            ->createQueryBuilder ()
+            ->select ('distinct node.name')
+            ->from ('UCLWebKeyPassBundle:Node', 'node')
+            ->where ('node.type = :node_type')
+            ->setParameter ('node_type', $node_type)
+            ->orderBy ('node.name', 'ASC')
+            ->getQuery ()
+            ->getResult ();
+
+        return $names;
+    }
 }

@@ -25,6 +25,8 @@ namespace UCL\WebKeyPassBundle\Form;
 class MiscForm extends NodeForm
 {
     protected $node_type = 3; # misc
+    protected $has_name = false;
+    protected $has_list_name = true;
     protected $has_icon = true;
     protected $has_comment = true;
 }
