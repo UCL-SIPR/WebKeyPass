@@ -33,4 +33,28 @@ class AddLoginAction extends FormAddAction
     {
         return new AuthenticationForm ();
     }
+
+    protected function getFormData ()
+    {
+        $auth = $this->node;
+
+        return array ('login' => $auth->getLogin (),
+                      'password' => '',
+                      '_auth' => $auth);
+    }
+
+    protected function saveData ($db_manager, $form)
+    {
+        $form_data = $form->getData ();
+        $user = $this->controller->getAuthenticatedUser ();
+
+        $master_key = new MasterKey ($this->controller);
+
+        $encrypted_password = $master_key->encryptPassword ($form_data['password'], $user);
+
+        $auth = $form_data['_auth'];
+        $auth->setLogin ($form_data['login']);
+        $auth->setPassword ($encrypted_password);
+        $db_manager->persist ($auth);
+    }
 }

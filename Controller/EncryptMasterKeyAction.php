@@ -26,7 +26,7 @@ class EncryptMasterKeyAction extends Action
 {
     public function perform ()
     {
-        $master_key = new MasterKey ();
+        $master_key = new MasterKey ($this->controller);
 
         $admin_user = $this->controller->getAuthenticatedUser ();
         $decrypted_master_key = $master_key->decryptMasterKey ($admin_user);

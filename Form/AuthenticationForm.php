@@ -24,33 +24,17 @@ namespace UCL\WebKeyPassBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class AuthenticationForm extends AbstractType
 {
     public function buildForm (FormBuilderInterface $builder, array $options)
     {
-        $builder->add ('login');
-        $builder->add ('password');
-    }
-
-    public function setDefaultOptions (OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults (array ('data_class' => 'UCL\WebKeyPassBundle\Entity\Authentication'));
+        $builder->add ('login', 'text');
+        $builder->add ('password', 'text');
     }
 
     public function getName ()
     {
         return 'authentication';
-    }
-
-    public function getLogin ()
-    {
-        return 'login';
-    }
-
-    public function getPassword ()
-    {
-        return 'password';
     }
 }

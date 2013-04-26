@@ -74,14 +74,13 @@ class Authentication
 
     public function setPassword($password)
     {
-        $this->password = $password;
-
+        $this->password = base64_encode ($password);
         return $this;
     }
 
     public function getPassword()
     {
-        return $this->password;
+        return base64_decode ($this->password);
     }
 
     public function setNode(\UCL\WebKeyPassBundle\Entity\Node $node = null)

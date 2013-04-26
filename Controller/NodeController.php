@@ -66,12 +66,18 @@ class NodeController extends MainController
 
     protected function getAuthentications ($node)
     {
+        $master_key = new MasterKey ($this);
+        $user = $this->getAuthenticatedUser ();
+
         $auths = array ();
 
         foreach ($node->getAuthentications () as $auth)
         {
+            $decrypted_password = $master_key->decryptPassword ($auth->getPassword (),
+                                                                $user);
+
             $auths[] = array ('login' => $auth->getLogin (),
-                              'password' => $auth->getPassword (),
+                              'password' => $decrypted_password,
                               'remove_url' => $this->getRemoveLoginUrl ($auth));
         }
 

@@ -64,4 +64,9 @@ class MainController extends Controller
             ->add ('search_text', 'search')
             ->getForm ();
     }
+
+    public function getAuthenticatedUser ()
+    {
+        return $this->get ('security.context')->getToken ()->getUser ();
+    }
 }

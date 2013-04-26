@@ -34,7 +34,7 @@
         <td>{{ user.username }}</td>
         <td>
           {% if user.already_encrypted %}
-            Already encrypted
+            Encrypted
           {% else %}
             <a href="{{ path('ucl_wkp_admin_encrypt_master_key', user.route_data) }}"
                onclick="return confirm ('Are you sure you want to encrypt the master key for the user &quot;{{ user.username }}&quot;?')">Encrypt master key</a>

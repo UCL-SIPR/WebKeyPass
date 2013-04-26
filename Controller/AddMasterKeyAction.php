@@ -43,7 +43,7 @@ class AddMasterKeyAction extends FormAction
     {
         $form_data = $form->getData ();
         $user = $this->controller->getAuthenticatedUser ();
-        $master_key = new MasterKey ();
+        $master_key = new MasterKey ($this->controller);
         $master_key->encryptMasterKey ($form_data['master_key'], $user);
     }
 

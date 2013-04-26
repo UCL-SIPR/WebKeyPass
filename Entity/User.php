@@ -83,14 +83,6 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $private_key;
 
-    /* The private key is stored in the database only temporarily. Once the
-     * master key is encrypted with the private key, the private key is set to
-     * the empty string. But to be able to decrypt the master key, the private
-     * key is needed. So it is stored only in memory, i.e. in the following
-     * variable (not mapped in the database).
-     */
-    private $memory_private_key;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
@@ -254,16 +246,6 @@ class User implements AdvancedUserInterface, \Serializable
     public function getPrivateKey()
     {
         return $this->private_key;
-    }
-
-    public function setMemoryPrivateKey ($private_key)
-    {
-        $this->memory_private_key = $private_key;
-    }
-
-    public function getMemoryPrivateKey ()
-    {
-        return $this->memory_private_key;
     }
 
     public function setEncryptedMasterKey($encryptedMasterKey)

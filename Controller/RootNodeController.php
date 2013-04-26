@@ -68,11 +68,6 @@ class RootNodeController extends NodeController
         return $action->handleForm ();
     }
 
-    private function getAuthenticatedUser ()
-    {
-        return $this->get ('security.context')->getToken ()->getUser ();
-    }
-
     public function editUserAction ()
     {
         $user = $this->getAuthenticatedUser ();

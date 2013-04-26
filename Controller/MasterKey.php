@@ -24,26 +24,32 @@ namespace UCL\WebKeyPassBundle\Controller;
 
 class MasterKey
 {
-    private function getCryptModule ($user, $private_key_from_memory)
+    private $controller;
+
+    public function __construct ($controller)
+    {
+        $this->controller = $controller;
+    }
+
+    private function getSessionPrivateKey ()
+    {
+        $session = $this->controller->get ('session');
+        $private_key = $session->get ('private_key');
+
+#        echo "Private key: $private_key<br />\n";
+        return $private_key;
+    }
+
+    private function getCryptModule ($key)
     {
         $crypt_module = mcrypt_module_open (MCRYPT_RIJNDAEL_256, '', MCRYPT_MODE_ECB, '');
 
         $iv = mcrypt_create_iv (mcrypt_enc_get_iv_size ($crypt_module), MCRYPT_DEV_RANDOM);
 
         $max_key_size = mcrypt_enc_get_key_size ($crypt_module);
+        $key = substr (md5 ($key), 0, $max_key_size);
 
-        if ($private_key_from_memory)
-        {
-            $user_private_key = $user->getMemoryPrivateKey ();
-        }
-        else
-        {
-            $user_private_key = $user->getPrivateKey ();
-        }
-
-        $private_key = substr (md5 ($user_private_key), 0, $max_key_size);
-
-        mcrypt_generic_init ($crypt_module, $private_key, $iv);
+        mcrypt_generic_init ($crypt_module, $key, $iv);
 
         return $crypt_module;
     }
@@ -56,7 +62,7 @@ class MasterKey
 
     public function encryptMasterKey ($master_key, $user)
     {
-        $crypt_module = $this->getCryptModule ($user, false);
+        $crypt_module = $this->getCryptModule ($user->getPrivateKey ());
         $encrypted_master_key = mcrypt_generic ($crypt_module, $master_key);
         $this->closeCryptModule ($crypt_module);
 
@@ -66,10 +72,35 @@ class MasterKey
 
     public function decryptMasterKey ($user)
     {
-        $crypt_module = $this->getCryptModule ($user, true);
+        $crypt_module = $this->getCryptModule ($this->getSessionPrivateKey ());
         $master_key = mdecrypt_generic ($crypt_module, $user->getEncryptedMasterKey ());
         $this->closeCryptModule ($crypt_module);
 
-        return trim ($master_key);
+        $ret = trim ($master_key);
+#        echo "master key: $tmp<br />\n";
+
+        return $ret;
+    }
+
+    public function encryptPassword ($password, $user)
+    {
+        $master_key = $this->decryptMasterKey ($user);
+
+        $crypt_module = $this->getCryptModule ($master_key);
+        $encrypted_password = mcrypt_generic ($crypt_module, $password);
+        $this->closeCryptModule ($crypt_module);
+
+        return $encrypted_password;
+    }
+
+    public function decryptPassword ($encrypted_password, $user)
+    {
+        $master_key = $this->decryptMasterKey ($user);
+
+        $crypt_module = $this->getCryptModule ($master_key);
+        $decrypted_password = mdecrypt_generic ($crypt_module, $encrypted_password);
+        $this->closeCryptModule ($crypt_module);
+
+        return trim ($decrypted_password);
     }
 }

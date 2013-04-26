@@ -42,8 +42,9 @@ class SetPrivateKeyAction extends FormAction
     protected function saveData ($db_manager, $form)
     {
         $form_data = $form->getData ();
-        $user = $this->controller->getAuthenticatedUser ();
-        $user->setMemoryPrivateKey ($form_data['private_key']);
+
+        $session = $this->controller->get ('session');
+        $session->set ('private_key', $form_data['private_key']);
     }
 
     protected function renderTemplate ($data)

@@ -71,11 +71,6 @@ class AdminController extends MainController
         return $user;
     }
 
-    public function getAuthenticatedUser ()
-    {
-        return $this->get ('security.context')->getToken ()->getUser ();
-    }
-
     public function showUserListAction ()
     {
         $data = $this->getCommonData ();

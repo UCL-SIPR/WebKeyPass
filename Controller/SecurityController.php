@@ -26,7 +26,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
 use UCL\WebKeyPassBundle\Entity\Log;
 
-class SecurityController extends Controller
+class SecurityController extends MainController
 {
     public function loginAction ()
     {
@@ -50,11 +50,6 @@ class SecurityController extends Controller
         $data['title'] = 'Login';
 
         return $this->render ('UCLWebKeyPassBundle::login.html.twig', $data);
-    }
-
-    public function getAuthenticatedUser ()
-    {
-        return $this->get ('security.context')->getToken ()->getUser ();
     }
 
     public function loginSuccessAction ()
