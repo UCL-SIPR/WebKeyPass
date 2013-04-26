@@ -84,7 +84,7 @@ class User implements AdvancedUserInterface, \Serializable
     private $private_key;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $encrypted_master_key;
 

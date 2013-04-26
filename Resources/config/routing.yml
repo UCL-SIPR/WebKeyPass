@@ -177,6 +177,10 @@ ucl_wkp_admin_master_key:
     pattern: /admin/master_key
     defaults: { _controller: UCLWebKeyPassBundle:Admin:masterKey }
 
+ucl_wkp_admin_encrypt_master_key:
+    pattern: /admin/{user_id}/encrypt_master_key
+    defaults: { _controller: UCLWebKeyPassBundle:Admin:encryptMasterKey }
+
 # Other
 
 ucl_wkp_search:

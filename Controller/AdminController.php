@@ -163,11 +163,49 @@ class AdminController extends MainController
         return $this->render ('UCLWebKeyPassBundle::admin_log_months.html.twig', $data);
     }
 
+    private function getUsersMasterKey ()
+    {
+        $user_repo = $this->getUserRepo ();
+        $all_users = $user_repo->getAllUsers ();
+
+        $list = array ();
+        foreach ($all_users as $user)
+        {
+            $already_encrypted = $user->getEncryptedMasterKey () != "";
+
+            $list[] = array ('username' => $user->getUsername (),
+                             'already_encrypted' => $already_encrypted,
+                             'route_data' => array ('user_id' => $user->getId ()));
+        }
+
+        return $list;
+    }
+
     public function masterKeyAction ()
     {
-        $action = new AddMasterKeyAction ($this, null);
-        $action->setRedirectRoute ('ucl_wkp_admin_user_list');
+        $user = $this->getAuthenticatedUser ();
 
-        return $action->handleForm ();
+        if ($user->getEncryptedMasterKey () == "" &&
+            $user->getPrivateKey () != "")
+        {
+            $action = new AddMasterKeyAction ($this, null);
+            $action->setRedirectRoute ('ucl_wkp_admin_user_list');
+
+            return $action->handleForm ();
+        }
+
+        $data = $this->getCommonData ();
+        $data['users'] = $this->getUsersMasterKey ();
+
+        return $this->render ('UCLWebKeyPassBundle::admin_master_key.html.twig', $data);
+    }
+
+    public function encryptMasterKeyAction ($user_id)
+    {
+        $user = $this->getUserFromId ($user_id);
+        $action = new EncryptMasterKeyAction ($this, $user);
+        $action->setRedirectRoute ('ucl_wkp_admin_master_key');
+
+        return $action->perform ();
     }
 }

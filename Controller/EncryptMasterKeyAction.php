@@ -22,33 +22,23 @@
 
 namespace UCL\WebKeyPassBundle\Controller;
 
-use UCL\WebKeyPassBundle\Form\MasterKeyForm;
-
-class AddMasterKeyAction extends FormAction
+class EncryptMasterKeyAction extends Action
 {
-    protected $fullname = 'Add Master Key';
-    protected $success_msg = 'Master key encrypted successfully.';
-
-    protected function getForm ()
+    public function perform ()
     {
-        return new MasterKeyForm ();
-    }
-
-    protected function getFormData ()
-    {
-        return array ('master_key' => '');
-    }
-
-    protected function saveData ($db_manager, $form)
-    {
-        $form_data = $form->getData ();
-        $user = $this->controller->getAuthenticatedUser ();
         $master_key = new MasterKey ();
-        $master_key->encryptMasterKey ($form_data['master_key'], $user);
-    }
 
-    protected function renderTemplate ($data)
-    {
-        return $this->controller->render ('UCLWebKeyPassBundle::admin_form.html.twig', $data);
+        $admin_user = $this->controller->getAuthenticatedUser ();
+        $decrypted_master_key = $master_key->decryptMasterKey ($admin_user);
+
+        $user = $this->node;
+        $master_key->encryptMasterKey ($decrypted_master_key, $user);
+
+        $db_manager = $this->controller->getDoctrine ()->getManager ();
+        $db_manager->flush ();
+
+        $this->addFlashMessage ("Master key encrypted successfully.");
+
+        return $this->controller->redirect ($this->redirect_url);
     }
 }
