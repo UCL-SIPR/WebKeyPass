@@ -206,6 +206,10 @@ ucl_wkp_login_success:
     pattern: /login_success
     defaults: { _controller: UCLWebKeyPassBundle:Security:loginSuccess }
 
+ucl_wkp_login_private_key:
+    pattern: /login_private_key
+    defaults: { _controller: UCLWebKeyPassBundle:Security:loginPrivateKey }
+
 ucl_wkp_logout:
     pattern: /logout
     defaults: { _controller: UCLWebKeyPassBundle:Security:logLogout }

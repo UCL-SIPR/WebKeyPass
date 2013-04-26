@@ -14,7 +14,7 @@ security:
 
     firewalls:
         create_account:
-            pattern: ^/WebKeyPass/create_account
+            pattern: ^/WebKeyPass/create_account$
             security: false
 
         login:

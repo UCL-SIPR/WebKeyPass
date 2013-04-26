@@ -52,7 +52,7 @@ class SecurityController extends Controller
         return $this->render ('UCLWebKeyPassBundle::login.html.twig', $data);
     }
 
-    private function getAuthenticatedUser ()
+    public function getAuthenticatedUser ()
     {
         return $this->get ('security.context')->getToken ()->getUser ();
     }
@@ -69,7 +69,7 @@ class SecurityController extends Controller
         $db_manager->persist ($log);
         $db_manager->flush ();
 
-        $redirect_url = $this->generateUrl ('ucl_wkp_root_view');
+        $redirect_url = $this->generateUrl ('ucl_wkp_login_private_key');
         return $this->redirect ($redirect_url);
     }
 
@@ -87,5 +87,20 @@ class SecurityController extends Controller
 
         $redirect_url = $this->generateUrl ('ucl_wkp_logout_real');
         return $this->redirect ($redirect_url);
+    }
+
+    public function loginPrivateKeyAction ()
+    {
+        $action = new SetPrivateKeyAction ($this, null);
+        $action->setRedirectRoute ('ucl_wkp_root_view');
+
+        return $action->handleForm ();
+    }
+
+    public function getCommonData ()
+    {
+        $data = array ();
+        $data['title'] = 'Login';
+        return $data;
     }
 }

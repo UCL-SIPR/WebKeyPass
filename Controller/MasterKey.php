@@ -24,14 +24,24 @@ namespace UCL\WebKeyPassBundle\Controller;
 
 class MasterKey
 {
-    private function getCryptModule ($user)
+    private function getCryptModule ($user, $private_key_from_memory)
     {
         $crypt_module = mcrypt_module_open (MCRYPT_RIJNDAEL_256, '', MCRYPT_MODE_ECB, '');
 
         $iv = mcrypt_create_iv (mcrypt_enc_get_iv_size ($crypt_module), MCRYPT_DEV_RANDOM);
 
         $max_key_size = mcrypt_enc_get_key_size ($crypt_module);
-        $private_key = substr (md5 ($user->getPrivateKey ()), 0, $max_key_size);
+
+        if ($private_key_from_memory)
+        {
+            $user_private_key = $user->getMemoryPrivateKey ();
+        }
+        else
+        {
+            $user_private_key = $user->getPrivateKey ();
+        }
+
+        $private_key = substr (md5 ($user_private_key), 0, $max_key_size);
 
         mcrypt_generic_init ($crypt_module, $private_key, $iv);
 
@@ -46,16 +56,17 @@ class MasterKey
 
     public function encryptMasterKey ($master_key, $user)
     {
-        $crypt_module = $this->getCryptModule ($user);
+        $crypt_module = $this->getCryptModule ($user, false);
         $encrypted_master_key = mcrypt_generic ($crypt_module, $master_key);
         $this->closeCryptModule ($crypt_module);
 
         $user->setEncryptedMasterKey ($encrypted_master_key);
+        $user->setPrivateKey ('');
     }
 
     public function decryptMasterKey ($user)
     {
-        $crypt_module = $this->getCryptModule ($user);
+        $crypt_module = $this->getCryptModule ($user, true);
         $master_key = mdecrypt_generic ($crypt_module, $user->getEncryptedMasterKey ());
         $this->closeCryptModule ($crypt_module);
 

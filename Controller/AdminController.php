@@ -189,7 +189,7 @@ class AdminController extends MainController
             $user->getPrivateKey () != "")
         {
             $action = new AddMasterKeyAction ($this, null);
-            $action->setRedirectRoute ('ucl_wkp_admin_user_list');
+            $action->setRedirectRoute ('ucl_wkp_admin_master_key');
 
             return $action->handleForm ();
         }
