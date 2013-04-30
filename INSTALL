@@ -45,3 +45,9 @@ $ php app/console doctrine:schema:update --force
 
 Open in your web browser:
 http://path/to/Symfony/web/app.php/WebKeyPass/
+
+* Create the first account
+
+Create a first account. Unfortunately, the first account is disabled by
+default, so you have to enable it manually by editing the database (and
+set the admin bit to 1 too, if you want).

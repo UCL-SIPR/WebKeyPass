@@ -1,5 +1,8 @@
 UCL WebKeyPass
 
+Description
+-----------
+
 A simple web application for storing passwords and other pieces of
 information about servers.
 
@@ -11,7 +14,30 @@ or other things.
 To access the data, a login is necessary. There is a form to create a
 user. A user can be a normal user or an admin. Admins have access to an
 admin zone, where they can activate or edit other user accounts, and see
-a log of logins/logouts by month.
+a log of logins/logouts by month. Admins can also create the master key
+and encrypt the master key for other users (more information below).
 
 The Symfony 2 PHP web framework is used. This repository contains only a
-bundle.
+bundle. See the file INSTALL for the installation.
+
+Security
+--------
+
+Each user has a username and a password. The password can be modified at
+any time. The user passwords are hashed and stored in the database. So
+far so good.
+
+The user must also provide a private key. Initially, when the user
+account is created, this private key is stored as-is in the database.
+But this is temporary.
+
+An admin must provide the master key, in the admin zone. The master key
+is then encrypted with the private key of the admin. The admin can also
+encrypt the master key for other users. Once the master key is encrypted
+for a certain user, his or her private key field is emptied.
+
+Users must provide each time their private key when they log in, to be
+able to decrypt the master key.
+
+The purpose of all this system is to encrypt and decrypt the server
+passwords with the master key.
