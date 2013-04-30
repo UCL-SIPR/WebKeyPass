@@ -20,11 +20,7 @@
  #}
 
 {% for node in nodes %}
-  <li class="{{ node.class }}">
-    {% if node.icon %}
-      <img src="{{ asset('bundles/uclwebkeypass/icons/') }}{{ node.icon }}.png" alt="" />
-    {% endif %}
-
+  <li>
     {{ include('UCLWebKeyPassBundle::node_link.html.twig', {'node': node}) }}
 
     {% if node.subnodes %}

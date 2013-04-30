@@ -21,6 +21,11 @@
 
 {% extends 'UCLWebKeyPassBundle::page.html.twig' %}
 
+{% block head %}
+  <script type="text/javascript" src="{{ asset('bundles/uclwebkeypass/js/jquery.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('bundles/uclwebkeypass/js/jquery.jstree.js') }}"></script>
+{% endblock %}
+
 {% block body %}
   <div id="side_panel">
     <form action="{{ path('ucl_wkp_search') }}" method="post" {{ form_enctype(search_form) }}>
@@ -31,9 +36,11 @@
       <input type="submit" value="Search" />
     </form>
 
-    <ul>
-      {{ include('UCLWebKeyPassBundle::tree_view.html.twig', {'nodes': nodes}) }}
-    </ul>
+    <div id="tree_view">
+      <ul>
+        {{ include('UCLWebKeyPassBundle::tree_view.html.twig', {'nodes': nodes}) }}
+      </ul>
+    </div>
   </div>
 
   <div id="links">
@@ -60,4 +67,13 @@
     {% block contents %}
     {% endblock %}
   </div>
+
+  <script language="javascript">
+    $(function () {
+      $("#tree_view").jstree ({
+        core : { "animation": 200 },
+        plugins : [ "themes", "html_data" ]
+      });
+    });
+  </script>
 {% endblock %}
