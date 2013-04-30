@@ -19,14 +19,20 @@
  # Author: Sébastien Wilmet
  #}
 
-{% if node.class == 'category' %}
-  <a href="{{ path('ucl_wkp_category_view', {'node_id': node.id}) }}">
-{% elseif node.class == 'server' %}
-  <a href="{{ path('ucl_wkp_server_view', {'node_id': node.id}) }}">
-{% elseif node.class == 'vm' %}
-  <a href="{{ path('ucl_wkp_vm_view', {'node_id': node.id}) }}">
-{% elseif node.class == 'misc' %}
-  <a href="{{ path('ucl_wkp_misc_view', {'node_id': node.id}) }}">
-{% endif %}
+<a
+  {% if node.class == 'category' %}
+    href="{{ path('ucl_wkp_category_view', {'node_id': node.id}) }}"
+  {% elseif node.class == 'server' %}
+    href="{{ path('ucl_wkp_server_view', {'node_id': node.id}) }}"
+  {% elseif node.class == 'vm' %}
+    href="{{ path('ucl_wkp_vm_view', {'node_id': node.id}) }}"
+  {% elseif node.class == 'misc' %}
+    href="{{ path('ucl_wkp_misc_view', {'node_id': node.id}) }}"
+  {% endif %}
+
+  {% if (node_id is defined) and (node.id == node_id) %}
+    class="jstree-clicked"
+  {% endif %}
+>
 
     {{ node.name }}</a>

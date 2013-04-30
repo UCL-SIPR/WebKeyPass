@@ -123,6 +123,7 @@ class NodeController extends MainController
         $data['title'] = $this->node->getName ();
         $data['path'] = $this->getPath ($this->node);
         $data['open_nodes'] = $this->getOpenNodes ();
+        $data['node_id'] = $this->node->getId ();
 
         $node_repo = $this->getNodeRepo ();
         $data['nodes'] = $node_repo->getNodes ();

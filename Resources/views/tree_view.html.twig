@@ -27,7 +27,7 @@
     id="node_{{ node.id }}"
     rel="{{ node.icon }}">
 
-    {{ include('UCLWebKeyPassBundle::node_link.html.twig', {'node': node}) }}
+    {{ include('UCLWebKeyPassBundle::node_link.html.twig', {'node': node, 'node_id': node_id}) }}
 
     {% if node.subnodes %}
       <ul>
