@@ -71,8 +71,17 @@
   <script language="javascript">
     $(function () {
       $("#tree_view").jstree ({
+        plugins : [ "themes", "html_data", "types" ],
         core : { "animation": 200 },
-        plugins : [ "themes", "html_data" ]
+        types: {
+          "types": {
+            {% for type in node_types %}
+              "{{ type }}": {
+                "icon": { "image": "{{ asset('bundles/uclwebkeypass/icons/') }}{{ type }}.png" }
+              },
+            {% endfor %}
+          }
+        }
       });
     });
   </script>

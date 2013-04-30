@@ -20,7 +20,7 @@
  #}
 
 {% for node in nodes %}
-  <li>
+  <li{% if node.icon %} rel="{{ node.icon }}"{% endif %}>
     {{ include('UCLWebKeyPassBundle::node_link.html.twig', {'node': node}) }}
 
     {% if node.subnodes %}

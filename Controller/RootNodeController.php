@@ -47,6 +47,8 @@ class RootNodeController extends NodeController
 
         $data['search_form'] = $this->getSearchForm ()->createView ();
 
+        $data['node_types'] = $this->getNodeTypes ();
+
         return $data;
     }
 

@@ -94,6 +94,12 @@ class NodeController extends MainController
         return true;
     }
 
+    protected function getNodeTypes ()
+    {
+        $icons = new Icons ();
+        return $icons->getIcons ();
+    }
+
     public function getCommonData ()
     {
         $data = array ();
@@ -104,6 +110,8 @@ class NodeController extends MainController
         $data['nodes'] = $node_repo->getNodes ();
 
         $data['search_form'] = $this->getSearchForm ()->createView ();
+
+        $data['node_types'] = $this->getNodeTypes ();
 
         return $data;
     }

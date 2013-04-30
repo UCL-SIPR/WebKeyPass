@@ -24,9 +24,9 @@ namespace UCL\WebKeyPassBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
+use UCL\WebKeyPassBundle\Controller\Icons;
 
 class NodeForm extends AbstractType
 {
@@ -45,20 +45,16 @@ class NodeForm extends AbstractType
 
     protected function getAllIcons ()
     {
-        $finder = new Finder ();
-        $finder->files ()->in (__DIR__ . '/../Resources/public/icons/');
-        $finder->name ('*.png');
-        $finder->sortByName ();
+        $icons = new Icons ();
+        $icon_names = $icons->getIcons ();
+        $all_icons = array ();
 
-        $icons = array ();
-
-        foreach ($finder as $icon)
+        foreach ($icon_names as $icon_name)
         {
-            $icon_name = basename ($icon, '.png');
-            $icons[$icon_name] = $icon_name;
+            $all_icons[$icon_name] = $icon_name;
         }
 
-        return $icons;
+        return $all_icons;
     }
 
     public function setNodeRepository ($node_repo)
