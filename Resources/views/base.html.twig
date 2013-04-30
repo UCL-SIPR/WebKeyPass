@@ -72,8 +72,10 @@
     $(function () {
       $("#tree_view").jstree ({
         plugins : [ "themes", "html_data", "types" ],
+
         core : { "animation": 200 },
-        types: {
+
+        types : {
           "types": {
             {% for type in node_types %}
               "{{ type }}": {
@@ -81,8 +83,8 @@
               },
             {% endfor %}
           }
-        }
-      });
+        },
+      })
     });
   </script>
 {% endblock %}

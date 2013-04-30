@@ -261,4 +261,9 @@ class Node
 
         return $str;
     }
+
+    public function isLeaf ()
+    {
+        return count ($this->getChildren ()) == 0;
+    }
 }

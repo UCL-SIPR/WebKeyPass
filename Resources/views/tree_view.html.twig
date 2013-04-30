@@ -20,7 +20,13 @@
  #}
 
 {% for node in nodes %}
-  <li{% if node.icon %} rel="{{ node.icon }}"{% endif %}>
+  <li
+    {% if node.id in open_nodes %}
+      class="jstree-open"
+    {% endif %}
+    id="node_{{ node.id }}"
+    rel="{{ node.icon }}">
+
     {{ include('UCLWebKeyPassBundle::node_link.html.twig', {'node': node}) }}
 
     {% if node.subnodes %}

@@ -49,6 +49,8 @@ class RootNodeController extends NodeController
 
         $data['node_types'] = $this->getNodeTypes ();
 
+        $data['open_nodes'] = array ();
+
         return $data;
     }
 

@@ -100,11 +100,29 @@ class NodeController extends MainController
         return $icons->getIcons ();
     }
 
+    private function getOpenNodes ()
+    {
+        $open_nodes = array ();
+
+        if (!$this->node->isLeaf ())
+        {
+            $open_nodes[] = $this->node->getId ();
+        }
+
+        for ($parent = $this->node->getParent (); $parent != null; $parent = $parent->getParent ())
+        {
+            $open_nodes[] = $parent->getId ();
+        }
+
+        return $open_nodes;
+    }
+
     public function getCommonData ()
     {
         $data = array ();
         $data['title'] = $this->node->getName ();
         $data['path'] = $this->getPath ($this->node);
+        $data['open_nodes'] = $this->getOpenNodes ();
 
         $node_repo = $this->getNodeRepo ();
         $data['nodes'] = $node_repo->getNodes ();
