@@ -57,10 +57,23 @@ class NodeRepository extends EntityRepository
             $subnodes = $this->getChildren ($node->getId ());
             $subtree = $this->getNodesInfos ($subnodes);
 
+            if ($node->getTypeStr () == 'server')
+            {
+                $icon = 'server';
+            }
+            else if ($node->getTypeStr () == 'vm')
+            {
+                $icon = 'virtual-machine';
+            }
+            else
+            {
+                $icon = $node->getIcon ();
+            }
+
             $tree[] = array ('id' => $node->getId (),
                              'name' => $node->getName (),
                              'class' => $node->getTypeStr (),
-                             'icon' => $node->getIcon (),
+                             'icon' => $icon,
                              'subnodes' => $subtree);
         }
 
