@@ -24,10 +24,18 @@ namespace UCL\WebKeyPassBundle\Controller;
 
 class RemoveIconAction extends Action
 {
+    private function checkIcon ($icon)
+    {
+        return preg_match ("/^[a-zA-Z-_]+$/", $icon) == 1;
+    }
+
     public function perform ($icon, $success_msg)
     {
-        $file = __DIR__ . '/../Resources/public/icons/' . $icon . '.png';
-        unlink ($file);
+        if ($this->checkIcon ($icon))
+        {
+            $file = __DIR__ . '/../Resources/public/icons/' . $icon . '.png';
+            unlink ($file);
+        }
 
         $this->addFlashMessage ($success_msg);
 
