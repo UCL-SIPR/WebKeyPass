@@ -181,6 +181,18 @@ ucl_wkp_admin_encrypt_master_key:
     pattern: /admin/{user_id}/encrypt_master_key
     defaults: { _controller: UCLWebKeyPassBundle:Admin:encryptMasterKey }
 
+ucl_wkp_admin_show_icons:
+    pattern: /admin/icons
+    defaults: { _controller: UCLWebKeyPassBundle:Admin:showIcons }
+
+ucl_wkp_admin_add_icon:
+    pattern: /admin/add_icon
+    defaults: { _controller: UCLWebKeyPassBundle:Admin:addIcon }
+
+ucl_wkp_admin_remove_icon:
+    pattern: /admin/remove_icon/{icon}
+    defaults: { _controller: UCLWebKeyPassBundle:Admin:removeIcon }
+
 # Other
 
 ucl_wkp_search:

@@ -203,4 +203,22 @@ class AdminController extends MainController
 
         return $action->perform ();
     }
+
+    public function showIconsAction ()
+    {
+        $data = $this->getCommonData ();
+
+        $icons = new Icons ();
+        $data['icons'] = $icons->getIcons ();
+
+        return $this->render ('UCLWebKeyPassBundle::admin_show_icons.html.twig', $data);
+    }
+
+    public function addIconAction ()
+    {
+    }
+
+    public function removeIconAction ($icon)
+    {
+    }
 }

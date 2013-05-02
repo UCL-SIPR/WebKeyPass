@@ -19,28 +19,29 @@
  # Author: Sébastien Wilmet
  #}
 
-{% extends 'UCLWebKeyPassBundle::page.html.twig' %}
+{% extends 'UCLWebKeyPassBundle::admin.html.twig' %}
 
-{% block body %}
-  <div id="links">
-    <ul class="actions">
-      <li><a href="{{ path('ucl_wkp_admin_user_list') }}">Users</a></li>
-      <li><a href="{{ path('ucl_wkp_admin_log_months') }}">Log</a></li>
-      <li><a href="{{ path('ucl_wkp_admin_master_key') }}">Master Key</a></li>
-      <li><a href="{{ path('ucl_wkp_admin_show_icons') }}">Icons</a></li>
-      <li><a href="{{ path('ucl_wkp_root_view') }}">Quit Admin Zone</a></li>
-      <li><a href="{{ path('ucl_wkp_logout') }}">Logout</a></li>
-    </ul>
-  </div>
+{% block contents %}
+  <h3>Actions</h3>
+  <ul class="actions">
+    <li><a href="{{ path('ucl_wkp_admin_add_icon') }}">Add Icon</a></li>
+  </ul>
 
-  <h2>{{ title }}</h2>
+  <div style="clear: both;"></div>
 
-  {% for flashMessage in app.session.flashbag.get('notice') %}
-    <div class="flash-notice">
-      {{ flashMessage }}
-    </div>
-  {% endfor %}
-
-  {% block contents %}
-  {% endblock %}
+  <h3>Icons</h3>
+  <table class="data">
+    {% for icon in icons %}
+      <tr>
+        <td>{{ icon }}</td>
+        <td>
+          <img src="{{ asset('bundles/uclwebkeypass/icons/') }}{{ icon }}.png" alt="{{ icon }}" />
+        </td>
+        <td>
+          <a href="{{ path('ucl_wkp_admin_remove_icon', {'icon': icon}) }}"
+             onclick="return confirm ('Are you sure you want to remove the icon &quot;{{ icon }}&quot;?')">Remove</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
 {% endblock %}
