@@ -220,5 +220,9 @@ class AdminController extends MainController
 
     public function removeIconAction ($icon)
     {
+        $action = new RemoveIconAction ($this, null);
+        $action->setRedirectRoute ('ucl_wkp_admin_show_icons');
+
+        return $action->perform ($icon, "Icon removed successfully.");
     }
 }
