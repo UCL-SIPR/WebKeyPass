@@ -51,3 +51,7 @@ http://path/to/Symfony/web/app.php/WebKeyPass/
 Create a first account. Unfortunately, the first account is disabled by
 default, so you have to enable it manually by editing the database (and
 set the admin bit to 1 too, if you want).
+
+* Install the ImageMagick module for php
+
+The package is called php5-imagick on Debian.

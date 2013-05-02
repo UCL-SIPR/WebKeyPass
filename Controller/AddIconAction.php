@@ -57,11 +57,27 @@ class AddIconAction extends FormAction
         return true;
     }
 
+    private function resizeIcon ($icon)
+    {
+        $image = new \Imagick ($icon);
+
+        $image->resizeImage (16, 16, \Imagick::FILTER_LANCZOS, 1);
+        $image->writeImage ($icon);
+
+        $image->destroy();
+    }
+
     protected function saveData ($db_manager, $form)
     {
         $form_data = $form->getData ();
+
+        $dir = __DIR__ . '/../Resources/public/icons/';
+        $icon_name = $form_data['name'] . '.png';
+
         $file = $form_data['icon'];
-        $file->move (__DIR__ . '/../Resources/public/icons/', $form_data['name'] . '.png');
+        $file->move ($dir, $icon_name);
+
+        $this->resizeIcon ($dir . $icon_name);
     }
 
     protected function renderTemplate ($data)
