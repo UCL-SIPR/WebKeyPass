@@ -30,4 +30,9 @@ class CreateUserForm extends UserForm
 {
     protected $has_is_active = false;
     protected $has_is_admin = false;
+
+    public function __construct ($with_shibboleth)
+    {
+        $this->has_private_key = !$with_shibboleth;
+    }
 }

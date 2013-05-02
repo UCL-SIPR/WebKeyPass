@@ -93,6 +93,11 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $mcrypt_iv;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $with_shibboleth;
+
     public function __construct()
     {
         $this->isActive = true;
@@ -272,6 +277,17 @@ class User implements AdvancedUserInterface, \Serializable
     public function setMcryptIv ($mcrypt_iv)
     {
         $this->mcrypt_iv = base64_encode ($mcrypt_iv);
+        return $this;
+    }
+
+    public function getWithShibboleth ()
+    {
+        return $this->with_shibboleth;
+    }
+
+    public function setWithShibboleth ($with_shibboleth)
+    {
+        $this->with_shibboleth = $with_shibboleth;
         return $this;
     }
 }

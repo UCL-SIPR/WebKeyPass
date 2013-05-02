@@ -37,18 +37,33 @@ class CreateUserAction extends FormAddAction
 
     protected function getForm ()
     {
-        return new CreateUserForm ();
+        $shib = new Shibboleth ($this->controller);
+        return new CreateUserForm ($shib->isAuthenticated ());
     }
 
     protected function getFormData ()
     {
-        return array ('username' => '',
-                      'password1' => '',
-                      'password2' => '',
-                      'first_name' => '',
-                      'last_name' => '',
-                      'email' => '',
-                      'private_key' => '');
+        $shib = new Shibboleth ($this->controller);
+
+        if ($shib->isAuthenticated ())
+        {
+            return array ('username' => $shib->getUsername (),
+                          'password1' => '',
+                          'password2' => '',
+                          'first_name' => $shib->getFirstName (),
+                          'last_name' => $shib->getLastName (),
+                          'email' => $shib->getEmail ());
+        }
+        else
+        {
+            return array ('username' => '',
+                          'password1' => '',
+                          'password2' => '',
+                          'first_name' => '',
+                          'last_name' => '',
+                          'email' => '',
+                          'private_key' => '');
+        }
     }
 
     protected function saveData ($db_manager, $form)
@@ -61,9 +76,20 @@ class CreateUserAction extends FormAddAction
         $user->setFirstName ($form_data['first_name']);
         $user->setLastName ($form_data['last_name']);
         $user->setEmail ($form_data['email']);
-        $user->setPrivateKey ($form_data['private_key']);
         $user->setIsActive (false);
         $user->setIsAdmin (false);
+
+        $shib = new Shibboleth ($this->controller);
+        if ($shib->isAuthenticated ())
+        {
+            $user->setPrivateKey ($shib->getPrivateKey ());
+            $user->setWithShibboleth (true);
+        }
+        else
+        {
+            $user->setPrivateKey ($form_data['private_key']);
+            $user->setWithShibboleth (false);
+        }
 
         $db_manager->persist ($user);
     }

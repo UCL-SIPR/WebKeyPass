@@ -22,27 +22,43 @@
 
 namespace UCL\WebKeyPassBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use UCL\WebKeyPassBundle\Entity\User;
-
-class CreateAccountController extends MainController
+class Shibboleth
 {
-    public function getCommonData ()
-    {
-        $data = array ();
-        $data['title'] = 'Create Account';
+    private $request;
 
-        $shib = new Shibboleth ($this);
-        $data['shibboleth'] = $shib->isAuthenticated ();
-        return $data;
+    public function __construct ($controller)
+    {
+        $this->request = $controller->getRequest ();
     }
 
-    public function createAccountAction ()
+    /* Is authenticated with Shibboleth? */
+    public function isAuthenticated ()
     {
-        $action = new CreateUserAction ($this, null);
-        $action->setRedirectRoute ('ucl_wkp_login');
+        return false;
+    }
 
-        return $action->handleForm ();
+    public function getUsername ()
+    {
+        return $this->request->server->get ('uid');
+    }
+
+    public function getFirstName ()
+    {
+        return $this->request->server->get ('givenName');
+    }
+
+    public function getLastName ()
+    {
+        return $this->request->server->get ('sn');
+    }
+
+    public function getEmail ()
+    {
+        return $this->request->server->get ('mail');
+    }
+
+    public function getPrivateKey ()
+    {
+        return "foobar";
     }
 }

@@ -107,10 +107,25 @@ class SecurityController extends MainController
 
     public function loginPrivateKeyAction ()
     {
-        $action = new SetPrivateKeyAction ($this, null);
-        $action->setRedirectRoute ('ucl_wkp_root_view');
+        $shib = new Shibboleth ($this);
+        $user = $this->getAuthenticatedUser ();
 
-        return $action->handleForm ();
+        if ($shib->isAuthenticated () &&
+            $user->getWithShibboleth ())
+        {
+            $session = $this->get ('session');
+            $session->set ('private_key', $shib->getPrivateKey ());
+
+            $redirect_url = $this->generateUrl ('ucl_wkp_root_view');
+            return $this->redirect ($redirect_url);
+        }
+        else
+        {
+            $action = new SetPrivateKeyAction ($this, null);
+            $action->setRedirectRoute ('ucl_wkp_root_view');
+
+            return $action->handleForm ();
+        }
     }
 
     public function getCommonData ()

@@ -24,6 +24,12 @@
 {% block body %}
   <h2>{{ title }}</h2>
 
+  {% if shibboleth %}
+    <p>With Shibboleth.</p>
+  {% else %}
+    <p>Without Shibboleth.</p>
+  {% endif %}
+
   <form action="#" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
 

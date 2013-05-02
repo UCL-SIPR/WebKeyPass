@@ -49,6 +49,6 @@ class SetPrivateKeyAction extends FormAction
 
     protected function renderTemplate ($data)
     {
-        return $this->controller->render ('UCLWebKeyPassBundle::page_form.html.twig', $data);
+        return $this->controller->render ('UCLWebKeyPassBundle::private_key_form.html.twig', $data);
     }
 }
