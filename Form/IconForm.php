@@ -20,31 +20,21 @@
  * Author: Sébastien Wilmet
  */
 
-namespace UCL\WebKeyPassBundle\Controller;
+namespace UCL\WebKeyPassBundle\Form;
 
-use Symfony\Component\Finder\Finder;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
 
-class Icons
+class IconForm extends AbstractType
 {
-    public function getIcons ()
+    public function buildForm (FormBuilderInterface $builder, array $options)
     {
-        $finder = new Finder ();
-        $finder->files ()->in (__DIR__ . '/../Resources/public/icons/');
-        $finder->name ('*.png');
-        $finder->sortByName ();
-
-        $icons = array ();
-
-        foreach ($finder as $icon)
-        {
-            $icons[] = basename ($icon, '.png');
-        }
-
-        return $icons;
+        $builder->add ('name', 'text');
+        $builder->add ('icon', 'file');
     }
 
-    public function nameIsValid ($icon_name)
+    public function getName ()
     {
-        return preg_match ("/^[a-zA-Z0-9-_]+$/", $icon_name) == 1;
+        return 'icon';
     }
 }

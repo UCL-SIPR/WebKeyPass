@@ -216,6 +216,10 @@ class AdminController extends MainController
 
     public function addIconAction ()
     {
+        $action = new AddIconAction ($this, null);
+        $action->setRedirectRoute ('ucl_wkp_admin_show_icons');
+
+        return $action->handleForm ();
     }
 
     public function removeIconAction ($icon)
