@@ -37,6 +37,11 @@ h1
     width: 29em;
 }
 
+#side_panel #tree_view
+{
+    margin-top: 1em;
+}
+
 #contents
 {
     position: absolute;
