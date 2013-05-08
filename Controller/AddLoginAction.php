@@ -60,11 +60,15 @@ class AddLoginAction extends FormAddAction
 
         $master_key = new MasterKey ($this->controller);
 
-        $encrypted_password = $master_key->encryptPassword ($form_data['password1'], $user);
+        $iv = null;
+        $encrypted_password = $master_key->encryptPassword ($form_data['password1'],
+                                                            $user,
+                                                            $iv);
 
         $auth = $form_data['_auth'];
         $auth->setLogin ($form_data['login']);
         $auth->setPassword ($encrypted_password);
+        $auth->setMcryptIv ($iv);
         $db_manager->persist ($auth);
     }
 }

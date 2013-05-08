@@ -40,14 +40,22 @@ class MasterKey
         return $private_key;
     }
 
-    private function getCryptModule ($key)
+    private function generateMcryptIv ($crypt_module)
     {
-        $crypt_module = mcrypt_module_open (MCRYPT_RIJNDAEL_256, '', MCRYPT_MODE_ECB, '');
+        return mcrypt_create_iv (mcrypt_enc_get_iv_size ($crypt_module), MCRYPT_DEV_URANDOM);
+    }
 
-        $iv = mcrypt_create_iv (mcrypt_enc_get_iv_size ($crypt_module), MCRYPT_DEV_URANDOM);
+    private function getCryptModule ($key, &$iv)
+    {
+        $crypt_module = mcrypt_module_open (MCRYPT_RIJNDAEL_256, '', MCRYPT_MODE_CBC, '');
 
         $max_key_size = mcrypt_enc_get_key_size ($crypt_module);
         $key = substr (md5 ($key), 0, $max_key_size);
+
+        if ($iv == null)
+        {
+            $iv = $this->generateMcryptIv ($crypt_module);
+        }
 
         mcrypt_generic_init ($crypt_module, $key, $iv);
 
@@ -62,42 +70,50 @@ class MasterKey
 
     public function encryptMasterKey ($master_key, $user)
     {
-        $crypt_module = $this->getCryptModule ($user->getPrivateKey ());
+        $iv = null;
+        $crypt_module = $this->getCryptModule ($user->getPrivateKey (), $iv);
+
         $encrypted_master_key = mcrypt_generic ($crypt_module, $master_key);
+
         $this->closeCryptModule ($crypt_module);
 
         $user->setEncryptedMasterKey ($encrypted_master_key);
         $user->setPrivateKey ('');
+        $user->setMcryptIv ($iv);
     }
 
     public function decryptMasterKey ($user)
     {
-        $crypt_module = $this->getCryptModule ($this->getSessionPrivateKey ());
+        $iv = $user->getMcryptIv ();
+        $crypt_module = $this->getCryptModule ($this->getSessionPrivateKey (), $iv);
+
         $master_key = mdecrypt_generic ($crypt_module, $user->getEncryptedMasterKey ());
+
         $this->closeCryptModule ($crypt_module);
 
         $ret = trim ($master_key);
-#        echo "master key: $tmp<br />\n";
+#        echo "master key: $ret<br />\n";
 
         return $ret;
     }
 
-    public function encryptPassword ($password, $user)
+    public function encryptPassword ($password, $user, &$iv)
     {
         $master_key = $this->decryptMasterKey ($user);
 
-        $crypt_module = $this->getCryptModule ($master_key);
+        $iv = null;
+        $crypt_module = $this->getCryptModule ($master_key, $iv);
         $encrypted_password = mcrypt_generic ($crypt_module, $password);
         $this->closeCryptModule ($crypt_module);
 
         return $encrypted_password;
     }
 
-    public function decryptPassword ($encrypted_password, $user)
+    public function decryptPassword ($encrypted_password, $user, $iv)
     {
         $master_key = $this->decryptMasterKey ($user);
 
-        $crypt_module = $this->getCryptModule ($master_key);
+        $crypt_module = $this->getCryptModule ($master_key, $iv);
         $decrypted_password = mdecrypt_generic ($crypt_module, $encrypted_password);
         $this->closeCryptModule ($crypt_module);
 

@@ -53,6 +53,11 @@ class Authentication
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $mcrypt_iv;
+
     /* Getters and Setters */
 
     public function getId()
@@ -93,5 +98,16 @@ class Authentication
     public function getNode()
     {
         return $this->node;
+    }
+
+    public function getMcryptIv ()
+    {
+        return base64_decode ($this->mcrypt_iv);
+    }
+
+    public function setMcryptIv ($mcrypt_iv)
+    {
+        $this->mcrypt_iv = base64_encode ($mcrypt_iv);
+        return $this;
     }
 }

@@ -73,8 +73,10 @@ class NodeController extends MainController
 
         foreach ($node->getAuthentications () as $auth)
         {
+            $iv = $auth->getMcryptIv ();
             $decrypted_password = $master_key->decryptPassword ($auth->getPassword (),
-                                                                $user);
+                                                                $user,
+                                                                $iv);
 
             $auths[] = array ('login' => $auth->getLogin (),
                               'password' => $decrypted_password,
