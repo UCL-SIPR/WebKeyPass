@@ -33,4 +33,9 @@ class AddServerAction extends FormAddAction
     {
         return new ServerForm ();
     }
+
+    protected function formIsValid ($form)
+    {
+        return $this->checkNode ($form, false);
+    }
 }

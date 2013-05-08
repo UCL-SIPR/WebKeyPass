@@ -148,4 +148,46 @@ class NodeRepository extends EntityRepository
 
         return $names;
     }
+
+    public function hostnameExists ($hostname, $except_node = null)
+    {
+        $query = $this->getEntityManager ()
+            ->createQueryBuilder ()
+            ->select ('count(node)')
+            ->from ('UCLWebKeyPassBundle:Node', 'node')
+            ->where ('node.hostname = :hostname')
+            ->setParameter ('hostname', $hostname);
+
+        if ($except_node != null)
+        {
+            $query = $query->andWhere ('node.id <> :node_id')
+                ->setParameter ('node_id', $except_node->getId ());
+        }
+
+        $nb_results = $query->getQuery ()
+            ->getSingleScalarResult ();
+
+        return $nb_results > 0;
+    }
+
+    public function serialExists ($serial_number, $except_node)
+    {
+        $query = $this->getEntityManager ()
+            ->createQueryBuilder ()
+            ->select ('count(node)')
+            ->from ('UCLWebKeyPassBundle:Node', 'node')
+            ->where ('node.serial_number = :serial_number')
+            ->setParameter ('serial_number', $serial_number);
+
+        if ($except_node != null)
+        {
+            $query = $query->andWhere ('node.id <> :node_id')
+                ->setParameter ('node_id', $except_node->getId ());
+        }
+
+        $nb_results = $query->getQuery ()
+            ->getSingleScalarResult ();
+
+        return $nb_results > 0;
+    }
 }

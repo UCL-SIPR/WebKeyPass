@@ -133,6 +133,37 @@ class FormAction extends Action
         return $ok;
     }
 
+    protected function checkNode ($form, $is_edit)
+    {
+        $ok = true;
+
+        if ($is_edit)
+        {
+            $except_node = $this->node;
+        }
+        else
+        {
+            $except_node = null;
+        }
+
+        $node_repo = $this->controller->getNodeRepo ();
+        if ($node_repo->hostnameExists ($this->node->getHostname (), $except_node))
+        {
+            $msg = 'The hostname already exists.';
+            $form->addError (new FormError ($msg));
+            $ok = false;
+        }
+
+        if ($node_repo->serialExists ($this->node->getSerialNumber (), $except_node))
+        {
+            $msg = 'The serial number already exists.';
+            $form->addError (new FormError ($msg));
+            $ok = false;
+        }
+
+        return $ok;
+    }
+
     protected function formIsValid ($form)
     {
         return true;

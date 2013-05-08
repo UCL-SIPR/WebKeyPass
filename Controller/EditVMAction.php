@@ -33,4 +33,9 @@ class EditVMAction extends FormAction
     {
         return new VMForm ();
     }
+
+    protected function formIsValid ($form)
+    {
+        return $this->checkNode ($form, true);
+    }
 }

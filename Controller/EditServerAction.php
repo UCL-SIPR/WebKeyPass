@@ -33,4 +33,9 @@ class EditServerAction extends FormAction
     {
         return new ServerForm ();
     }
+
+    protected function formIsValid ($form)
+    {
+        return $this->checkNode ($form, true);
+    }
 }
