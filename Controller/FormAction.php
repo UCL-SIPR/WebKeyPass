@@ -55,16 +55,31 @@ class FormAction extends Action
 
     protected function checkPasswords ($form, $password1, $password2)
     {
-        $ok = $this->isStrongPassword ($form, $password1);
+        $ok = true;
 
-        if ($password1 !== $password2)
+        if (!$this->isStrongPassword ($form, $password1))
         {
-            $msg = 'The passwords don\'t match.';
-            $form->addError (new FormError ($msg));
+            $ok = false;
+        }
+
+        if (!$this->checkPasswordsMatch ($form, $password1, $password2))
+        {
             $ok = false;
         }
 
         return $ok;
+    }
+
+    protected function checkPasswordsMatch ($form, $password1, $password2)
+    {
+        if ($password1 !== $password2)
+        {
+            $msg = 'The passwords don\'t match.';
+            $form->addError (new FormError ($msg));
+            return false;
+        }
+
+        return true;
     }
 
     protected function isStrongPassword ($form, $password)

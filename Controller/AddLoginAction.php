@@ -39,8 +39,18 @@ class AddLoginAction extends FormAddAction
         $auth = $this->node;
 
         return array ('login' => $auth->getLogin (),
-                      'password' => '',
+                      'password1' => '',
+                      'password2' => '',
                       '_auth' => $auth);
+    }
+
+    protected function formIsValid ($form)
+    {
+        $data = $form->getData ();
+
+        return $this->checkPasswordsMatch ($form,
+                                           $data['password1'],
+                                           $data['password2']);
     }
 
     protected function saveData ($db_manager, $form)
@@ -50,7 +60,7 @@ class AddLoginAction extends FormAddAction
 
         $master_key = new MasterKey ($this->controller);
 
-        $encrypted_password = $master_key->encryptPassword ($form_data['password'], $user);
+        $encrypted_password = $master_key->encryptPassword ($form_data['password1'], $user);
 
         $auth = $form_data['_auth'];
         $auth->setLogin ($form_data['login']);
