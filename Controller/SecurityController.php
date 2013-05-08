@@ -105,6 +105,17 @@ class SecurityController extends MainController
         return $this->redirect ($redirect_url);
     }
 
+    private function checkPrivateKey ($shib)
+    {
+        $user = $this->getAuthenticationUser ();
+        $good_hash = $user->getPrivateKeyHash ();
+
+        $hash = PrivateKey::getHash ($shib->getPrivateKey (),
+                                     $user->getPrivateKeySalt ());
+
+        return $hash === $good_hash;
+    }
+
     public function loginPrivateKeyAction ()
     {
         $shib = new Shibboleth ($this);
@@ -113,6 +124,13 @@ class SecurityController extends MainController
         if ($shib->isAuthenticated () &&
             $user->getWithShibboleth ())
         {
+            if (!$this->checkPrivateKey ($shib))
+            {
+                /* TODO add an error message */
+                $redirect_url = $this->generateUrl ('ucl_wkp_login');
+                return $this->redirect ($redirect_url);
+            }
+
             $session = $this->get ('session');
             $session->set ('private_key', $shib->getPrivateKey ());
 

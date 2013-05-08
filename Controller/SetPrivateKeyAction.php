@@ -22,6 +22,7 @@
 
 namespace UCL\WebKeyPassBundle\Controller;
 
+use Symfony\Component\Form\FormError;
 use UCL\WebKeyPassBundle\Form\PrivateKeyForm;
 
 class SetPrivateKeyAction extends FormAction
@@ -37,6 +38,26 @@ class SetPrivateKeyAction extends FormAction
     protected function getFormData ()
     {
         return array ('private_key' => '');
+    }
+
+    protected function formIsValid ($form)
+    {
+        $form_data = $form->getData ();
+
+        $user = $this->controller->getAuthenticatedUser ();
+        $good_hash = $user->getPrivateKeyHash ();
+
+        $hash = PrivateKey::getHash ($form_data['private_key'],
+                                     $user->getPrivateKeySalt ());
+
+        if ($hash !== $good_hash)
+        {
+            $msg = 'Bad private key.';
+            $form->addError (new FormError ($msg));
+            return false;
+        }
+
+        return true;
     }
 
     protected function saveData ($db_manager, $form)
