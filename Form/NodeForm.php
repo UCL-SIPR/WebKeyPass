@@ -142,7 +142,17 @@ class NodeForm extends AbstractType
 
         if ($this->has_comment)
         {
-            $builder->add ('comment', null, array ('required' => false));
+            if ($this->has_hostname || $this->has_serial_number)
+            {
+                $label = "Comment";
+            }
+            else
+            {
+                $label = "Information";
+            }
+
+            $builder->add ('comment', null, array ('required' => false,
+                                                   'label' => $label));
         }
 
         if ($this->has_parent)
