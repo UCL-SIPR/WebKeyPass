@@ -1,3 +1,9 @@
 TODO
 
+- Create account: send mails
+- Admin zone: when activating a new user, encrypt the master key with his private key
+- When the master key is not encrypted for the user, if he is an admin, go directly to the master key form, if he is a simple user, refuse to login.
+- New login/password:
+	- remove the default login "root"
+	- list of logins + other login
 - Improve CSS

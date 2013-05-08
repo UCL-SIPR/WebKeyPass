@@ -41,6 +41,11 @@ $ php app/console doctrine:schema:create
 Or:
 $ php app/console doctrine:schema:update --force
 
+* Clear the cache
+
+When the bundle is updated, clear the cache:
+$ rm -rf app/cache/*
+
 * Test
 
 Open in your web browser:
