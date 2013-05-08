@@ -59,9 +59,9 @@
         <td>
           <span class="login">{{ auth.login }}</span>
           <span id="password{{ loop.index }}" style="display: none">{{ auth.password }}</span>
-          <ul class="auth_actions">
-            <li><a id="showHide{{ loop.index }}" href="javascript:toggle ('password{{ loop.index }}', 'showHide{{ loop.index }}');">Show Password</a></li>
+          <ul class="actions auth_actions">
             <li><a href="{{ auth.remove_url }}" onclick="return confirm ('Are you sure you want to remove the login/password?')">Remove</a></li>
+            <li><a id="showHide{{ loop.index }}" href="javascript:toggle ('password{{ loop.index }}', 'showHide{{ loop.index }}');">Show Password</a></li>
           </ul>
         </td>
       </tr>

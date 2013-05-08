@@ -66,14 +66,7 @@ ul.actions li
 
 #contents ul.auth_actions
 {
-    margin: 0;
-    padding: 0;
     margin-top: 0.5em;
-}
-
-#contents ul.auth_actions li
-{
-    list-style: none;
 }
 
 /* Contents: information */
