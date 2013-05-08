@@ -24,6 +24,7 @@ namespace UCL\WebKeyPassBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use UCL\WebKeyPassBundle\Controller\PrivateKey;
 
 /**
  * @ORM\Table(name="users")
@@ -45,6 +46,7 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string")
+     * Salt used for the password hash.
      */
     private $salt;
 
@@ -84,6 +86,16 @@ class User implements AdvancedUserInterface, \Serializable
     private $private_key;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $private_key_hash;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $private_key_salt;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $encrypted_master_key;
@@ -102,6 +114,7 @@ class User implements AdvancedUserInterface, \Serializable
     {
         $this->isActive = true;
         $this->salt = md5 (uniqid (null, true));
+        $this->private_key_salt = md5 (uniqid (null, true));
     }
 
     public function getRoles()
@@ -246,9 +259,15 @@ class User implements AdvancedUserInterface, \Serializable
         return $this->email;
     }
 
-    public function setPrivateKey($privateKey)
+    public function setPrivateKey($private_key)
     {
-        $this->private_key = $privateKey;
+        $this->private_key = $private_key;
+
+        if ($private_key != null && $private_key != "")
+        {
+            $hash = PrivateKey::getHash ($private_key, $this->getPrivateKeySalt ());
+            $this->setPrivateKeyHash ($hash);
+        }
 
         return $this;
     }
@@ -256,6 +275,30 @@ class User implements AdvancedUserInterface, \Serializable
     public function getPrivateKey()
     {
         return $this->private_key;
+    }
+
+    public function setPrivateKeyHash($private_key_hash)
+    {
+        $this->private_key_hash = $private_key_hash;
+
+        return $this;
+    }
+
+    public function getPrivateKeyHash()
+    {
+        return $this->private_key_hash;
+    }
+
+    public function setPrivateKeySalt($private_key_salt)
+    {
+        $this->private_key_salt = $private_key_salt;
+
+        return $this;
+    }
+
+    public function getPrivateKeySalt()
+    {
+        return $this->private_key_salt;
     }
 
     public function setEncryptedMasterKey($encryptedMasterKey)
