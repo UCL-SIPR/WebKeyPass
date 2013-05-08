@@ -151,8 +151,8 @@ class NodeForm extends AbstractType
                 $label = "Information";
             }
 
-            $builder->add ('comment', null, array ('required' => false,
-                                                   'label' => $label));
+            $builder->add ('comment', 'textarea', array ('required' => false,
+                                                         'label' => $label));
         }
 
         if ($this->has_parent)
