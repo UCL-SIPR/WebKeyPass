@@ -120,6 +120,8 @@ class AdminController extends MainController
             $log_entry['type'] = $log->getType ();
             $log_entry['info'] = $log->getComment ();
             $log_entry['date'] = $log->getDateStr ();
+            $log_entry['ip'] = $log->getIp ();
+            $log_entry['host'] = $log->getHost ();
 
             $log_entries[] = $log_entry;
         }

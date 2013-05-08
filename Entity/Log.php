@@ -50,6 +50,16 @@ class Log
     /**
      * @ORM\Column(type="string")
      */
+    private $ip;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $host;
+
+    /**
+     * @ORM\Column(type="string")
+     */
     private $comment;
 
     public function __construct ()
@@ -100,5 +110,27 @@ class Log
     public function getComment()
     {
         return $this->comment;
+    }
+
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
+    public function setIp ($ip)
+    {
+        $this->ip = $ip;
+        return $this;
+    }
+
+    public function getHost ()
+    {
+        return $this->host;
+    }
+
+    public function setHost ($host)
+    {
+        $this->host = $host;
+        return $this;
     }
 }

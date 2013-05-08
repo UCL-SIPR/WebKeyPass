@@ -28,6 +28,8 @@
     <tr>
       <th>Date</th>
       <th>Type</th>
+      <th>IP</th>
+      <th>Host</th>
       <th>Info</th>
     </tr>
 
@@ -35,6 +37,8 @@
       <tr>
         <td>{{ log_entry.date }}</td>
         <td>{{ log_entry.type }}</td>
+        <td>{{ log_entry.ip }}</td>
+        <td>{{ log_entry.host }}</td>
         <td>{{ log_entry.info }}</td>
       </tr>
     {% endfor %}

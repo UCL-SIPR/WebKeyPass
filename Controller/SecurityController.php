@@ -52,6 +52,23 @@ class SecurityController extends MainController
         return $this->render ('UCLWebKeyPassBundle::login.html.twig', $data);
     }
 
+    private function setLogIP ($log)
+    {
+        $server = $this->getRequest ()->server;
+
+        $ip = $server->get ('REMOTE_ADDR');
+        $log->setIp ($ip);
+
+        if ($server->has ('REMOTE_HOST'))
+        {
+            $log->setHost ($server->get ('REMOTE_HOST'));
+        }
+        else
+        {
+            $log->setHost (gethostbyaddr ($ip));
+        }
+    }
+
     public function loginSuccessAction ()
     {
         $log = new Log ();
@@ -59,6 +76,8 @@ class SecurityController extends MainController
 
         $user = $this->getAuthenticatedUser ();
         $log->setComment ('User: ' . $user->getUsername ());
+
+        $this->setLogIP ($log);
 
         $db_manager = $this->getDoctrine ()->getManager ();
         $db_manager->persist ($log);
@@ -75,6 +94,8 @@ class SecurityController extends MainController
 
         $user = $this->getAuthenticatedUser ();
         $log->setComment ('User: ' . $user->getUsername ());
+
+        $this->setLogIP ($log);
 
         $db_manager = $this->getDoctrine ()->getManager ();
         $db_manager->persist ($log);
