@@ -44,7 +44,7 @@ class MasterKey
     {
         $crypt_module = mcrypt_module_open (MCRYPT_RIJNDAEL_256, '', MCRYPT_MODE_ECB, '');
 
-        $iv = mcrypt_create_iv (mcrypt_enc_get_iv_size ($crypt_module), MCRYPT_DEV_RANDOM);
+        $iv = mcrypt_create_iv (mcrypt_enc_get_iv_size ($crypt_module), MCRYPT_DEV_URANDOM);
 
         $max_key_size = mcrypt_enc_get_key_size ($crypt_module);
         $key = substr (md5 ($key), 0, $max_key_size);
