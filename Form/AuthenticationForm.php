@@ -30,8 +30,12 @@ class AuthenticationForm extends AbstractType
     public function buildForm (FormBuilderInterface $builder, array $options)
     {
         $builder->add ('login', 'text');
-        $builder->add ('password1', 'password');
-        $builder->add ('password2', 'password');
+
+        $builder->add ('password1', 'password', array ('label' => 'Password',
+                                                       'required' => false));
+
+        $builder->add ('password2', 'password', array ('label' => 'Password (retype)',
+                                                       'required' => false));
     }
 
     public function getName ()
