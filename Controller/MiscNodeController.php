@@ -121,7 +121,6 @@ class MiscNodeController extends NodeController
         $this->node = $this->getNodeFromId ($node_id);
 
         $new_auth = new Authentication ();
-        $new_auth->setLogin ('root');
         $new_auth->setNode ($this->node);
 
         $action = new AddLoginAction ($this, $new_auth);
