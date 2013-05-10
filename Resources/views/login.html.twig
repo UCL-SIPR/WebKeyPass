@@ -28,6 +28,12 @@
     </div>
   {% endfor %}
 
+  {% for flashMessage in app.session.flashbag.get('error') %}
+    <div class="flash-error">
+      {{ flashMessage }}
+    </div>
+  {% endfor %}
+
   {% if error %}
     <div>{{ error.message }}</div>
   {% endif %}

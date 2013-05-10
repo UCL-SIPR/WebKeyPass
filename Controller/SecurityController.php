@@ -107,7 +107,7 @@ class SecurityController extends MainController
 
     private function checkPrivateKey ($shib)
     {
-        $user = $this->getAuthenticationUser ();
+        $user = $this->getAuthenticatedUser();
         $good_hash = $user->getPrivateKeyHash ();
 
         $hash = PrivateKey::getHash ($shib->getPrivateKey (),
@@ -126,7 +126,10 @@ class SecurityController extends MainController
         {
             if (!$this->checkPrivateKey ($shib))
             {
-                /* TODO add an error message */
+                $msg = 'The Shibboleth private key is not correct.';
+                $flash_bag = $this->get ('session')->getFlashBag ();
+                $flash_bag->add ('error', $msg);
+
                 $redirect_url = $this->generateUrl ('ucl_wkp_login');
                 return $this->redirect ($redirect_url);
             }
