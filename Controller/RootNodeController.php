@@ -57,6 +57,18 @@ class RootNodeController extends NodeController
 
     public function viewRootAction ()
     {
+        $user = $this->getAuthenticatedUser ();
+
+        /* First visit: if the master key doesn't exist, redirect to the admin
+         * zone directly. */
+        if ($user->getIsAdmin () &&
+            $user->getEncryptedMasterKey () == "" &&
+            $user->getPrivateKey () != "")
+        {
+            $redirect_url = $this->generateUrl ('ucl_wkp_admin_master_key');
+            return $this->redirect ($redirect_url);
+        }
+
         $data = $this->getCommonData ();
         $data['infos'] = $this->getEmptyNodeInfos ();
         $data['authentications'] = array ();
