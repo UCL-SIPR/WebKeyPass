@@ -39,6 +39,41 @@ class AdminEditUserAction extends FormAction
         return $this->controller->render ('UCLWebKeyPassBundle::admin_form.html.twig', $data);
     }
 
+    private function encryptMasterKey ($user)
+    {
+        $master_key = new MasterKey ($this->controller);
+
+        $admin_user = $this->controller->getAuthenticatedUser ();
+        $decrypted_master_key = $master_key->decryptMasterKey ($admin_user);
+
+        $master_key->encryptMasterKey ($decrypted_master_key, $user);
+
+        $this->addFlashMessage ("Master key encrypted for the user.");
+    }
+
+    private function sendMail ($user)
+    {
+        $to = $user->getEmail ();
+
+        $subject = "UCL WebKeyPass: your account has been activated.";
+
+        $admin = $this->controller->getAuthenticatedUser ();
+        $url = $this->controller->generateUrl ('ucl_wkp_root_view',
+                                               array (),
+                                               true);
+
+        $msg = "Hello,\n\n"
+             . $admin->getFirstName () ." ". $admin->getLastName () ." has activated your account on UCL WebKeyPass.\n"
+             . "Go to the following URL:\n\n"
+             . $url . "\n\n"
+             . "Best regards,\n"
+             . "The UCL WebKeyPass application.";
+
+        mail ($to, $subject, $msg);
+
+        $this->addFlashMessage ("An e-mail has been sent to the user to explain that the account is now activated.");
+    }
+
     protected function saveData ($db_manager, $form)
     {
         $user = $this->node;
@@ -47,14 +82,8 @@ class AdminEditUserAction extends FormAction
             $user->getEncryptedMasterKey () == "" &&
             $user->getPrivateKey () != "")
         {
-            $master_key = new MasterKey ($this->controller);
-
-            $admin_user = $this->controller->getAuthenticatedUser ();
-            $decrypted_master_key = $master_key->decryptMasterKey ($admin_user);
-
-            $master_key->encryptMasterKey ($decrypted_master_key, $user);
-
-            $this->addFlashMessage ("Master key encrypted for the user.");
+            $this->encryptMasterKey ($user);
+            $this->sendMail ($user);
         }
     }
 }
