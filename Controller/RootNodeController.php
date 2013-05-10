@@ -69,6 +69,16 @@ class RootNodeController extends NodeController
             return $this->redirect ($redirect_url);
         }
 
+        if ($user->getEncryptedMasterKey () == "")
+        {
+            $msg = 'The master key is not encrypted for you.';
+            $flash_bag = $this->get ('session')->getFlashBag ();
+            $flash_bag->add ('error', $msg);
+
+            $redirect_url = $this->generateUrl ('ucl_wkp_login');
+            return $this->redirect ($redirect_url);
+        }
+
         $data = $this->getCommonData ();
         $data['infos'] = $this->getEmptyNodeInfos ();
         $data['authentications'] = array ();
