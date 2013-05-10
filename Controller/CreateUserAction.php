@@ -28,7 +28,7 @@ use UCL\WebKeyPassBundle\Entity\User;
 class CreateUserAction extends FormAddAction
 {
     protected $fullname = 'Create Account';
-    protected $success_msg = 'Account created successfully. Ask an admin to activate it.';
+    protected $success_msg = "Account created successfully. An e-mail has been sent to an administrator. You will receive an e-mail when the account is activated.";
 
     protected function renderTemplate ($data)
     {
@@ -66,6 +66,34 @@ class CreateUserAction extends FormAddAction
         }
     }
 
+    private function sendMail ($user)
+    {
+        $user_repo = $this->controller->getUserRepo ();
+        $admin_mails = array ();
+
+        foreach ($user_repo->getAdmins () as $admin)
+        {
+            $admin_mails[] = $admin->getEmail ();
+        }
+
+        if (count ($admin_mails) == 0)
+        {
+            return;
+        }
+
+        $to = implode (', ', $admin_mails);
+
+        $subject = "UCL WebKeyPass: new account: " . $user->getUsername ();
+        $msg = "Hello,\n\n"
+             . $user->getFirstName () ." ". $user->getLastName () ." has created a new account.\n"
+             . "You can activate the account in the administration zone of WebKeyPass.\n\n"
+             . "His or her e-mail address: ". $user->getEmail () ."\n\n"
+             . "Best regards,\n"
+             . "The UCL WebKeyPass application.";
+
+        mail ($to, $subject, $msg);
+    }
+
     protected function saveData ($db_manager, $form)
     {
         $form_data = $form->getData ();
@@ -92,6 +120,8 @@ class CreateUserAction extends FormAddAction
         }
 
         $db_manager->persist ($user);
+
+        $this->sendMail ($user);
     }
 
     protected function formIsValid ($form)

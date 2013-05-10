@@ -37,6 +37,18 @@ class UserRepository extends EntityRepository
             ->getResult ();
     }
 
+    public function getAdmins ()
+    {
+        return $this->getEntityManager ()
+            ->createQueryBuilder ()
+            ->select ('user')
+            ->from ('UCLWebKeyPassBundle:User', 'user')
+            ->where ('user.isAdmin = 1')
+            ->andWhere ('user.isActive = 1')
+            ->getQuery ()
+            ->getResult ();
+    }
+
     public function userExists ($username)
     {
         $nb_results = $this->getEntityManager ()
