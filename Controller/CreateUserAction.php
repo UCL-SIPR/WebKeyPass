@@ -84,9 +84,15 @@ class CreateUserAction extends FormAddAction
         $to = implode (', ', $admin_mails);
 
         $subject = "UCL WebKeyPass: new account: " . $user->getUsername ();
+
+        $url = $this->controller->generateUrl ('ucl_wkp_root_view',
+                                               array (),
+                                               true);
+
         $msg = "Hello,\n\n"
              . $user->getFirstName () ." ". $user->getLastName () ." has created a new account.\n"
-             . "You can activate the account in the administration zone of WebKeyPass.\n\n"
+             . "You can activate the account in the administration zone of WebKeyPass:\n\n"
+             . $url . "\n\n"
              . "His or her e-mail address: ". $user->getEmail () ."\n\n"
              . "Best regards,\n"
              . "The UCL WebKeyPass application.";
