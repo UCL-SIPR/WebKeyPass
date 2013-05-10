@@ -38,4 +38,23 @@ class AdminEditUserAction extends FormAction
     {
         return $this->controller->render ('UCLWebKeyPassBundle::admin_form.html.twig', $data);
     }
+
+    protected function saveData ($db_manager, $form)
+    {
+        $user = $this->node;
+
+        if ($user->getIsActive () &&
+            $user->getEncryptedMasterKey () == "" &&
+            $user->getPrivateKey () != "")
+        {
+            $master_key = new MasterKey ($this->controller);
+
+            $admin_user = $this->controller->getAuthenticatedUser ();
+            $decrypted_master_key = $master_key->decryptMasterKey ($admin_user);
+
+            $master_key->encryptMasterKey ($decrypted_master_key, $user);
+
+            $this->addFlashMessage ("Master key encrypted for the user.");
+        }
+    }
 }

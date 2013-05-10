@@ -1,7 +1,6 @@
 TODO
 
 - Create account: send mails
-- Admin zone: when activating a new user, encrypt the master key with his private key
 - New login/password:
 	- list of logins + other login
 - Improve CSS
