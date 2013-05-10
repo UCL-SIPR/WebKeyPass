@@ -25,7 +25,7 @@ namespace UCL\WebKeyPassBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="UCL\WebKeyPassBundle\Entity\AuthenticationRepository")
  * @ORM\Table(name="authentication")
  */
 class Authentication

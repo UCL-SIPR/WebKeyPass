@@ -27,9 +27,34 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class AuthenticationForm extends AbstractType
 {
+    private $auth_repo = null;
+
+    public function setAuthRepo ($auth_repo)
+    {
+        $this->auth_repo = $auth_repo;
+    }
+
+    private function getLoginChoices ()
+    {
+        $logins = $this->auth_repo->getLogins ();
+        $choices = array (0 => '');
+
+        foreach ($logins as $array_login)
+        {
+            $login = $array_login['login'];
+            $choices[$login] = $login;
+        }
+
+        return $choices;
+    }
+
     public function buildForm (FormBuilderInterface $builder, array $options)
     {
-        $builder->add ('login', 'text');
+        $builder->add ('list_login', 'choice', array ('label' => 'Login',
+                                                      'choices' => $this->getLoginChoices ()));
+
+        $builder->add ('other_login', 'text', array ('label' => 'Other login',
+                                                     'required' => false));
 
         $builder->add ('password1', 'password', array ('label' => 'Password',
                                                        'required' => false));

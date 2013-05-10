@@ -31,14 +31,17 @@ class AddLoginAction extends FormAddAction
 
     protected function getForm ()
     {
-        return new AuthenticationForm ();
+        $form = new AuthenticationForm ();
+        $form->setAuthRepo ($this->controller->getAuthRepo ());
+        return $form;
     }
 
     protected function getFormData ()
     {
         $auth = $this->node;
 
-        return array ('login' => $auth->getLogin (),
+        return array ('list_login' => '',
+                      'other_login' => '',
                       'password1' => '',
                       'password2' => '',
                       '_auth' => $auth);
@@ -66,7 +69,16 @@ class AddLoginAction extends FormAddAction
                                                             $iv);
 
         $auth = $form_data['_auth'];
-        $auth->setLogin ($form_data['login']);
+
+        if ($form_data['other_login'] != '')
+        {
+            $auth->setLogin ($form_data['other_login']);
+        }
+        else
+        {
+            $auth->setLogin ($form_data['list_login']);
+        }
+
         $auth->setPassword ($encrypted_password);
         $auth->setMcryptIv ($iv);
         $db_manager->persist ($auth);
