@@ -24,6 +24,7 @@ namespace UCL\WebKeyPassBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\Cookie;
 use UCL\WebKeyPassBundle\Entity\Log;
 
 class SecurityController extends MainController
@@ -51,6 +52,17 @@ class SecurityController extends MainController
 
         $settings = new Settings ();
         $data['can_create_account'] = $settings->getCanCreateAccount ();
+
+        $cookies = $request->cookies;
+
+        if ($cookies->has ('automatic_logout'))
+        {
+            $msg = $cookies->get ('automatic_logout');
+            setcookie ('automatic_logout', '', time () - 3600);
+
+            $flash_bag = $session->getFlashBag ();
+            $flash_bag->add ('notice', $msg);
+        }
 
         return $this->render ('UCLWebKeyPassBundle::login.html.twig', $data);
     }
@@ -105,6 +117,15 @@ class SecurityController extends MainController
         $db_manager->flush ();
 
         $redirect_url = $this->generateUrl ('ucl_wkp_logout_real');
+        return $this->redirect ($redirect_url);
+    }
+
+    public function automaticLogoutAction ()
+    {
+        $msg = "The session has expired.";
+        setcookie ('automatic_logout', $msg);
+
+        $redirect_url = $this->generateUrl ('ucl_wkp_logout');
         return $this->redirect ($redirect_url);
     }
 
