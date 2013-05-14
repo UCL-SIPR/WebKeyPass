@@ -271,7 +271,9 @@ class AdminController extends MainController
         $setting = array ();
         $setting['name'] = "Session expiration timeout (in minutes)";
         $setting['value'] = $settings->getSessionExpirationTimeout ();
-        $setting['modify'] = "<a href=\"#\">Modify</a>";
+
+        $url = $this->generateUrl ('ucl_wkp_admin_set_session_expiration_timeout_setting');
+        $setting['modify'] = "<a href=\"$url\">Modify</a>";
 
         $data_settings[] = $setting;
         $data['settings'] = $data_settings;
@@ -286,5 +288,13 @@ class AdminController extends MainController
 
         $redirect_url = $this->generateUrl ('ucl_wkp_admin_show_settings');
         return $this->redirect ($redirect_url);
+    }
+
+    public function setSessionExpirationTimeoutAction ()
+    {
+        $action = new EditSessionExpirationTimeoutAction ($this, null);
+        $action->setRedirectRoute ('ucl_wkp_admin_show_settings');
+
+        return $action->handleForm ();
     }
 }

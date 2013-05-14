@@ -217,6 +217,10 @@ ucl_wkp_admin_set_can_create_account_setting:
     pattern: /admin/set_can_create_account/{new_value}
     defaults: { _controller: UCLWebKeyPassBundle:Admin:setCanCreateAccount }
 
+ucl_wkp_admin_set_session_expiration_timeout_setting:
+    pattern: /admin/set_session_expiration_timeout
+    defaults: { _controller: UCLWebKeyPassBundle:Admin:setSessionExpirationTimeout }
+
 # Other
 
 ucl_wkp_search:
