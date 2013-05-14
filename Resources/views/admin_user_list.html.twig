@@ -29,32 +29,6 @@
 
   <div style="clear: both;"></div>
 
-  <h3>Settings</h3>
-  <table class="data">
-    <tr>
-      <th>Setting</th>
-      <th>Current value</th>
-      <th>Modify</th>
-    </tr>
-    <tr>
-      <td>Can create new user accounts</td>
-      <td>
-        {% if can_create_account %}
-          true
-        {% else %}
-          false
-        {% endif %}
-      </td>
-      <td>
-        {% if can_create_account %}
-          <a href="{{ path('ucl_wkp_admin_set_can_create_account_setting', {'new_value': 'false'}) }}">Set to false</a>
-        {% else %}
-          <a href="{{ path('ucl_wkp_admin_set_can_create_account_setting', {'new_value': 'true'}) }}">Set to true</a>
-        {% endif %}
-      </td>
-    </tr>
-  </table>
-
   <h3>Users List</h3>
   <table class="data">
     <tr>

@@ -77,19 +77,7 @@ class AdminController extends MainController
         $data['users'] = $this->getUserList ();
         $data['auth_user_id'] = $this->getAuthenticatedUser ()->getId ();
 
-        $settings = new Settings ();
-        $data['can_create_account'] = $settings->getCanCreateAccount ();
-
         return $this->render ('UCLWebKeyPassBundle::admin_user_list.html.twig', $data);
-    }
-
-    public function setCanCreateAccountAction ($new_value)
-    {
-        $settings = new Settings ();
-        $settings->setCanCreateAccount ($new_value == 'true');
-
-        $redirect_url = $this->generateUrl ('ucl_wkp_admin_user_list');
-        return $this->redirect ($redirect_url);
     }
 
     public function removeUserAction ($user_id)
@@ -242,5 +230,51 @@ class AdminController extends MainController
         $action->setRedirectRoute ('ucl_wkp_admin_show_icons');
 
         return $action->perform ($icon, "Icon removed successfully.");
+    }
+
+    public function showSettingsAction ()
+    {
+        $data = $this->getCommonData ();
+
+        $settings = new Settings ();
+
+        $data_settings = array ();
+
+        $setting = array ();
+        $setting['name'] = "Can create new user accounts";
+
+        if ($settings->getCanCreateAccount ())
+        {
+            $setting['value'] = 'true';
+
+            $url = $this->generateUrl ('ucl_wkp_admin_set_can_create_account_setting',
+                                       array ('new_value' => 'false'));
+
+            $setting['modify'] = "<a href=\"$url\">Set to false</a>";
+        }
+        else
+        {
+            $setting['value'] = 'false';
+
+            $url = $this->generateUrl ('ucl_wkp_admin_set_can_create_account_setting',
+                                       array ('new_value' => 'true'));
+
+            $setting['modify'] = "<a href=\"$url\">Set to true</a>";
+        }
+
+        $data_settings[] = $setting;
+
+        $data['settings'] = $data_settings;
+
+        return $this->render ('UCLWebKeyPassBundle::admin_show_settings.html.twig', $data);
+    }
+
+    public function setCanCreateAccountAction ($new_value)
+    {
+        $settings = new Settings ();
+        $settings->setCanCreateAccount ($new_value == 'true');
+
+        $redirect_url = $this->generateUrl ('ucl_wkp_admin_show_settings');
+        return $this->redirect ($redirect_url);
     }
 }
