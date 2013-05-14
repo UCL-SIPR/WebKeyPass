@@ -177,6 +177,10 @@ class SecurityController extends MainController
     {
         $data = array ();
         $data['title'] = 'Login';
+
+        $settings = new Settings ();
+        $data['session_expiration_timeout'] = $settings->getSessionExpirationTimeout ();
+
         return $data;
     }
 }

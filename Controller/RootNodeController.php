@@ -52,6 +52,9 @@ class RootNodeController extends NodeController
         $data['open_nodes'] = array ();
         $data['node_id'] = -1;
 
+        $settings = new Settings ();
+        $data['session_expiration_timeout'] = $settings->getSessionExpirationTimeout ();
+
         return $data;
     }
 

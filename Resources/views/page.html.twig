@@ -38,7 +38,7 @@
 
 <!-- Session expiration -->
 <script language="javascript">
-  nb_minutes = 10;
+  nb_minutes = {{ session_expiration_timeout }};
   window.setTimeout ("location=('{{ path('ucl_wkp_automatic_logout') }}');", nb_minutes * 60 * 1000);
 </script>
 

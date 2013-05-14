@@ -24,47 +24,81 @@ namespace UCL\WebKeyPassBundle\Controller;
 
 class Settings
 {
+    private $values = array ('can_create_account' => 'true',
+                             'session_expiration_timeout' => 10);
+
+    public function __construct ()
+    {
+        $this->readSettings ();
+    }
+
     public function getCanCreateAccount ()
     {
-        $filename = $this->getSettingsFilename ();
-
-        if (!file_exists ($filename))
-        {
-            return true;
-        }
-
-        $lines = file ($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
-        preg_match ("/(?P<setting>\S+) (?P<value>\S+)/", $lines[0], $matches);
-
-        if ($matches['setting'] == 'can_create_account')
-        {
-            return $matches['value'] == 'true';
-        }
-
-        return false;
+        return $this->values['can_create_account'] == 'true';
     }
 
     public function setCanCreateAccount ($can_create_account)
     {
         if ($can_create_account)
         {
-            $can_create_account_str = "true";
+            $this->values['can_create_account'] = 'true';
         }
         else
         {
-            $can_create_account_str = "false";
+            $this->values['can_create_account'] = 'false';
         }
 
-        $contents = "can_create_account $can_create_account_str\n";
+        $this->writeSettings ();
+    }
 
-        $filename = $this->getSettingsFilename ();
+    public function getSessionExpirationTimeout ()
+    {
+        return $this->values['session_expiration_timeout'];
+    }
 
-        file_put_contents ($filename, $contents);
+    public function setSessionExpirationTimeout ($value)
+    {
+        $this->values['session_expiration_timeout'] = $value;
+
+        $this->writeSettings ();
     }
 
     private function getSettingsFilename ()
     {
         return __DIR__ . '/../Resources/config/settings';
+    }
+
+    private function readSettings ()
+    {
+        $filename = $this->getSettingsFilename ();
+
+        if (!file_exists ($filename))
+        {
+            return;
+        }
+
+        $lines = file ($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+        foreach ($lines as $line)
+        {
+            preg_match ("/(?P<setting>\S+) (?P<value>\S+)/", $line, $matches);
+            $setting = $matches['setting'];
+            $value = $matches['value'];
+
+            $this->values[$setting] = $value;
+        }
+    }
+
+    private function writeSettings ()
+    {
+        $contents = "";
+
+        foreach ($this->values as $name => $value)
+        {
+            $contents .= "$name $value\n";
+        }
+
+        $filename = $this->getSettingsFilename ();
+        file_put_contents ($filename, $contents);
     }
 }

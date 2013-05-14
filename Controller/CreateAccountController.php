@@ -35,6 +35,9 @@ class CreateAccountController extends MainController
 
         $shib = new Shibboleth ($this);
         $data['shibboleth'] = $shib->isAuthenticated ();
+
+        $settings = new Settings ();
+        $data['session_expiration_timeout'] = $settings->getSessionExpirationTimeout ();
         return $data;
     }
 

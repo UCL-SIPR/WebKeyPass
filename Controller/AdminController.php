@@ -32,6 +32,10 @@ class AdminController extends MainController
     {
         $data = array ();
         $data['title'] = 'Admin Zone';
+
+        $settings = new Settings ();
+        $data['session_expiration_timeout'] = $settings->getSessionExpirationTimeout ();
+
         return $data;
     }
 
@@ -264,6 +268,12 @@ class AdminController extends MainController
 
         $data_settings[] = $setting;
 
+        $setting = array ();
+        $setting['name'] = "Session expiration timeout (in minutes)";
+        $setting['value'] = $settings->getSessionExpirationTimeout ();
+        $setting['modify'] = "<a href=\"#\">Modify</a>";
+
+        $data_settings[] = $setting;
         $data['settings'] = $data_settings;
 
         return $this->render ('UCLWebKeyPassBundle::admin_show_settings.html.twig', $data);

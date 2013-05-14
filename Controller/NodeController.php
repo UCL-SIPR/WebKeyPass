@@ -146,6 +146,9 @@ class NodeController extends MainController
 
         $data['node_types'] = $this->getNodeTypes ();
 
+        $settings = new Settings ();
+        $data['session_expiration_timeout'] = $settings->getSessionExpirationTimeout ();
+
         return $data;
     }
 
