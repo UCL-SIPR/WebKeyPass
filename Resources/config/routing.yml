@@ -49,6 +49,10 @@ ucl_wkp_category_add_misc:
     pattern: /category/{node_id}/add_misc
     defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:addMisc }
 
+ucl_wkp_category_move:
+    pattern: /category/{node_id}/move
+    defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:move }
+
 ucl_wkp_category_remove:
     pattern: /category/{node_id}/remove
     defaults: { _controller: UCLWebKeyPassBundle:CategoryNode:remove }

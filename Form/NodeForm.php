@@ -86,10 +86,25 @@ class NodeForm extends AbstractType
 
         sort ($nodes, SORT_STRING);
 
+        if ($this->parent_type == 0)
+        {
+            /* Prepend the root node */
+            $root_node = null;
+            $nodes = array_merge (array ($root_node), $nodes);
+        }
+
         $labels = array ();
+
         foreach ($nodes as $node)
         {
-            $labels[] = $node->__toString ();
+            if ($node == null)
+            {
+                $labels[] = 'Root';
+            }
+            else
+            {
+                $labels[] = $node->__toString ();
+            }
         }
 
         return new ChoiceList ($nodes, $labels);

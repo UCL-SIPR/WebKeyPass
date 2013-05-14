@@ -60,6 +60,10 @@ class CategoryNodeController extends NodeController
                              'route' => 'ucl_wkp_category_add_misc',
                              'route_data' => $route_data),
 
+                      array ('name' => 'Move',
+                             'route' => 'ucl_wkp_category_move',
+                             'route_data' => $route_data),
+
                       array ('name' => 'Remove',
                              'route' => 'ucl_wkp_category_remove',
                              'route_data' => $route_data));
@@ -130,6 +134,18 @@ class CategoryNodeController extends NodeController
         $new_node->setParent ($this->node);
 
         $action = new AddMiscAction ($this, $new_node);
+
+        $action->setRedirectRoute ('ucl_wkp_category_view',
+                                   array ('node_id' => $node_id));
+
+        return $action->handleForm ();
+    }
+
+    public function moveAction ($node_id)
+    {
+        $this->node = $this->getNodeFromId ($node_id);
+
+        $action = new MoveCategoryAction ($this, $this->node);
 
         $action->setRedirectRoute ('ucl_wkp_category_view',
                                    array ('node_id' => $node_id));
