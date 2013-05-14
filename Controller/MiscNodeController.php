@@ -130,4 +130,17 @@ class MiscNodeController extends NodeController
 
         return $action->handleForm ();
     }
+
+    public function editLoginAction ($node_id, $auth_id)
+    {
+        $this->node = $this->getNodeFromId ($node_id);
+        $auth = $this->getAuthFromId ($auth_id);
+
+        $action = new EditLoginAction ($this, $auth);
+
+        $action->setRedirectRoute ('ucl_wkp_misc_view',
+                                   array ('node_id' => $node_id));
+
+        return $action->handleForm ();
+    }
 }

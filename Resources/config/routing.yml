@@ -67,6 +67,10 @@ ucl_wkp_server_add_login:
     pattern: /server/{node_id}/add_login
     defaults: { _controller: UCLWebKeyPassBundle:ServerNode:addLogin }
 
+ucl_wkp_server_edit_login:
+    pattern: /server/{node_id}/edit_login_{auth_id}
+    defaults: { _controller: UCLWebKeyPassBundle:ServerNode:editLogin }
+
 ucl_wkp_server_remove_login:
     pattern: /server/{node_id}/remove_login_{auth_id}
     defaults: { _controller: UCLWebKeyPassBundle:ServerNode:removeLogin }
@@ -101,6 +105,10 @@ ucl_wkp_vm_add_login:
     pattern: /vm/{node_id}/add_login
     defaults: { _controller: UCLWebKeyPassBundle:VMNode:addLogin }
 
+ucl_wkp_vm_edit_login:
+    pattern: /vm/{node_id}/edit_login_{auth_id}
+    defaults: { _controller: UCLWebKeyPassBundle:VMNode:editLogin }
+
 ucl_wkp_vm_remove_login:
     pattern: /vm/{node_id}/remove_login_{auth_id}
     defaults: { _controller: UCLWebKeyPassBundle:VMNode:removeLogin }
@@ -130,6 +138,10 @@ ucl_wkp_misc_edit:
 ucl_wkp_misc_add_login:
     pattern: /misc/{node_id}/add_login
     defaults: { _controller: UCLWebKeyPassBundle:MiscNode:addLogin }
+
+ucl_wkp_misc_edit_login:
+    pattern: /misc/{node_id}/edit_login_{auth_id}
+    defaults: { _controller: UCLWebKeyPassBundle:MiscNode:editLogin }
 
 ucl_wkp_misc_remove_login:
     pattern: /misc/{node_id}/remove_login_{auth_id}

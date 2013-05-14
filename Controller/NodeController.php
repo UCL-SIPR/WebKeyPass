@@ -53,13 +53,24 @@ class NodeController extends MainController
         return $infos;
     }
 
-    protected function getRemoveLoginUrl ($auth)
+    private function getRemoveLoginUrl ($auth)
     {
         $request = $this->container->get ('request');
         $route = $request->get ('_route');
         $route_data = $request->get ('_route_params');
         $url = $this->generateUrl ($route, $route_data);
         $url .= '/remove_login_' . $auth->getId ();
+
+        return $url;
+    }
+
+    private function getEditLoginUrl ($auth)
+    {
+        $request = $this->container->get ('request');
+        $route = $request->get ('_route');
+        $route_data = $request->get ('_route_params');
+        $url = $this->generateUrl ($route, $route_data);
+        $url .= '/edit_login_' . $auth->getId ();
 
         return $url;
     }
@@ -80,7 +91,8 @@ class NodeController extends MainController
 
             $auths[] = array ('login' => $auth->getLogin (),
                               'password' => $decrypted_password,
-                              'remove_url' => $this->getRemoveLoginUrl ($auth));
+                              'remove_url' => $this->getRemoveLoginUrl ($auth),
+                              'edit_url' => $this->getEditLoginUrl ($auth));
         }
 
         return $auths;
