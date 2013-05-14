@@ -54,7 +54,9 @@
     </p>
   </form>
 
-  <p>
-    <a href="{{ path('ucl_wkp_create_account') }}">Create a new account</a>
-  </p>
+  {% if can_create_account %}
+    <p>
+      <a href="{{ path('ucl_wkp_create_account') }}">Create a new account</a>
+    </p>
+  {% endif %}
 {% endblock %}

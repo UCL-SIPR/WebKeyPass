@@ -49,6 +49,9 @@ class SecurityController extends MainController
         $data['error'] = $error;
         $data['title'] = 'Login';
 
+        $settings = new Settings ();
+        $data['can_create_account'] = $settings->getCanCreateAccount ();
+
         return $this->render ('UCLWebKeyPassBundle::login.html.twig', $data);
     }
 

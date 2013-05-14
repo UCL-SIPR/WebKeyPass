@@ -77,7 +77,19 @@ class AdminController extends MainController
         $data['users'] = $this->getUserList ();
         $data['auth_user_id'] = $this->getAuthenticatedUser ()->getId ();
 
+        $settings = new Settings ();
+        $data['can_create_account'] = $settings->getCanCreateAccount ();
+
         return $this->render ('UCLWebKeyPassBundle::admin_user_list.html.twig', $data);
+    }
+
+    public function setCanCreateAccountAction ($new_value)
+    {
+        $settings = new Settings ();
+        $settings->setCanCreateAccount ($new_value == 'true');
+
+        $redirect_url = $this->generateUrl ('ucl_wkp_admin_user_list');
+        return $this->redirect ($redirect_url);
     }
 
     public function removeUserAction ($user_id)

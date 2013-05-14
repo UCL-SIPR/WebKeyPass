@@ -193,6 +193,10 @@ ucl_wkp_admin_remove_icon:
     pattern: /admin/remove_icon/{icon}
     defaults: { _controller: UCLWebKeyPassBundle:Admin:removeIcon }
 
+ucl_wkp_admin_set_can_create_account_setting:
+    pattern: /admin/set_can_create_account/{new_value}
+    defaults: { _controller: UCLWebKeyPassBundle:Admin:setCanCreateAccount }
+
 # Other
 
 ucl_wkp_search:
