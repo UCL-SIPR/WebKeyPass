@@ -41,3 +41,45 @@ able to decrypt the master key.
 
 The purpose of all this system is to encrypt and decrypt the server
 passwords with the master key.
+
+Shibboleth
+----------
+
+Shibboleth is an authentication system used at the UCL. When creating a
+new user account, WebKeyPass detects if the user is already
+authenticated with Shibboleth. If yes, some fields of the form are
+filled (username, name, e-mail, etc.). The private key is taken from
+Shibboleth too.
+
+If a user has created an account with Shibboleth, he or she must enter a
+username/password to login. If the user is not authenticated with
+Shibboleth, the user can enter manually his private key.
+
+Structure of the code
+---------------------
+
+The architecture of the code follows mainly the Symfony 2 best
+practices. There is one difference though: in the Form/ directory, the
+classes are named *Form.php instead of *Type.php. So when we see the
+name "Form", we know that it is a form…
+
+The Controller/ directory is quite big, but most of the files are really
+small. There are three types of classes there:
+- Controller classes. All controlers derives from the MainController.
+  Another important controller is the NodeController, which is the base
+  class for displaying a node. For example, to display a category, the
+  CategoryNodeController is used.
+
+- Action classes. Each possible action (which modifies in a certain
+  manner the data) has an associated Action class. Action.php is the
+  base class. For an action involving a form, there is FormAction. To
+  take an example, there is the EditServerAction class for editing a
+  server. The actions have an access to the controller object, to set
+  the successful message, redirect the page, save the data to the
+  database, etc.
+
+- Other classes: Icons, MasterKey, PrivateKey, Settings and Shibboleth.
+
+
+To display the tree in the side panel, the JQuery jsTree plugin is used.
+The size of the icons is 16x16.
