@@ -190,6 +190,12 @@ class User implements AdvancedUserInterface, \Serializable
         return $this->salt;
     }
 
+    public function setSalt ($salt)
+    {
+        $this->salt = $salt;
+        return $this;
+    }
+
     public function getPassword()
     {
         return $this->password;

@@ -65,6 +65,7 @@ class EditUserAction extends FormAction
 
         $user = $this->node;
         $test_user = new User ();
+        $test_user->setSalt ($user->getSalt ());
         $this->setUserPassword ($test_user, $old_password);
 
         if ($user->getPassword () !== $test_user->getPassword ())
