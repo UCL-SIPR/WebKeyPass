@@ -1,4 +1,4 @@
 TODO
 
-- More documentation
-- Improve CSS
+- Import/export in XML (only the tables node and authentication)
+- Clear logs

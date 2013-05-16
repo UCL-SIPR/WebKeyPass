@@ -24,6 +24,8 @@ namespace UCL\WebKeyPassBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use UCL\WebKeyPassBundle\Entity\User;
 
 class AdminController extends MainController
@@ -296,5 +298,27 @@ class AdminController extends MainController
         $action->setRedirectRoute ('ucl_wkp_admin_show_settings');
 
         return $action->handleForm ();
+    }
+
+    public function exportAction ()
+    {
+        $data = $this->getCommonData ();
+
+        return $this->render ('UCLWebKeyPassBundle::admin_export.html.twig', $data);
+    }
+
+    public function doExportAction ()
+    {
+        $node_repo = $this->getNodeRepo ();
+        $data = $node_repo->getNodesForExport ($this);
+
+        $response = new Response ();
+        $response->setContent (json_encode ($data, JSON_PRETTY_PRINT));
+        $response->headers->set ('Content-Type', 'application/json');
+
+        $disp = $response->headers->makeDisposition (ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'nodes.json');
+        $response->headers->set('Content-Disposition', $disp);
+
+        return $response;
     }
 }

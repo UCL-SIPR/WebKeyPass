@@ -23,6 +23,7 @@
 namespace UCL\WebKeyPassBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use UCL\WebKeyPassBundle\Controller\MasterKey;
 
 class NodeRepository extends EntityRepository
 {
@@ -91,6 +92,54 @@ class NodeRepository extends EntityRepository
     {
         $root_nodes = $this->getChildren (null);
         return $this->getNodesInfos ($root_nodes);
+    }
+
+    private function getDecryptedAuths ($node, $controller)
+    {
+        $auths = array ();
+
+        $master_key = new MasterKey ($controller);
+        $user = $controller->getAuthenticatedUser ();
+
+        foreach ($node->getAuthentications () as $auth)
+        {
+            $iv = $auth->getMcryptIv ();
+            $decrypted_password = $master_key->decryptPassword ($auth->getPassword (), $user, $iv);
+
+            $auths[] = array ('login' => $auth->getLogin (),
+                              'password' => $decrypted_password);
+        }
+
+        return $auths;
+    }
+
+    private function getNodesInfosForExport ($nodes, $controller)
+    {
+        $tree = array ();
+
+        foreach ($nodes as $node)
+        {
+            $subnodes = $this->getChildren ($node->getId ());
+            $subtree = $this->getNodesInfosForExport ($subnodes, $controller);
+
+            $tree[] = array ('name' => $node->getName (),
+                             'hostname' => $node->getHostname (),
+                             'serial_number' => $node->getSerialNumber (),
+                             'type' => $node->getTypeStr (),
+                             'comment' => $node->getComment (),
+                             'icon' => $node->getIcon (),
+                             'auths' => $this->getDecryptedAuths ($node, $controller),
+                             'subnodes' => $subtree);
+        }
+
+        return $tree;
+    }
+
+    /* The controller is needed to decrpyt the passwords. */
+    public function getNodesForExport ($controller)
+    {
+        $root_nodes = $this->getChildren (null);
+        return $this->getNodesInfosForExport ($root_nodes, $controller);
     }
 
     public function getNodesByType ($node_type)
