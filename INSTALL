@@ -60,3 +60,8 @@ set the admin bit to 1 too, if you want).
 * Install the ImageMagick module for php
 
 The package is called php5-imagick on Debian.
+
+* Set write permission
+
+The web server must have the write permission on the Resources/config/
+directory (in the bundle).
