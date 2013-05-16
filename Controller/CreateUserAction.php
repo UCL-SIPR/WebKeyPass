@@ -118,6 +118,10 @@ class CreateUserAction extends FormAddAction
         {
             $user->setPrivateKey ($shib->getPrivateKey ());
             $user->setWithShibboleth (true);
+
+            $msg = 'Your private key is: ' . $shib->getPrivateKey ();
+
+            $this->addFlashMessage ($msg);
         }
         else
         {
