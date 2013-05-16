@@ -32,7 +32,7 @@ class LogRepository extends EntityRepository
             ->createQueryBuilder ()
             ->select ('distinct substring(log.date, 1, 7) as year_month')
             ->from ('UCLWebKeyPassBundle:Log', 'log')
-            ->orderBy ('year_month', 'ASC')
+            ->orderBy ('year_month', 'DESC')
             ->getQuery ()
             ->getResult ();
     }
@@ -45,7 +45,7 @@ class LogRepository extends EntityRepository
             ->from ('UCLWebKeyPassBundle:Log', 'log')
             ->where ('substring(log.date, 1, 7) = :year_month')
             ->setParameter ('year_month', $year_month)
-            ->orderBy ('log.date', 'ASC')
+            ->orderBy ('log.date', 'DESC')
             ->getQuery ()
             ->getResult ();
     }
