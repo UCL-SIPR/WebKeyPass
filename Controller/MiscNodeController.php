@@ -55,8 +55,11 @@ class MiscNodeController extends NodeController
 
     protected function getNodeInfos ($node)
     {
+        $comment = $node->getComment ();
+        $this->encode_comment ($comment);
+
         return array (array ('title' => '',
-                             'content' => $node->getComment ()));
+                             'content' => $comment));
     }
 
     protected function checkType ($node)

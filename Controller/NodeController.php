@@ -45,10 +45,13 @@ class NodeController extends MainController
         $infos = array ();
 
         $infos[] = array ('title' => 'Hostname',
-                          'content' => $node->getHostname ());
+                          'content' => htmlspecialchars ($node->getHostname ()));
+
+        $comment = $node->getComment ();
+        $this->encode_comment ($comment);
 
         $infos[] = array ('title' => 'Comment',
-                          'content' => $node->getComment ());
+                          'content' => $comment);
 
         return $infos;
     }
@@ -207,5 +210,92 @@ class NodeController extends MainController
 
         $success_msg = 'Login/password removed successfully.';
         return $action->perform ($success_msg);
+    }
+
+    /**
+     * Find web URLs and replace them with HTML tags
+     * the remaining text converted with htmlspecialchars().
+     *
+     * Source: http://blog.amappa.com/2011/07/matching-urls-and-transforming-them-into-links-with-php/
+     **/
+    protected function encode_comment(&$text)
+    {
+      // The Regular Expression filter
+      $reg_exUrl = "/(?i)\b(".
+        "(?:".
+          "https?:\/\/|www\d{0,3}[.]|".
+          "[a-z0-9.\-]+[.][a-z]{2,4}\/".
+        ")".
+        "(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+".
+        "(?:".
+          "\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|".
+          "[^\s`!()\[\]{};:'\".,<>?«»“”‘’]".
+        ")".
+      ")/";
+
+      /**
+       * sort by decreasing length
+       * @param string $a
+       * @param string $b
+       * @return int
+       */
+
+      // Check if there are urls in the text
+      preg_match_all($reg_exUrl, $text, $urls);
+
+      if (empty($urls)) {
+        $text = htmlspecialchars($text);
+      } else {
+        // sort to start with longer string
+        usort($urls[0],
+              function ($a, $b) {
+                if (strlen($a) == strlen($b)) {
+                    return 0;
+                }
+                return (strlen($a) > strlen($b)) ? -1 : 1;
+              });
+
+        // and put a placeholder
+        foreach ($urls[0] as $k => $url) {
+          $text = str_replace(
+            $url,
+            $this->placeholder($k),
+            $text
+          );
+        }
+        // convert here before final replacement
+        $text = htmlspecialchars($text);
+        // avoided nested replacements, now replace safely
+        foreach ($urls[0] as $k => $url) {
+          // if url starts with www
+          if (substr($url, 0, 4) == 'www.') {
+            // href better if with http before it
+            $href = 'http://'.$url;
+          } else {
+            $href = $url;
+            // if url starts with http
+            if (substr($url, 0, 7) == 'http://') {
+              // don't show it to keep text cleaner
+              $url = substr($url, 7);
+            }
+          }
+          $text = str_replace(
+            $this->placeholder($k),
+            '<a href="'.$href.'">'.$url.'</a>',
+            $text
+          );
+        }
+      }
+
+      $text = nl2br ($text);
+    }
+
+    /**
+     * temporary placeholder
+     * @param int $k
+     * @return string
+     */
+    private static function placeholder($k) {
+        return '{]('.$k.'}[)';
     }
 }

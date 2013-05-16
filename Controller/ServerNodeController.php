@@ -70,13 +70,16 @@ class ServerNodeController extends NodeController
         $infos = array ();
 
         $infos[] = array ('title' => 'Hostname',
-                          'content' => $node->getHostname ());
+                          'content' => htmlspecialchars ($node->getHostname ()));
 
         $infos[] = array ('title' => 'Serial Number',
-                          'content' => $node->getSerialNumber ());
+                          'content' => htmlspecialchars ($node->getSerialNumber ()));
+
+        $comment = $node->getComment ();
+        $this->encode_comment ($comment);
 
         $infos[] = array ('title' => 'Comment',
-                          'content' => $node->getComment ());
+                          'content' => $comment);
 
         return $infos;
     }

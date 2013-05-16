@@ -34,8 +34,11 @@ class CategoryNodeController extends NodeController
     {
         $infos = array ();
 
+        $comment = $node->getComment ();
+        $this->encode_comment ($comment);
+
         $infos[] = array ('title' => '',
-                          'content' => $node->getComment ());
+                          'content' => $comment);
 
         return $infos;
     }
