@@ -240,6 +240,34 @@ class Node
         }
     }
 
+    public function setTypeStr($type_str)
+    {
+        switch ($type_str)
+        {
+            case 'category':
+                $type = 0;
+                break;
+
+            case 'server':
+                $type = 1;
+                break;
+
+            case 'vm':
+                $type = 2;
+                break;
+
+            case 'misc':
+                $type = 3;
+                break;
+
+            default:
+                $type = 99;
+                break;
+        }
+
+        $this->setType ($type);
+    }
+
     public function __toString()
     {
         $parent_names = array ();

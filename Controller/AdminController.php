@@ -313,12 +313,20 @@ class AdminController extends MainController
         $data = $node_repo->getNodesForExport ($this);
 
         $response = new Response ();
-        $response->setContent (json_encode ($data, JSON_PRETTY_PRINT));
+        $response->setContent (json_encode ($data));
         $response->headers->set ('Content-Type', 'application/json');
 
         $disp = $response->headers->makeDisposition (ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'nodes.json');
         $response->headers->set('Content-Disposition', $disp);
 
         return $response;
+    }
+
+    public function importAction ()
+    {
+        $action = new ImportNodesAction ($this, null);
+        $action->setRedirectRoute ('ucl_wkp_admin_import');
+
+        return $action->handleForm ();
     }
 }

@@ -229,6 +229,10 @@ ucl_wkp_admin_do_export:
     pattern: /admin/do_export
     defaults: { _controller: UCLWebKeyPassBundle:Admin:doExport }
 
+ucl_wkp_admin_import:
+    pattern: /admin/import
+    defaults: { _controller: UCLWebKeyPassBundle:Admin:import }
+
 # Other
 
 ucl_wkp_search:
