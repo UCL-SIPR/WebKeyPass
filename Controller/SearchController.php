@@ -34,8 +34,16 @@ class SearchController extends MainController
 
         $node_repo = $this->getNodeRepo ();
         $data['nodes'] = $node_repo->getNodes ();
+        $data['open_nodes'] = array ();
+        $data['node_id'] = -1;
+
+        $icons = new Icons ();
+        $data['node_types'] = $icons->getIcons ();
 
         $data['found_data'] = array ();
+
+        $settings = new Settings ();
+        $data['session_expiration_timeout'] = $settings->getSessionExpirationTimeout ();
 
         $form = $this->getSearchForm ();
         $request = $this->getRequest ();
