@@ -25,6 +25,7 @@ namespace UCL\WebKeyPassBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use UCL\WebKeyPassBundle\Entity\Log;
 
 class SecurityController extends MainController
@@ -65,6 +66,50 @@ class SecurityController extends MainController
         }
 
         return $this->render ('UCLWebKeyPassBundle::login.html.twig', $data);
+    }
+
+    private function errorLogin ($msg)
+    {
+        $flash_bag = $this->get ('session')->getFlashBag ();
+        $flash_bag->add ('error', $msg);
+
+        $redirect_url = $this->generateUrl ('ucl_wkp_login');
+        return $this->redirect ($redirect_url);
+    }
+
+    public function loginWithShibbolethAction ()
+    {
+        $shib = new Shibboleth ($this);
+
+        if (!$shib->isAuthenticated ())
+        {
+            return $this->errorLogin ('You are not authenticated with Shibboleth.');
+        }
+
+        $user_repo = $this->getUserRepo ();
+        $user = $user_repo->getUser ($shib->getUsername ());
+
+        if ($user == null)
+        {
+            return $this->errorLogin ('The username returned by Shibboleth doesn\'t exist in WebKeyPass.');
+        }
+
+        if (!$user->getWithShibboleth ())
+        {
+            return $this->errorLogin ('Your account was created without Shibboleth activated.');
+        }
+
+        $token = new UsernamePasswordToken ($user,
+                                            '',
+                                            'secured_area',
+                                            $user->getRoles ());
+
+        $request = $this->getRequest ();
+        $session = $request->getSession ();
+        $session->set ('_security_secured_area', serialize ($token));
+
+        $redirect_url = $this->generateUrl ('ucl_wkp_login_success');
+        return $this->redirect ($redirect_url);
     }
 
     private function setLogIP ($log)

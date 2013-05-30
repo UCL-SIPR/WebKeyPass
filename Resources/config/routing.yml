@@ -251,6 +251,10 @@ ucl_wkp_login:
     pattern: /login
     defaults: { _controller: UCLWebKeyPassBundle:Security:login }
 
+ucl_wkp_login_with_shibboleth:
+    pattern: /login_with_shibboleth
+    defaults: { _controller: UCLWebKeyPassBundle:Security:loginWithShibboleth }
+
 ucl_wkp_login_check:
     pattern: /login_check
 

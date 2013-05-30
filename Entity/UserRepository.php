@@ -62,4 +62,16 @@ class UserRepository extends EntityRepository
 
         return $nb_results > 0;
     }
+
+    public function getUser ($username)
+    {
+        return $this->getEntityManager ()
+            ->createQueryBuilder ()
+            ->select ('user')
+            ->from ('UCLWebKeyPassBundle:User', 'user')
+            ->where ('user.username = :username')
+            ->setParameter ('username', $username)
+            ->getQuery ()
+            ->getSingleResult ();
+    }
 }

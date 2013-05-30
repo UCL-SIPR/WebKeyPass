@@ -21,6 +21,10 @@ security:
             pattern: ^/WebKeyPass/login$
             security: false
 
+        login_with_shibboleth:
+            pattern: ^/WebKeyPass/login_with_shibboleth$
+            security: false
+
         secured_area:
             pattern: ^/WebKeyPass/
             form_login:
