@@ -22,6 +22,16 @@
 {% extends 'UCLWebKeyPassBundle::admin.html.twig' %}
 
 {% block contents %}
+  <h3>Actions</h3>
+  <ul class="actions">
+    <li>
+      <a href="{{ path('ucl_wkp_admin_clear_logs') }}"
+         onclick="return confirm ('Are you sure you want to clear all the logs?')">Clear Logs</a>
+    </li>
+  </ul>
+
+  <div style="clear: both;"></div>
+
   <h3>Log</h3>
   <ul>
     {% for month in months %}

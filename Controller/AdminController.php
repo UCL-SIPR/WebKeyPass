@@ -166,6 +166,19 @@ class AdminController extends MainController
         return $this->render ('UCLWebKeyPassBundle::admin_log_months.html.twig', $data);
     }
 
+    public function clearLogsAction ()
+    {
+        $log_repo = $this->getLogRepo ();
+        $log_repo->clearLogs ();
+
+        $msg = "All the logs are cleared.";
+        $flash_bag = $this->get ('session')->getFlashBag ();
+        $flash_bag->add ('notice', $msg);
+
+        $redirect_url = $this->generateUrl ('ucl_wkp_admin_log_months');
+        return $this->redirect ($redirect_url);
+    }
+
     private function getUsersMasterKey ()
     {
         $user_repo = $this->getUserRepo ();

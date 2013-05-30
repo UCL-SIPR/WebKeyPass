@@ -49,4 +49,15 @@ class LogRepository extends EntityRepository
             ->getQuery ()
             ->getResult ();
     }
+
+    public function clearLogs ()
+    {
+        $connection = $this->getEntityManager ()->getConnection ();
+        $platform = $connection->getDatabasePlatform ();
+
+        $cascade = false;
+        $truncate = $platform->getTruncateTableSQL ('log', $cascade);
+
+        $connection->executeUpdate ($truncate);
+    }
 }
