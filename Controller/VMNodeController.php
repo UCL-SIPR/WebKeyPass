@@ -49,6 +49,10 @@ class VMNodeController extends NodeController
                              'route' => 'ucl_wkp_vm_move',
                              'route_data' => $route_data),
 
+                      array ('name' => 'Clone',
+                             'route' => 'ucl_wkp_vm_clone',
+                             'route_data' => $route_data),
+
                       array ('name' => 'Remove',
                              'route' => 'ucl_wkp_vm_remove',
                              'route_data' => $route_data));
@@ -92,6 +96,19 @@ class VMNodeController extends NodeController
                                    array ('node_id' => $node_id));
 
         return $action->handleForm ();
+    }
+
+    public function cloneAction ($node_id)
+    {
+        $this->node = $this->getNodeFromId ($node_id);
+
+        $action = new CloneAction ($this, $this->node);
+
+        $action->setRedirectRoute ('ucl_wkp_vm_view',
+                                   array ('node_id' => $node_id));
+
+        $success_msg = 'Virtual machine cloned successfully.';
+        return $action->perform ($success_msg);
     }
 
     public function addMiscAction ($node_id)

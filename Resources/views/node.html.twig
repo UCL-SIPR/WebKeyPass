@@ -35,6 +35,8 @@
         <a href="{{ path(action.route, action.route_data) }}"
           {% if action.name == 'Remove' %}
             onclick="return confirm ('Are you sure you want to remove the item &quot;{{ title }}&quot;?')"
+          {% elseif action.name == 'Clone' %}
+            onclick="return confirm ('Are you sure you want to clone the item &quot;{{ title }}&quot;?')"
           {% endif %}
         >
           {{ action.name }}

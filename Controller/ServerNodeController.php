@@ -55,6 +55,10 @@ class ServerNodeController extends NodeController
                              'route' => 'ucl_wkp_server_move',
                              'route_data' => $route_data),
 
+                      array ('name' => 'Clone',
+                             'route' => 'ucl_wkp_server_clone',
+                             'route_data' => $route_data),
+
                       array ('name' => 'Remove',
                              'route' => 'ucl_wkp_server_remove',
                              'route_data' => $route_data));
@@ -132,6 +136,19 @@ class ServerNodeController extends NodeController
                                    array ('node_id' => $node_id));
 
         return $action->handleForm ();
+    }
+
+    public function cloneAction ($node_id)
+    {
+        $this->node = $this->getNodeFromId ($node_id);
+
+        $action = new CloneAction ($this, $this->node);
+
+        $action->setRedirectRoute ('ucl_wkp_server_view',
+                                   array ('node_id' => $node_id));
+
+        $success_msg = 'Server cloned successfully.';
+        return $action->perform ($success_msg);
     }
 
     public function addMiscAction ($node_id)
